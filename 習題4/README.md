@@ -6,7 +6,7 @@
 
 ## 專案架構
 
-* [組織母專案](https://github.com/se-test-example-donghuiyun/git-example)：`https://github.com/se-test-example-donghuiyun/git-example`
+* [組織母專案](https://github.com/se-test-example-donghuiyun/git-example/tree/main)：`https://github.com/se-test-example-donghuiyun/git-example/tree/main`
 
 * [組織母專案分支](https://github.com/se-test-example-donghuiyun/git-example/tree/develoGitBranch)：`https://github.com/se-test-example-donghuiyun/git-example/tree/develoGitBranch`
 
