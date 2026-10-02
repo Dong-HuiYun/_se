@@ -36,11 +36,13 @@
 <script type="text/babel" src="data/enrollments.js"></script>
 <script type="text/babel" src="data/grades.js"></script>
 <script type="text/babel" src="data/announcements.js"></script>
+<script type="text/babel" src="data/applications.js"></script>
 <script type="text/babel" src="data/storage.js"></script>
 
 <!-- 載入 UI 與頁面模組 -->
 <script type="text/babel" src="icons.js"></script>
 <script type="text/babel" src="announcements.js"></script>
+<script type="text/babel" src="applications.js"></script>
 <script type="text/babel" src="student.js"></script>
 <script type="text/babel" src="teacher.js"></script>
 <script type="text/babel" src="admin.js"></script>
@@ -116,6 +118,7 @@
       const [page, setPage] = useState("dashboard");
       const [toast, setToast] = useState(null);
       const [confirmState, setConfirmState] = useState(null);
+      const [passwordPrompt, setPasswordPrompt] = useState(false);
 
       // 初始化載入資料
       useEffect(() => {
@@ -161,11 +164,21 @@
       function handleLogin(role, id) {
         setCurrentUser({ role, id });
         setPage("dashboard");
+        // 學生登入後彈窗詢問是否要修改密碼（管理者無法得知學生變更後的密碼）
+        // 僅在「尚未自行修改過密碼」時才彈出；一旦學生改過，往後登入就不再詢問，
+        // 除非管理者又幫忙重設了新密碼（此時 passwordChanged 會被清除為 false）
+        if (role === "student") {
+          const student = data.students.find((s) => s.id === id);
+          if (!student || !student.passwordChanged) {
+            setPasswordPrompt(true);
+          }
+        }
       }
 
       function handleLogout() {
         setCurrentUser(null);
         setPage("dashboard");
+        setPasswordPrompt(false);
       }
 
       function handleChangePassword(oldPw, newPw, confirmPw) {
@@ -187,7 +200,12 @@
           showToast("目前密碼輸入錯誤", "error");
           return false;
         }
-        persist({ ...data, [key]: data[key].map((u) => (u.id === currentUser.id ? { ...u, password: newPw } : u)) });
+        persist({
+          ...data,
+          [key]: data[key].map((u) =>
+            u.id === currentUser.id ? { ...u, password: newPw, ...(currentUser.role === "student" ? { passwordChanged: true } : {}) } : u
+          ),
+        });
         showToast("密碼已成功更新", "success");
         return true;
       }
@@ -224,6 +242,8 @@
           { key: "schedule", label: "課表查詢", icon: CalendarDays },
           { key: "courseSelection", label: "加退選課", icon: BookOpen },
           { key: "grades", label: "成績查詢", icon: ClipboardList },
+          { key: "transcript", label: "歷年成績總表", icon: History },
+          { key: "applications", label: "學籍/課程異動申請", icon: FileText },
           { key: "announcements", label: "校園公告", icon: Megaphone },
         ];
         roleLabel = "在校學生";
@@ -238,6 +258,7 @@
               { label: "就讀系所", value: student.dept },
               { label: "目前年級", value: `${student.year} 年級` },
               { label: "所屬班級", value: student.className },
+              { label: "學籍狀態", value: studentStatusLabel(student) },
             ]}
             onChangePassword={handleChangePassword}
           />
@@ -245,6 +266,8 @@
         else if (page === "schedule") content = <SchedulePage data={data} studentId={student.id} />;
         else if (page === "courseSelection") content = <CourseSelectionPage data={data} persist={persist} showToast={showToast} student={student} requestConfirm={requestConfirm} />;
         else if (page === "grades") content = <GradesPage data={data} studentId={student.id} />;
+        else if (page === "transcript") content = <TranscriptPage data={data} studentId={student.id} />;
+        else if (page === "applications") content = <StudentApplicationsPage data={data} persist={persist} showToast={showToast} student={student} />;
         else if (page === "announcements") content = <AnnouncementsPage data={data} persist={persist} showToast={showToast} canManage={false} canPost={false} requestConfirm={requestConfirm} />;
       } else if (currentUser.role === "teacher") {
         const teacher = data.teachers.find((t) => t.id === currentUser.id);
@@ -280,6 +303,7 @@
           { key: "students", label: "學生管理", icon: Users },
           { key: "teachers", label: "教師管理", icon: Users },
           { key: "courses", label: "課程管理", icon: BookOpen },
+          { key: "applicationReview", label: "申請案件審核", icon: FileText },
           { key: "announcements", label: "公告管理", icon: Megaphone },
           { key: "profile", label: "個人資料", icon: User },
         ];
@@ -290,6 +314,7 @@
         else if (page === "students") content = <StudentManagementPage data={data} persist={persist} showToast={showToast} requestConfirm={requestConfirm} />;
         else if (page === "teachers") content = <TeacherManagementPage data={data} persist={persist} showToast={showToast} requestConfirm={requestConfirm} />;
         else if (page === "courses") content = <CourseManagementPage data={data} persist={persist} showToast={showToast} requestConfirm={requestConfirm} />;
+        else if (page === "applicationReview") content = <ApplicationReviewPage data={data} persist={persist} showToast={showToast} requestConfirm={requestConfirm} />;
         else if (page === "announcements") content = <AnnouncementsPage data={data} persist={persist} showToast={showToast} canManage={true} canPost={true} authorName="教務處" requestConfirm={requestConfirm} />;
         else if (page === "profile") content = (
           <ProfilePage
@@ -322,6 +347,17 @@
               setConfirmState(null);
             }}
           />
+          {passwordPrompt && currentUser.role === "student" && (
+            <PasswordChangePromptModal
+              userName={userName}
+              onSkip={() => setPasswordPrompt(false)}
+              onSubmit={(oldPw, newPw, confirmPw) => {
+                const ok = handleChangePassword(oldPw, newPw, confirmPw);
+                if (ok) setPasswordPrompt(false);
+                return ok;
+              }}
+            />
+          )}
         </div>
       );
     }

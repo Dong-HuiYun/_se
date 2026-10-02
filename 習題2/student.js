@@ -295,3 +295,78 @@ function GradesPage({ data, studentId }) {
     </div>
   );
 }
+
+/* ------------------------------------------------------------------ */
+/*  歷年成績總表：一次顯示所有學期的修課成績與各學期／累計 GPA          */
+/* ------------------------------------------------------------------ */
+function TranscriptPage({ data, studentId }) {
+  const student = data.students.find((s) => s.id === studentId);
+
+  function semesterRows(semester) {
+    if (semester === CURRENT_SEMESTER) {
+      return data.enrollments
+        .filter((e) => e.studentId === studentId && e.semester === semester)
+        .map((e) => {
+          const course = data.courses.find((c) => c.id === e.courseId);
+          const gradeRecord = data.grades.find((g) => g.studentId === studentId && g.courseId === e.courseId && g.semester === semester);
+          const teacher = course ? data.teachers.find((t) => t.id === course.teacherId) : null;
+          return {
+            id: e.id,
+            courseName: course ? course.name : "未知課程",
+            credit: course ? course.credit : 0,
+            teacherName: teacher ? teacher.name : "－",
+            score: gradeRecord ? gradeRecord.score : null,
+          };
+        });
+    }
+    return data.grades.filter((g) => g.studentId === studentId && g.semester === semester);
+  }
+
+  const semesterData = SEMESTERS.map((sem) => {
+    const rows = semesterRows(sem);
+    const graded = rows.filter((r) => r.score !== null && r.score !== undefined && r.score !== "");
+    const gpa = computeGpa(graded);
+    const earnedCredits = graded.filter((r) => r.score >= 60).reduce((s, r) => s + r.credit, 0);
+    return { semester: sem, rows, gpa, earnedCredits };
+  });
+
+  const cumulativeGraded = data.grades.filter((g) => g.studentId === studentId && g.score !== null && g.score !== undefined);
+  const cumulativeGpa = computeGpa(cumulativeGraded) ?? "—";
+  const cumulativeCredits = cumulativeGraded.filter((g) => g.score >= 60).reduce((s, g) => s + g.credit, 0);
+
+  return (
+    <div>
+      <PageHeader title="歷年成績總表" subtitle={student ? `${student.name}．${student.dept}` : ""} />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        <StatCard label="累計 GPA" value={cumulativeGpa} />
+        <StatCard label="累計已修得學分" value={cumulativeCredits} />
+      </div>
+      <div className="space-y-5">
+        {semesterData.map((s) => (
+          <div key={s.semester} className="bg-white border border-stone-200 rounded-sm">
+            <div className="px-5 py-3 border-b border-stone-200 flex items-center justify-between flex-wrap gap-2">
+              <p className="text-sm font-medium text-slate-700">{s.semester} 學期</p>
+              <p className="text-xs text-stone-500">
+                學期 GPA：{s.gpa ?? "—"}．修得學分：{s.earnedCredits}
+              </p>
+            </div>
+            <DataTable
+              columns={[
+                { key: "courseName", label: "課程名稱" },
+                { key: "credit", label: "學分" },
+                { key: "teacherName", label: "授課教師", render: (r) => r.teacherName || "－" },
+                {
+                  key: "score",
+                  label: "分數",
+                  render: (r) => (r.score === null || r.score === undefined ? <span className="text-stone-400">尚未登錄</span> : r.score),
+                },
+                { key: "grade", label: "等第", render: (r) => scoreToGrade(r.score)?.grade || "－" },
+              ]}
+              rows={s.rows}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}

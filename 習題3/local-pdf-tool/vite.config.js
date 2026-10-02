@@ -9,6 +9,7 @@ export default defineConfig({
       input: {
         main: resolve(import.meta.dirname, 'index.html'),
         merge: resolve(import.meta.dirname, 'tools/merge/index.html'),
+        rotate: resolve(import.meta.dirname, 'tools/rotate/index.html'),
       },
     },
   },

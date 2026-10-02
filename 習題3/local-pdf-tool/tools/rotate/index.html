@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>頁面旋轉與校正 · 本機 PDF 工具箱</title>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen p-8">
+  <div class="max-w-4xl mx-auto">
+
+    <a href="/" class="inline-flex items-center gap-1 text-sm text-slate-500 hover:text-teal-600 mb-4">
+      ← 回首頁
+    </a>
+
+    <header class="flex items-start justify-between gap-4 flex-wrap mb-6">
+      <div>
+        <h1 class="text-2xl font-bold mb-1">頁面旋轉與校正</h1>
+        <p class="text-slate-500 text-sm max-w-md">
+          掃描檔橫倒、顛倒？點單頁的旋轉按鈕校正，或用下面的批次按鈕一次處理整份文件。
+        </p>
+      </div>
+      <span class="bg-teal-50 text-teal-700 text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap">
+        🔒 全程本機處理
+      </span>
+    </header>
+
+    <div
+      id="dropzone"
+      tabindex="0"
+      role="button"
+      aria-label="選擇或拖曳 PDF 檔案"
+      class="bg-white border-2 border-dashed border-slate-300 rounded-xl p-10 text-center cursor-pointer hover:border-teal-500 hover:bg-teal-50 transition"
+    >
+      <input type="file" id="fileInput" accept="application/pdf" multiple hidden />
+      <p class="font-semibold">拖曳 PDF 檔案到這裡</p>
+      <p class="text-slate-500 text-sm mt-1">或點擊選擇檔案，可一次選取多個檔案</p>
+    </div>
+
+    <p id="emptyState" class="text-center text-slate-500 text-sm py-6">
+      加入檔案後，每一頁都會顯示縮圖，點縮圖下方的按鈕可以旋轉單頁。
+    </p>
+
+    <div id="toolbar" class="hidden flex-col gap-3 my-4 bg-white border border-slate-200 rounded-lg px-4 py-3">
+      <div class="flex items-center gap-2 flex-wrap">
+        <span id="stats" class="font-semibold text-sm mr-2">共 0 頁</span>
+        <button id="rotateAllBtn" class="bg-slate-100 text-slate-700 text-sm font-semibold px-3 py-1.5 rounded-lg hover:bg-slate-200 transition">全部向右轉 90°</button>
+        <button id="fixEvenBtn" class="bg-slate-100 text-slate-700 text-sm font-semibold px-3 py-1.5 rounded-lg hover:bg-slate-200 transition">偶數頁轉正 180°</button>
+        <button id="fixLandscapeBtn" class="bg-slate-100 text-slate-700 text-sm font-semibold px-3 py-1.5 rounded-lg hover:bg-slate-200 transition">橫向頁自動轉正</button>
+        <button id="resetAllBtn" class="bg-slate-100 text-slate-700 text-sm font-semibold px-3 py-1.5 rounded-lg hover:bg-slate-200 transition">重設全部</button>
+      </div>
+      <div class="flex items-center gap-3">
+        <button
+          id="downloadBtn"
+          disabled
+          class="bg-teal-600 text-white text-sm font-semibold px-4 py-2 rounded-lg disabled:opacity-40 disabled:cursor-not-allowed hover:enabled:opacity-90"
+        >
+          套用旋轉並下載
+        </button>
+        <span class="text-xs text-slate-400">每個來源檔案會分別下載成「檔名-rotated.pdf」</span>
+      </div>
+    </div>
+
+    <div id="grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"></div>
+
+    <p id="status" role="status" class="text-center text-sm text-slate-500 mt-4 min-h-5"></p>
+  </div>
+
+  <script type="module" src="/src/rotate.js"></script>
+</body>
+</html>

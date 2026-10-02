@@ -38,6 +38,9 @@ const AlertCircle = makeIcon("alert-circle");
 const CheckCircle2 = makeIcon("check-circle-2");
 const ChevronRight = makeIcon("chevron-right");
 const RotateCcw = makeIcon("rotate-ccw");
+const FileText = makeIcon("file-text");
+const XCircle = makeIcon("x-circle");
+const History = makeIcon("history");
 
 /* ------------------------------------------------------------------ */
 /*  共用 UI 元件                                                       */
@@ -247,6 +250,100 @@ function CategoryBadge({ category }) {
     <span className="inline-block text-xs px-2 py-0.5 rounded-sm bg-amber-50 text-amber-800 border border-amber-200">
       {category}
     </span>
+  );
+}
+
+function StatusBadge({ status }) {
+  const map = {
+    pending: "bg-amber-50 text-amber-800 border-amber-200",
+    approved: "bg-emerald-50 text-emerald-800 border-emerald-200",
+    rejected: "bg-red-50 text-red-700 border-red-200",
+  };
+  return (
+    <span className={`inline-block text-xs px-2 py-0.5 rounded-sm border ${map[status] || map.pending}`}>
+      {APPLICATION_STATUS_LABELS[status] || status}
+    </span>
+  );
+}
+
+function PasswordChangePromptModal({ userName, onSkip, onSubmit }) {
+  const [stage, setStage] = React.useState("ask"); // "ask" | "form"
+  const [oldPw, setOldPw] = React.useState("");
+  const [newPw, setNewPw] = React.useState("");
+  const [confirmPw, setConfirmPw] = React.useState("");
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const ok = onSubmit(oldPw, newPw, confirmPw);
+    if (ok) {
+      setOldPw("");
+      setNewPw("");
+      setConfirmPw("");
+    }
+  }
+
+  return (
+    <div className="fixed inset-0 bg-slate-900/40 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-sm shadow-xl w-full max-w-sm border-t-4 border-amber-700">
+        <div className="p-6">
+          {stage === "ask" ? (
+            <>
+              <p className="text-sm font-medium text-slate-800 mb-1 flex items-center gap-2">
+                <KeyRound size={16} className="text-amber-700" /> 您好，{userName}
+              </p>
+              <p className="text-sm text-stone-600 leading-relaxed mb-6 mt-2">
+                為了帳號安全，建議您定期修改密碼（管理者無法得知您變更後的密碼）。是否要現在修改？
+              </p>
+              <div className="flex justify-end gap-3">
+                <button onClick={onSkip} className="px-4 py-2 text-sm rounded-sm border border-stone-300 text-stone-600 hover:bg-stone-50">
+                  稍後再說
+                </button>
+                <button onClick={() => setStage("form")} className="px-4 py-2 text-sm rounded-sm bg-amber-700 text-white hover:bg-amber-800">
+                  修改密碼
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <p className="text-sm font-medium text-slate-800 mb-4 flex items-center gap-2">
+                <KeyRound size={16} className="text-amber-700" /> 修改密碼
+              </p>
+              <form onSubmit={handleSubmit} className="space-y-3">
+                <input
+                  type="password"
+                  placeholder="目前密碼"
+                  value={oldPw}
+                  onChange={(e) => setOldPw(e.target.value)}
+                  className="w-full border border-stone-300 rounded-sm px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-700/40"
+                />
+                <input
+                  type="password"
+                  placeholder="新密碼（至少4碼）"
+                  value={newPw}
+                  onChange={(e) => setNewPw(e.target.value)}
+                  className="w-full border border-stone-300 rounded-sm px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-700/40"
+                />
+                <input
+                  type="password"
+                  placeholder="確認新密碼"
+                  value={confirmPw}
+                  onChange={(e) => setConfirmPw(e.target.value)}
+                  className="w-full border border-stone-300 rounded-sm px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-700/40"
+                />
+                <div className="flex justify-end gap-3 pt-2">
+                  <button type="button" onClick={onSkip} className="px-4 py-2 text-sm rounded-sm border border-stone-300 text-stone-600 hover:bg-stone-50">
+                    取消
+                  </button>
+                  <button type="submit" className="px-4 py-2 text-sm rounded-sm bg-amber-700 text-white hover:bg-amber-800">
+                    更新密碼
+                  </button>
+                </div>
+              </form>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
 

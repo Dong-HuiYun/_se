@@ -5,6 +5,7 @@
 function AdminDashboard({ data, resetData }) {
   const courseCount = data.courses.filter((c) => c.semester === CURRENT_SEMESTER).length;
   const enrollmentCount = data.enrollments.filter((e) => e.semester === CURRENT_SEMESTER).length;
+  const pendingApplications = data.applications.filter((a) => a.status === "pending").length;
   const deptGroups = {};
   data.courses
     .filter((c) => c.semester === CURRENT_SEMESTER)
@@ -24,11 +25,12 @@ function AdminDashboard({ data, resetData }) {
           </button>
         }
       />
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-5 gap-4 mb-6">
         <StatCard label="學生人數" value={data.students.length} />
         <StatCard label="教師人數" value={data.teachers.length} />
         <StatCard label="本學期開課數" value={courseCount} />
         <StatCard label="本學期選課人次" value={enrollmentCount} />
+        <StatCard label="待審核申請案件" value={pendingApplications} />
       </div>
       <div className="bg-white border border-stone-200 rounded-sm p-5">
         <p className="text-sm font-medium text-slate-700 mb-4">各系所開課數量分布</p>
@@ -56,7 +58,7 @@ function StudentManagementPage({ data, persist, showToast, requestConfirm }) {
 
   const fields = [
     { key: "account", label: "學號 / 帳號" },
-    { key: "password", label: "密碼" },
+    { key: "password", label: modal && modal.mode === "edit" ? "新密碼（留空表示不變更，管理者無法查看原密碼）" : "密碼" },
     { key: "name", label: "姓名" },
     { key: "dept", label: "系所" },
     { key: "year", label: "年級", type: "number", numeric: true },
@@ -66,7 +68,7 @@ function StudentManagementPage({ data, persist, showToast, requestConfirm }) {
   const filtered = data.students.filter((s) => s.name.includes(query) || s.account.includes(query) || s.dept.includes(query));
 
   function handleSave(form) {
-    if (!form.account || !form.name || !form.password) {
+    if (!form.account || !form.name || (modal.mode === "add" && !form.password)) {
       showToast("請完整填寫學號、姓名與密碼", "error");
       return;
     }
@@ -75,23 +77,39 @@ function StudentManagementPage({ data, persist, showToast, requestConfirm }) {
         showToast("此學號已存在", "error");
         return;
       }
-      const rec = { id: form.account, ...form };
+      const rec = { id: form.account, status: "active", ...form };
       persist({ ...data, students: [...data.students, rec] });
       showToast("已新增學生資料", "success");
     } else {
-      persist({ ...data, students: data.students.map((s) => (s.id === modal.initial.id ? { ...s, ...form } : s)) });
+      // 密碼欄位留空表示保留學生自訂的原密碼，管理者無法藉此得知或覆寫成已知的值
+      // 若管理者確實設定了新密碼（例如學生忘記密碼求助），則清除 passwordChanged 標記，
+      // 讓該學生下次登入時會再次跳出「是否要修改密碼」的提醒
+      persist({
+        ...data,
+        students: data.students.map((s) =>
+          s.id === modal.initial.id
+            ? {
+                ...s,
+                ...form,
+                password: form.password ? form.password : s.password,
+                passwordChanged: form.password ? false : s.passwordChanged,
+              }
+            : s
+        ),
+      });
       showToast("已更新學生資料", "success");
     }
     setModal(null);
   }
 
   function handleDelete(row) {
-    requestConfirm(`確定要刪除學生「${row.name}」的所有資料（含選課與成績紀錄）嗎？`, () => {
+    requestConfirm(`確定要刪除學生「${row.name}」的所有資料（含選課、成績與申請紀錄）嗎？`, () => {
       persist({
         ...data,
         students: data.students.filter((s) => s.id !== row.id),
         enrollments: data.enrollments.filter((e) => e.studentId !== row.id),
         grades: data.grades.filter((g) => g.studentId !== row.id),
+        applications: data.applications.filter((a) => a.studentId !== row.id),
       });
       showToast("已刪除學生資料", "success");
     });
@@ -124,9 +142,22 @@ function StudentManagementPage({ data, persist, showToast, requestConfirm }) {
           { key: "dept", label: "系所" },
           { key: "year", label: "年級", render: (r) => `${r.year} 年級` },
           { key: "className", label: "班級" },
+          {
+            key: "status",
+            label: "學籍狀態",
+            render: (r) => (
+              <span
+                className={`inline-block text-xs px-2 py-0.5 rounded-sm border ${
+                  r.status === "leave" ? "bg-red-50 text-red-700 border-red-200" : "bg-emerald-50 text-emerald-800 border-emerald-200"
+                }`}
+              >
+                {studentStatusLabel(r)}
+              </span>
+            ),
+          },
         ]}
         rows={filtered}
-        onEdit={(r) => setModal({ mode: "edit", initial: r })}
+        onEdit={(r) => setModal({ mode: "edit", initial: { ...r, password: "" } })}
         onDelete={handleDelete}
       />
       {modal && <FormModal title={modal.mode === "add" ? "新增學生" : "編輯學生資料"} fields={fields} initial={modal.initial} onCancel={() => setModal(null)} onSave={handleSave} />}
@@ -140,7 +171,7 @@ function TeacherManagementPage({ data, persist, showToast, requestConfirm }) {
 
   const fields = [
     { key: "account", label: "教師編號 / 帳號" },
-    { key: "password", label: "密碼" },
+    { key: "password", label: modal && modal.mode === "edit" ? "新密碼（留空表示不變更，管理者無法查看原密碼）" : "密碼" },
     { key: "name", label: "姓名" },
     { key: "dept", label: "系所" },
     { key: "title", label: "職稱" },
@@ -149,7 +180,7 @@ function TeacherManagementPage({ data, persist, showToast, requestConfirm }) {
   const filtered = data.teachers.filter((t) => t.name.includes(query) || t.account.includes(query) || t.dept.includes(query));
 
   function handleSave(form) {
-    if (!form.account || !form.name || !form.password) {
+    if (!form.account || !form.name || (modal.mode === "add" && !form.password)) {
       showToast("請完整填寫教師編號、姓名與密碼", "error");
       return;
     }
@@ -162,7 +193,10 @@ function TeacherManagementPage({ data, persist, showToast, requestConfirm }) {
       persist({ ...data, teachers: [...data.teachers, rec] });
       showToast("已新增教師資料", "success");
     } else {
-      persist({ ...data, teachers: data.teachers.map((t) => (t.id === modal.initial.id ? { ...t, ...form } : t)) });
+      persist({
+        ...data,
+        teachers: data.teachers.map((t) => (t.id === modal.initial.id ? { ...t, ...form, password: form.password ? form.password : t.password } : t)),
+      });
       showToast("已更新教師資料", "success");
     }
     setModal(null);
@@ -207,7 +241,7 @@ function TeacherManagementPage({ data, persist, showToast, requestConfirm }) {
           { key: "title", label: "職稱" },
         ]}
         rows={filtered}
-        onEdit={(r) => setModal({ mode: "edit", initial: r })}
+        onEdit={(r) => setModal({ mode: "edit", initial: { ...r, password: "" } })}
         onDelete={handleDelete}
       />
       {modal && <FormModal title={modal.mode === "add" ? "新增教師" : "編輯教師資料"} fields={fields} initial={modal.initial} onCancel={() => setModal(null)} onSave={handleSave} />}
@@ -233,9 +267,28 @@ function CourseManagementPage({ data, persist, showToast, requestConfirm }) {
 
   const filtered = data.courses.filter((c) => c.semester === CURRENT_SEMESTER && (c.name.includes(query) || c.dept.includes(query)));
 
+  // 檢查同學期、同教室、同星期是否已有節次重疊的其他課程（editingId 用於編輯時排除自己）
+  function findClassroomConflict(form, editingId) {
+    if (!form.classroom || !form.day || !(form.periods && form.periods.length)) return null;
+    return data.courses.find(
+      (c) =>
+        c.id !== editingId &&
+        c.semester === CURRENT_SEMESTER &&
+        c.classroom === form.classroom &&
+        c.day === form.day &&
+        (c.periods || []).some((p) => form.periods.includes(p))
+    );
+  }
+
   function handleSave(form) {
     if (!form.name || !form.teacherId || !form.credit || !form.day || !(form.periods && form.periods.length)) {
       showToast("請完整填寫課程名稱、教師、學分、星期與節次", "error");
+      return;
+    }
+    const editingId = modal.mode === "edit" ? modal.initial.id : null;
+    const conflict = findClassroomConflict(form, editingId);
+    if (conflict) {
+      showToast(`教室衝堂：「${form.classroom}」於星期${form.day}第${periodsLabel(conflict.periods)}節已被「${conflict.name}」使用`, "error");
       return;
     }
     if (modal.mode === "add") {
@@ -250,11 +303,12 @@ function CourseManagementPage({ data, persist, showToast, requestConfirm }) {
   }
 
   function handleDelete(row) {
-    requestConfirm(`確定要刪除課程「${row.name}」嗎？相關選課與成績紀錄亦將一併移除。`, () => {
+    requestConfirm(`確定要刪除課程「${row.name}」嗎？相關選課、成績與停修申請紀錄亦將一併移除。`, () => {
       persist({
         ...data,
         courses: data.courses.filter((c) => c.id !== row.id),
         enrollments: data.enrollments.filter((e) => e.courseId !== row.id),
+        applications: data.applications.filter((a) => a.courseId !== row.id),
       });
       showToast("已刪除課程", "success");
     });
