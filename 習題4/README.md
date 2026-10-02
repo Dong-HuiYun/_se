@@ -161,9 +161,9 @@ git push
 
 在子專案執行的 `git push` **只會更新到個人的 GitHub 倉庫（Dong-HuiYun/git-example），並不會自動同步到組織的母專案中**。
 
-若要讓子專案的新功能正式被母專案採用，有以下兩種途徑：
+若要讓子專案的新功能正式被母專案採用：
 
-### 途徑 A：透過 GitHub 網頁發起 Pull Request（PR，團隊協作標準做法）
+### 透過 GitHub 網頁發起 Pull Request（PR，團隊協作標準做法）
 
 1. 開啟個人子專案網頁：`https://github.com/Dong-HuiYun/git-example`。
 2. 頂部會顯示提示「This branch is 1 commit ahead of ...」，點選旁邊的 **Contribute** -> **Open pull request**。
