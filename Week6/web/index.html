@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Docker 微服務展示</title>
+<style>
+:root{--bg:#f3f5f7;--surface:#fff;--ink:#16202a;--mute:#5d6b78;--line:#d6dde4;--accent:#0b6bcb;--ok:#14804a;--bad:#b3261e}
+@media (prefers-color-scheme:dark){:root{--bg:#10161c;--surface:#18212a;--ink:#e6edf3;--mute:#93a1ae;--line:#2a3743;--accent:#58a6ff;--ok:#3fb27f;--bad:#f2766d}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,"Noto Sans TC",sans-serif}
+main{max-width:960px;margin:0 auto;padding:32px 20px 64px}
+h1{font-size:1.9rem;margin:0 0 4px}h2{font-size:1.1rem;margin:0 0 12px}
+p.lead{color:var(--mute);margin:0 0 28px}
+section{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:20px;margin-bottom:20px}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:.9rem;color:var(--mute)}
+.flow b{color:var(--ink);padding:4px 10px;border:1px solid var(--line);border-radius:4px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.svc{border:1px solid var(--line);border-radius:6px;padding:12px}
+.svc strong{display:block}.svc small{color:var(--mute)}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--mute);margin-right:6px}
+.up .dot{background:var(--ok)}.down .dot{background:var(--bad)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.two section{margin:0}
+form{display:flex;gap:8px;margin-bottom:12px}
+input{flex:1;min-width:0;padding:8px 10px;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--ink);font:inherit}
+button{padding:8px 14px;border:0;border-radius:4px;background:var(--accent);color:#fff;font:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+ul{list-style:none;margin:0;padding:0;font-size:.95rem}
+li{padding:6px 0;border-top:1px solid var(--line)}li small{color:var(--mute);margin-left:6px}
+pre{margin:12px 0 0;padding:10px;background:var(--bg);border-radius:4px;overflow-x:auto;font-size:.85rem}
+.mute{color:var(--mute);font-size:.9rem;margin:0 0 12px}
+</style>
+</head>
+<body>
+<main>
+<h1>Docker 微服務展示</h1>
+<p class="lead">五個容器各司其職，所有請求都從 Nginx 進來。</p>
+
+<section>
+  <h2>請求路徑</h2>
+  <div class="flow"><b>瀏覽器</b>→<b>Nginx :80</b>→<b>Node / Python / Rust</b>→<b>PostgreSQL</b></div>
+</section>
+
+<section>
+  <h2>服務狀態</h2>
+  <div class="grid" id="status"></div>
+</section>
+
+<div class="two">
+  <section>
+    <h2>留言板（Node.js + PostgreSQL）</h2>
+    <p class="mute">Node.js 把留言寫入資料庫。重啟容器後資料仍在，因為存在 volume。</p>
+    <form id="noteForm"><input id="noteText" placeholder="輸入留言" maxlength="200" required><button>新增留言</button></form>
+    <ul id="notes"></ul>
+  </section>
+
+  <section>
+    <h2>留言統計（Python）</h2>
+    <p class="mute">Python 從同一個資料庫讀取資料並分析。</p>
+    <button id="statsBtn">重新統計</button>
+    <pre id="stats">尚未載入</pre>
+  </section>
+</div>
+
+<section style="margin-top:20px">
+  <h2>質數計算（Rust）</h2>
+  <p class="mute">Rust 用篩法計算 n 以內的質數數量，耗時由服務端量測。</p>
+  <form id="primeForm"><input id="primeN" type="number" min="1" max="100000000" value="10000000"><button>開始計算</button></form>
+  <pre id="primeOut">尚未計算</pre>
+</section>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+async function status() {
+  const items = [
+    ['Nginx', '/api/node/health', '反向代理 / Web Server', () => 'ok'],
+    ['Node.js', '/api/node/health', null, d => d.runtime],
+    ['Python', '/api/python/health', null, d => 'Python ' + d.runtime],
+    ['Rust', '/api/rust/health', null, d => d.runtime],
+    ['PostgreSQL', '/api/node/health', '資料庫', d => d.db === 'ok' ? '連線正常' : '連線失敗'],
+  ];
+  $('status').innerHTML = '';
+  for (const [name, url, desc, fmt] of items) {
+    let up = false, text = '無法連線';
+    try { const r = await fetch(url); const d = await r.json(); up = r.ok; text = up ? (name === 'Nginx' ? '正常轉發' : fmt(d)) : '錯誤'; } catch {}
+    $('status').insertAdjacentHTML('beforeend',
+      `<div class="svc ${up ? 'up' : 'down'}"><strong><span class="dot"></span>${name}</strong><small>${esc(text)}</small></div>`);
+  }
+}
+
+async function loadNotes() {
+  const rows = await (await fetch('/api/node/notes')).json();
+  $('notes').innerHTML = rows.map(r =>
+    `<li>${esc(r.text)}<small>${new Date(r.created_at).toLocaleString('zh-TW')}</small></li>`).join('');
+}
+
+async function loadStats() {
+  const d = await (await fetch('/api/python/stats')).json();
+  $('stats').textContent = JSON.stringify(d, null, 2);
+}
+
+$('noteForm').onsubmit = async e => {
+  e.preventDefault();
+  await fetch('/api/node/notes', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({text: $('noteText').value})});
+  $('noteText').value = '';
+  loadNotes(); loadStats();
+};
+$('statsBtn').onclick = loadStats;
+$('primeForm').onsubmit = async e => {
+  e.preventDefault();
+  $('primeOut').textContent = '計算中…';
+  const d = await (await fetch('/api/rust/primes?n=' + $('primeN').value)).json();
+  $('primeOut').textContent = JSON.stringify(d, null, 2);
+};
+
+status(); loadNotes(); loadStats();
+</script>
+</body>
+</html>
