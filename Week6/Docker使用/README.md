@@ -42,7 +42,7 @@ Unable to find image 'hello-world:latest' locally：第一次使用時，在本�
 
     - 若容器較少，只需要寫出容器的前幾個id（例如前三個字：604），可與其他容器區分就足夠了。若要操控容器，可以選擇容器的id或容器的名稱。
 
-    - `sudo docker info`：顯示 Docker 系統整體資訊與運行狀態
+- `sudo docker info`：顯示 Docker 系統整體資訊與運行狀態
 
     ![info](images/info.png)
 
