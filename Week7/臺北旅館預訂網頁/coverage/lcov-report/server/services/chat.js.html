@@ -1,0 +1,166 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for server/services/chat.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">server/services</a> chat.js</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>8/8</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>2/2</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>3/3</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>6/6</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line high'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
+&nbsp;
+// 與 A1_detail.html 的 getAIResponse 相同，順序即優先權
+const RULES = [
+  { keywords: ['價格', '多少錢', '價錢'], reply: '台北凱達大飯店的房價根據房型和季節有所不同，豪華雙人房約TWD 3,685起，豪華雙床房約TWD 3,685起，家庭套房TWD 6,057起，小型套房TWD 3,685起。我們提供價格保證，如發現更低價格將提供差價補償。' },
+  { keywords: ['設施', '設備'], reply: '酒店提供戶外游泳池、健身中心、多間餐廳、免費Wi-Fi、商務中心等多種設施。所有設施均可透過手機App預約使用。' },
+  { keywords: ['位置', '地址', '在哪'], reply: '酒店位於台北市萬華區艋舺大道167號，周邊有龍山寺地下街、艋舺公園等。步行5分鐘可達捷運站，交通十分便利。' },
+  { keywords: ['早餐', '用餐'], reply: '我們提供豐盛的自助早餐，包含中西式多樣選擇。營業時間為早上6:30至10:00，也提供客房送餐服務。' },
+  { keywords: ['優惠', '折扣'], reply: '目前有提前預訂85折、連住優惠、會員點數回饋等多項優惠。建議您查看我們的期間優惠頁面獲取最新資訊。' },
+  { keywords: ['停車', '車位'], reply: '酒店提供免費停車服務，每間客房於住宿期間可享有一個免費停車位，採先到先停原則。' },
+  { keywords: ['wifi', '網絡'], reply: '酒店全區域提供免費高速Wi-Fi 6網路，入住後即可免費連接，無需額外付費。' },
+  { keywords: ['游泳池', '泳池'], reply: '酒店設有戶外游泳池，每年3月到12月開放，開放時間為早上7點至晚上9點。' },
+  { keywords: ['健身', '運動'], reply: '酒店設有24小時開放的健身中心，配備先進的健身設備，並有專業教練指導服務。' },
+  { keywords: ['你好', '您好', '嗨'], reply: '您好！很高興為您服務，有什麼關於台北凱達大飯店的問題嗎？' },
+  { keywords: ['入住', '退房'], reply: '最早可辦理入住的時間為下午三點，最晚可辦理退房的時間為中午12點。我們提供快速入住/退房服務。' },
+  { keywords: ['謝謝', '感謝'], reply: '不客氣！如果有其他問題，隨時可以問我。' },
+];
+&nbsp;
+const FALLBACK = '感謝您的提問！如需更詳細的資訊，請查看頁面上的詳細介紹或聯繫我們的客服人員，電話：（02）2306-6777。';
+&nbsp;
+function getReply(message) {
+  const lower = String(message).toLowerCase();
+  const rule = RULES.find((r) =&gt; r.keywords.some((k) =&gt; lower.includes(k)));
+  return rule ? rule.reply : FALLBACK;
+}
+&nbsp;
+module.exports = { RULES, FALLBACK, getReply };
+&nbsp;</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-10-23T02:31:09.949Z
+            </div>
+        <script src="../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../sorter.js"></script>
+        <script src="../../block-navigation.js"></script>
+    </body>
+</html>
+    

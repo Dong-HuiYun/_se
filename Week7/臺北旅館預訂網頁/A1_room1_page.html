@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>預訂房間 - 台北凱達大飯店</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* 顶部导航 */
+        .header {
+            background: linear-gradient(90deg, #4b6cb7, #182848  );
+            color: white;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .nav-buttons button {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 4px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .nav-buttons button:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        /* 主要内容 */
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            display: flex;
+            gap: 30px;
+        }
+        
+        /* 预订表单 */
+        .booking-form {
+            flex: 1;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+        
+        .form-title {
+            font-size: 24px;
+            color: #182848;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            color: #4b6cb7;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: #4b6cb7;
+            outline: none;
+        }
+        
+        .date-inputs {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .date-inputs .form-group {
+            flex: 1;
+        }
+        
+        .guest-selector {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .guest-btn {
+            background: #f8f9fa;
+            border: none;
+            padding: 12px 15px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background 0.3s;
+        }
+        
+        .guest-btn:hover {
+            background: #e9ecef;
+        }
+        
+        .guest-count {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            font-weight: 600;
+        }
+        
+        /* 订单摘要 */
+        .booking-summary {
+            flex: 0 0 350px;
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+        
+        .summary-title {
+            font-size: 20px;
+            color: #182848;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .room-info {
+            display: flex;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .room-image {
+            flex: 0 0 100px;
+            height: 80px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .room-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .room-details {
+            flex: 1;
+            padding-left: 15px;
+        }
+        
+        .room-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .room-features {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .price-details {
+            margin: 20px 0;
+        }
+        
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .price-total {
+            font-size: 18px;
+            font-weight: 600;
+            color: #d23c3c;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+        
+        .btn-book {
+            background: #4b6cb7;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s;
+            margin-top: 20px;
+        }
+        
+        .btn-book:hover {
+            background: #3a5999;
+        }
+        
+        /* 步驟指示器 */
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .steps::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e0e0e0;
+            z-index: 1;
+        }
+        
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .step-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            color: #999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .step.active .step-circle {
+            background: #4b6cb7;
+            color: white;
+        }
+        
+        .step.completed .step-circle {
+            background: #2ecc71;
+            color: white;
+        }
+        
+        .step-text {
+            font-size: 14px;
+            color: #999;
+        }
+        
+        .step.active .step-text {
+            color: #4b6cb7;
+            font-weight: 600;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .booking-summary {
+                flex: 1;
+            }
+            
+            .date-inputs {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+        
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .payment-method {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .payment-method:hover {
+            border-color: #4b6cb7;
+        }
+        
+        .payment-method.selected {
+            border-color: #4b6cb7;
+            background: #f0f5ff;
+        }
+        
+        .payment-method i {
+            font-size: 24px;
+            margin-bottom: 5px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航 -->
+    <div class="header">
+        <div class="logo">Booking<span style="color: #febb02">.com</span></div>
+        <div class="nav-buttons">
+            <button class="back-button" onclick="window.location.href='A1_detail.html'">← 返回酒店詳情</button>
+        </div>
+    </div>
+    
+    <!-- 主要内容 -->
+    <div class="container">
+        <!-- 预订表单 -->
+        <div class="booking-form">
+            <!-- 步驟指示器 -->
+            <div class="steps">
+                <div class="step completed" id="step1">
+                    <div class="step-circle">1</div>
+                    <div class="step-text">選擇房型</div>
+                </div>
+                <div class="step active" id="step2">
+                    <div class="step-circle">2</div>
+                    <div class="step-text">填寫資料</div>
+                </div>
+                <div class="step" id="step3">
+                    <div class="step-circle">3</div>
+                    <div class="step-text">確認預訂</div>
+                </div>
+            </div>
+            
+            <h2 class="form-title">預訂資訊</h2>
+            
+            <!-- 住宿日期 -->
+            <div class="form-section">
+                <h3 class="section-title"><i class="far fa-calendar-alt"></i> 住宿日期</h3>
+                <div class="date-inputs">
+                    <div class="form-group">
+                        <label for="checkin">入住日期</label>
+                        <input type="date" id="checkin" class="form-control" value="2023-11-15">
+                    </div>
+                    <div class="form-group">
+                        <label for="checkout">退房日期</label>
+                        <input type="date" id="checkout" class="form-control" value="2023-11-17">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>住宿晚數</label>
+                    <div style="padding: 10px; background: #f8f9fa; border-radius: 5px;">
+                        <span id="nightsCount">2 晚</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 住客信息 -->
+            <div class="form-section">
+                <h3 class="section-title"><i class="fas fa-user-friends"></i> 住客信息</h3>
+                <div class="form-group">
+                    <label for="adults">成人</label>
+                    <div class="guest-selector">
+                        <button class="guest-btn" onclick="changeGuests('adults', -1)">-</button>
+                        <div class="guest-count" id="adultsCount">2</div>
+                        <button class="guest-btn" onclick="changeGuests('adults', 1)">+</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="children">兒童 (0-12歲)</label>
+                    <div class="guest-selector">
+                        <button class="guest-btn" onclick="changeGuests('children', -1)">-</button>
+                        <div class="guest-count" id="childrenCount">0</div>
+                        <button class="guest-btn" onclick="changeGuests('children', 1)">+</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="rooms">房間數</label>
+                    <div class="guest-selector">
+                        <button class="guest-btn" onclick="changeGuests('rooms', -1)">-</button>
+                        <div class="guest-count" id="roomsCount">1</div>
+                        <button class="guest-btn" onclick="changeGuests('rooms', 1)">+</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 聯絡資訊 -->
+            <div class="form-section">
+                <h3 class="section-title"><i class="far fa-address-card"></i> 聯絡資訊</h3>
+                <div class="form-group">
+                    <label for="fullName">姓名</label>
+                    <input type="text" id="fullName" class="form-control" placeholder="請輸入您的全名">
+                </div>
+                <div class="form-group">
+                    <label for="email">電子郵件</label>
+                    <input type="email" id="email" class="form-control" placeholder="請輸入您的電子郵件">
+                </div>
+                <div class="form-group">
+                    <label for="phone">手機號碼</label>
+                    <input type="tel" id="phone" class="form-control" placeholder="請輸入您的手機號碼">
+                </div>
+            </div>
+            
+            <!-- 特殊要求 -->
+            <div class="form-section">
+                <h3 class="section-title"><i class="far fa-sticky-note"></i> 特殊要求 (可選)</h3>
+                <div class="form-group">
+                    <textarea id="specialRequests" class="form-control" rows="4" placeholder="如有特殊要求，請在此處填寫..."></textarea>
+                </div>
+            </div>
+            
+            <!-- 付款方式 -->
+            <div class="form-section">
+                <h3 class="section-title"><i class="far fa-credit-card"></i> 付款方式</h3>
+                <div class="payment-methods">
+                    <div class="payment-method selected" onclick="selectPayment('credit')">
+                        <i class="far fa-credit-card"></i>
+                        <div>信用卡</div>
+                    </div>
+                    <div class="payment-method" onclick="selectPayment('paypal')">
+                        <i class="fab fa-paypal"></i>
+                        <div>PayPal</div>
+                    </div>
+                    <div class="payment-method" onclick="selectPayment('applepay')">
+                        <i class="fab fa-apple-pay"></i>
+                        <div>Apple Pay</div>
+                    </div>
+                    <div class="payment-method" onclick="selectPayment('googlepay')">
+                        <i class="fab fa-google-pay"></i>
+                        <div>Google Pay</div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn-book" onclick="confirmBooking()">確認預訂</button>
+        </div>
+        
+        <!-- 訂單摘要 -->
+        <div class="booking-summary">
+            <h2 class="summary-title">訂單摘要</h2>
+            
+            <div class="room-info">
+                <div class="room-image">
+                    <img id="summaryRoomImage" src="A1_images/Deluxe_Double.jpg" alt="豪華雙人房">
+                </div>
+                <div class="room-details">
+                    <div class="room-name" id="summaryRoomName">豪華雙人房</div>
+                    <div class="room-features" id="summaryRoomFeatures">35平方米 · 市景 · 免費取消</div>
+                </div>
+            </div>
+            
+            <div class="price-details">
+                <div class="price-row">
+                    <span>房價 (<span id="summaryNights">2</span> 晚 )</span>
+                    <span id="summaryRoomPrice">TWD 5,800</span>
+                </div>
+                <div class="price-row">
+                    <span>服務費</span>
+                    <span id="summaryServiceFee">TWD 0</span>
+                </div>
+                <div class="price-row">
+                    <span>稅費</span>
+                    <span id="summaryTaxFee">TWD 0</span>
+                </div>
+                <div class="price-row price-total">
+                    <span>總計</span>
+                    <span id="summaryTotalPrice">TWD 5,800</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 房型數據定義
+        const roomData = {
+            'type1': {
+                name: '豪華雙人房',
+                image: 'A1_images/Deluxe_Double.jpg', // <-- 修正後的圖片路徑
+                features: '30平方米 · 1張單人床 · 免費Wi-Fi',
+                basePrice: 3685
+            },
+            'type2': {
+                name: '豪華雙床房',
+                image: 'A1_images/Deluxe_Twin.jpg', // <-- 修正後的圖片路徑
+                features: '30平方米 · 特大雙人床 · 獨立客廳',
+                basePrice: 3685
+            },
+            'type3': {
+                name: '家庭套房',
+                image: 'A1_images/Family_Suite.webp', // <-- 修正後的圖片路徑
+                features: '30平方米 · 1張雙人床 · 免費Wi-Fi',
+                basePrice: 6057
+            },
+            'type4': {
+                name: '小型套房',
+                image: 'A1_images/Junior_Suite.jpg', // <-- 修正後的圖片路徑
+                features: '30平方米 · 1張單人床 · 免費Wi-Fi',
+                basePrice: 3685
+            }
+        };
+
+        // 處理入住人數選擇
+        function changeGuests(type, change ) {
+            const countElement = document.getElementById(type + 'Count');
+            let currentCount = parseInt(countElement.textContent);
+            currentCount += change;
+            if (currentCount < 0) currentCount = 0;
+            if (type === 'adults' && currentCount < 1) currentCount = 1; // 至少一位成人
+            countElement.textContent = currentCount;
+        }
+
+        // 處理付款方式選擇
+        function selectPayment(method) {
+            document.querySelectorAll('.payment-method').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            document.querySelector(`.payment-method[onclick*='${method}']`).classList.add('selected');
+        }
+
+        // 确认预订
+        function confirmBooking() {
+            const name = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            
+            if (!name || !email || !phone) {
+                alert('請填寫完整的聯絡資訊');
+                return;
+            }
+            
+            // 模拟预订成功
+            document.getElementById('step2').classList.remove('active');
+            document.getElementById('step2').classList.add('completed');
+            document.getElementById('step3').classList.add('active');
+            
+            // 更改按钮文本和行为
+            const bookBtn = document.querySelector('.btn-book');
+            bookBtn.textContent = '預訂成功！正在跳轉...';
+            bookBtn.style.background = '#2ecc71';
+            bookBtn.onclick = null;
+            
+            setTimeout(() => {
+                alert(`預訂成功！\n感謝 ${name} 選擇台北君悅酒店。\n確認信已發送至 ${email}`);
+                // 在实际应用中，這裡會跳轉到確認頁面
+            }, 1500);
+        }
+
+        // 根據房型更新詳細信息
+        function updateRoomDetails(roomType) {
+            const room = roomData[roomType];
+
+            if (room) {
+                // 更新房間名稱
+                const roomNameElement = document.querySelector(".room-name");
+                if (roomNameElement) {
+                    roomNameElement.textContent = room.name;
+                }
+
+                // 更新房間圖片
+                const roomImageElement = document.querySelector(".room-image img");
+                if (roomImageElement) {
+                    roomImageElement.src = room.image;
+                    roomImageElement.alt = room.name; // 更好的可訪問性
+                }
+
+                // 更新房間特色
+                const roomFeaturesElement = document.querySelector(".room-features");
+                if (roomFeaturesElement) {
+                    roomFeaturesElement.textContent = room.features;
+                }
+
+                // 更新總價計算，傳入正確的基礎價格
+                const checkinDate = new Date(document.getElementById('checkin').value);
+                const checkoutDate = new Date(document.getElementById('checkout').value);
+                const nights = Math.round(Math.abs((checkoutDate - checkinDate) / (1000 * 60 * 60 * 24)));
+                
+                updateTotalPrice(nights, room.basePrice);
+            } else {
+                console.warn("未找到匹配的房型數據: ", roomType);
+                // 可以設置默認值或顯示錯誤信息
+            }
+        }
+
+        // 更新總價計算函數
+        function updateTotalPrice(nights, roomPrice) {
+            const serviceFee = roomPrice * nights * 0.05;
+            const tax = roomPrice * nights * 0.06;
+            const total = roomPrice * nights + serviceFee + tax;
+            
+            document.querySelector(".price-details .price-row:nth-child(1) span:first-child").textContent = 
+                `房價 (${nights} 晚)`;
+            document.querySelector(".price-details .price-row:nth-child(1) span:last-child").textContent = 
+                `TWD ${(roomPrice * nights).toLocaleString()}`;
+            document.querySelector(".price-details .price-row:nth-child(2) span:last-child").textContent = 
+                `TWD ${serviceFee.toLocaleString()}`;
+            document.querySelector(".price-details .price-row:nth-child(3) span:last-child").textContent = 
+                `TWD ${tax.toLocaleString()}`;
+            document.querySelector(".price-total span:last-child").textContent = 
+                `TWD ${total.toLocaleString()}`;
+        }
+
+        // 設置默認日期
+        function setDefaultDates() {
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            
+            const formatDate = (date) => {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            };
+            
+            document.getElementById('checkin').value = formatDate(today);
+            document.getElementById('checkout').value = formatDate(tomorrow);
+        }
+
+        // 更新住宿晚數
+        function updateNights() {
+            const checkinDate = new Date(document.getElementById('checkin').value);
+            const checkoutDate = new Date(document.getElementById('checkout').value);
+            const diffTime = Math.abs(checkoutDate - checkinDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+            document.getElementById('nightsCount').textContent = `${diffDays} 晚`;
+
+            // 重新計算價格，如果房型已選
+            const selectedRoomType = localStorage.getItem('selectedRoomType');
+            if (selectedRoomType && roomData[selectedRoomType]) {
+                updateTotalPrice(diffDays, roomData[selectedRoomType].basePrice);
+            } else {
+                // 如果沒有選擇房型，使用默認房型的價格更新總價
+                updateTotalPrice(diffDays, roomData['type1'].basePrice); 
+            }
+        }
+
+        // 頁面加載完成後初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 設置默認日期
+            setDefaultDates(); 
+            updateNights(); // 初始化晚數和價格
+            
+            // 添加日期輸入框的事件監聽器
+            document.getElementById('checkin').addEventListener('change', updateNights);
+            document.getElementById('checkout').addEventListener('change', updateNights);
+
+            // 從 localStorage 讀取選擇的房型信息
+            const selectedRoomType = localStorage.getItem('selectedRoomType');
+            const selectedRoomName = localStorage.getItem('selectedRoomName');
+            
+            if (selectedRoomType) { 
+                document.title = `預訂${selectedRoomName} - 台北凱達大飯店`;
+                updateRoomDetails(selectedRoomType);
+            } else {
+                console.log("沒有從 localStorage 獲取到選擇的房型，使用默認房型或提示用戶選擇。");
+                // 如果沒有選擇房型，可以設置一個默認房型或顯示提示
+                updateRoomDetails('type1'); // 顯示默認房型
+            }
+            
+            // 處理完畢後，清除 localStorage 中的信息，避免影響後續操作
+            localStorage.removeItem('selectedRoomType');
+            localStorage.removeItem('selectedRoomName');
+        });
+    </script>
+</body>
+</html>

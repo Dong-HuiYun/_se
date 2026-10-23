@@ -1,0 +1,2687 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>台北W飯店 - 科技體驗</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="A1_detail.css">
+</head>
+<body>
+    <div class="header">
+        <div class="logo"><i class="fas fa-hotel"></i> 台北W飯店</div>
+        <div class="nav-buttons">
+            <button onclick="returnToHotelInterface('A')"><i class="fas fa-arrow-left"></i> 返回</button>
+        </div>
+    </div>
+        <!-- 预约模态框 -->
+    <div id="bookingModal" class="booking-modal">
+        <div class="booking-modal-content">
+            <div class="booking-modal-header">
+                <h3 id="bookingModalTitle"><i class="fas fa-calendar-check"></i> 預約詳情</h3>
+                <button class="close-booking-modal" onclick="closeBookingModal()">&times;</button>
+            </div>
+            <div class="booking-modal-body" id="bookingModalBody">
+                <!-- 内容会根据点击的按钮动态填充 -->
+            </div>
+            <div class="booking-modal-footer">
+                <button class="btn btn-secondary" onclick="closeBookingModal()">取消</button>
+                <button class="btn btn-primary" onclick="confirmBooking()">確認預約</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <!-- 照片展示區 -->
+        <div class="image-gallery">
+            <div class="main-image">
+                <img src="A1_images/exterior.jpg" alt="台北凱達大飯店">
+                <div class="image-overlay">
+                    <span class="vr-badge"><i class="fas fa-vr-cardboard"></i> VR體驗</span>
+                    <p>點擊查看360度全景</p>
+                </div>
+            </div>
+            <div class="sub-image">
+                <img src="A1_images/lobby.webp" alt="酒店大堂">
+                <div class="image-overlay">
+                    <p>酒店大堂</p>
+                </div>
+            </div>
+            <div class="sub-image">
+                <img src="A1_images/suite.jpg" alt="酒店房间">
+                <div class="image-overlay">
+                    <p>豪華套房</p>
+                </div>
+            </div>
+            <div class="sub-image">
+                <img src="A1_images/pool.webp" alt="酒店设施">
+                <div class="image-overlay">
+                    <p>游泳池</p>
+                </div>
+            </div>
+            <div class="sub-image">
+                <img src="A1_images/restaurant.webp" alt="酒店餐厅">
+                <div class="image-overlay">
+                    <p>餐廳</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 酒店資訊和預訂 -->
+        <div class="hotel-info">
+            <div class="hotel-header">
+                <div>
+                    <h1 class="hotel-title">台北W飯店</h1>
+                    <p class="hotel-location"><i class="fas fa-map-marker-alt"></i> 台北市萬華區艋舺大道167號</p>
+                    <div class="hotel-rating"><i class="fas fa-star"></i> 8.7 很棒 · 1,248 則評價</div>
+                </div>
+                <div class="price-section">
+                    <div class="price">TWD 2,231</div>
+                    <div class="price-note">平均每晚價格</div>
+                </div>
+            </div>
+            
+            <p>W 飯店以未來感設計與潮流科技著稱，結合聲光互動與智能控制系統。位於信義區核心，步行即可到台北101與百貨商圈，擁有絕佳夜景與娛樂資源，是數位世代旅人的理想選擇。</p>
+            
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="showRoomSelection()"><i class="fas fa-calendar-check"></i> 立即預訂</button>
+                <button class="btn btn-secondary" id="wishlistBtn"><i class="far fa-heart"></i> 加入願望清單</button>
+                <button class="btn btn-secondary"><i class="fas fa-share"></i> 分享</button>
+            </div>
+        </div>
+
+        <div id="roomSelectionModal" class="room-modal">
+            <div class="room-modal-content">
+                <div class="room-modal-header">
+                    <h2><i class="fas fa-bed"></i> 選擇房型</h2>
+                    <button class="close-btn" onclick="hideRoomSelection()">&times;</button>
+                </div>
+                
+                <div class="room-modal-body">
+                    <div class="room-option">
+                        <div class="room-image-booking">
+                            <img src="A1_images/Deluxe_Double.jpg" alt="豪華雙人房">
+                            <span class="vr-badge"><i class="fas fa-vr-cardboard"></i> VR</span>
+                        </div>
+                        <div class="room-info">
+                            <div class="room-header">
+                                <h3>豪華雙人房</h3>
+                                <span class="room-size">35平方米</span>
+                            </div>
+                            <div class="room-features">
+                                <span class="feature-tag"><i class="fas fa-city"></i> 市景</span>
+                                <span class="feature-tag"><i class="fas fa-bed"></i> 1雙人床/2單人床</span>
+                                <span class="feature-tag"><i class="fas fa-wifi"></i> 免費Wi-Fi</span>
+                            </div>
+                            <p class="room-description">現代簡約設計，配備智能控制系統，享受科技帶來的便利與舒適。</p>
+                            <div class="view-option" onclick="event.stopPropagation(); showVR('room1')">
+                                <i class="fas fa-vr-cardboard"></i> 360度VR體驗
+                            </div>
+                            <div class="room-footer">
+                                <div class="room-price">
+                                    <span class="price">TWD 3,685</span>
+                                    <span class="price-unit">/晚</span>
+                                </div>
+                                <!-- 選擇此房型按鈕 - 應該跳轉頁面 -->
+                                <button class="select-btn" onclick="selectRoom('type1', '豪華雙人房', event)">選擇此房型</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="room-option">
+                        <div class="room-image-booking">
+                            <img src="A1_images/Deluxe_Twin.jpg" alt="豪華雙床房">
+                            <span class="vr-badge"><i class="fas fa-video"></i> 影片</span>
+                        </div>
+                        <div class="room-info">
+                            <div class="room-header">
+                                <h3>豪華雙床房</h3>
+                                <span class="room-size">30平方米</span>
+                            </div>
+                            <div class="room-features">
+                                <span class="feature-tag"><i class="fas fa-bed"></i> 特大雙人床</span>
+                                <span class="feature-tag"><i class="fas fa-couch"></i> 獨立客廳</span>
+                            </div>
+                            <p class="room-description">寬敞空間，獨立客廳，尊享台北101壯麗景色，商務休閒兩相宜。</p>
+                            <div class="view-option" onclick="event.stopPropagation(); showVideo('suite1')">
+                                <i class="fas fa-play-circle"></i> 觀看介紹影片
+                            </div>
+                            <div class="room-footer">
+                                <div class="room-price">
+                                    <span class="price">TWD 3,685</span>
+                                    <span class="price-unit">/晚</span>
+                                </div>
+                                <!-- 選擇此房型按鈕 - 應該跳轉頁面 -->
+                                <button class="select-btn" onclick="selectRoom('type2', '豪華雙床房', event)">選擇此房型</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="room-option">
+                        <div class="room-image-booking">
+                            <img src="A1_images/Family_Suite.webp" alt="家庭套房">
+                            <span class="vr-badge"><i class="fas fa-vr-cardboard"></i> VR</span>
+                        </div>
+                        <div class="room-info">
+                            <div class="room-header">
+                                <h3>家庭套房</h3>
+                                <span class="room-size">30平方米</span>
+                            </div>
+                            <div class="room-features">
+                                <span class="feature-tag"><i class="fas fa-city"></i> 市景</span>
+                                <span class="feature-tag"><i class="fas fa-bed"></i> 1張雙人床</span>
+                                <span class="feature-tag"><i class="fas fa-wifi"></i> 免費Wi-Fi</span>
+                            </div>
+                            <p class="room-description">現代簡約設計，配備智能控制系統，享受科技帶來的便利與舒適。</p>
+                            <div class="view-option" onclick="event.stopPropagation(); showVR('room1')">
+                                <i class="fas fa-vr-cardboard"></i> 360度VR體驗
+                            </div>
+                            <div class="room-footer">
+                                <div class="room-price">
+                                    <span class="price">TWD 6,057</span>
+                                    <span class="price-unit">/晚</span>
+                                </div>
+                                <!-- 選擇此房型按鈕 - 應該跳轉頁面 -->
+                                <button class="select-btn" onclick="selectRoom('type3', '家庭套房', event)">選擇此房型</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="room-option">
+                        <div class="room-image-booking">
+                            <img src="A1_images/Junior_Suite.jpg" alt="小型套房">
+                            <span class="vr-badge"><i class="fas fa-vr-cardboard"></i> VR</span>
+                        </div>
+                        <div class="room-info">
+                            <div class="room-header">
+                                <h3>小型套房</h3>
+                                <span class="room-size">30平方米</span>
+                            </div>
+                            <div class="room-features">
+                                <span class="feature-tag"><i class="fas fa-city"></i> 市景</span>
+                                <span class="feature-tag"><i class="fas fa-bed"></i> 1張單人床</span>
+                                <span class="feature-tag"><i class="fas fa-wifi"></i> 免費Wi-Fi</span>
+                            </div>
+                            <p class="room-description">精緻小巧，舒適入睡，每一個角落都為您打造安心自在的居住感受。</p>
+                            <div class="view-option" onclick="event.stopPropagation(); showVR('room1')">
+                                <i class="fas fa-vr-cardboard"></i> 360度VR體驗
+                            </div>
+                            <div class="room-footer">
+                                <div class="room-price">
+                                    <span class="price">TWD 3,685</span>
+                                    <span class="price-unit">/晚</span>
+                                </div>
+                                <!-- 選擇此房型按鈕 - 應該跳轉頁面 -->
+                                <button class="select-btn" onclick="selectRoom('type4', '小型套房', event)">選擇此房型</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="room-modal-footer">
+                    <button class="cancel-btn" onclick="hideRoomSelection()">取消</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 主要四個功能區塊 -->
+        <div class="main-features">
+            <div class="feature-card" onclick="showFeature('location')">
+                <div class="feature-icon">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <div class="feature-title">位置地點</div>
+                <div class="feature-desc">智能定位與周邊探索</div>
+            </div>
+            
+            <div class="feature-card" onclick="showFeature('rooms')">
+                <div class="feature-icon">
+                    <i class="fas fa-bed"></i>
+                </div>
+                <div class="feature-title">客房內裝</div>
+                <div class="feature-desc">現代化設計與科技設施</div>
+            </div>
+            
+            <div class="feature-card" onclick="showFeature('facilities')">
+                <div class="feature-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <div class="feature-title">公共空間</div>
+                <div class="feature-desc">設施使用與共享空間</div>
+            </div>
+            
+            <div class="feature-card" onclick="toggleChat()">
+                <div class="feature-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="feature-title">疑義詢問</div>
+                <div class="feature-desc">AI智能助理即時解答</div>
+            </div>
+        </div>
+
+        <!-- 位置地點內容 -->
+        <div class="content-section" id="location-content">
+            <h2 class="section-title"><i class="fas fa-map-marker-alt"></i> 位置地點</h2>
+            
+            <div class="location-layout">
+                <!-- 左側：智能定位（按鈕式景點選擇） -->
+                <div class="location-left">
+                    <div class="content-item">
+                        <h3 class="location-subtitle"><i class="fas fa-location-arrow"></i> 智能定位</h3>
+                        <p class="location-description">快速定位周邊熱門景點，點擊按鈕立即查看詳細資訊與地圖位置。</p>
+                        
+                        <!-- 景點選擇按鈕 -->
+                        <div class="attraction-buttons">
+                            <button class="attraction-btn active" onclick="showAttraction('longshan')">
+                                <div class="attraction-icon">
+                                    <i class="fas fa-place-of-worship"></i>
+                                </div>
+                                <div class="attraction-text">
+                                    <span class="attraction-name">龍山寺</span>
+                                    <small class="attraction-distance">步行3分鐘</small>
+                                </div>
+                            </button>
+                            
+                            <button class="attraction-btn" onclick="showAttraction('huaxi')">
+                                <div class="attraction-icon">
+                                    <i class="fas fa-utensils"></i>
+                                </div>
+                                <div class="attraction-text">
+                                    <span class="attraction-name">華西街夜市</span>
+                                    <small class="attraction-distance">步行4分鐘</small>
+                                </div>
+                            </button>
+                            
+                            <button class="attraction-btn" onclick="showAttraction('ximen')">
+                                <div class="attraction-icon">
+                                    <i class="fas fa-shopping-bag"></i>
+                                </div>
+                                <div class="attraction-text">
+                                    <span class="attraction-name">西門町</span>
+                                    <small class="attraction-distance">步行8分鐘</small>
+                                </div>
+                            </button>
+                            
+                            <button class="attraction-btn" onclick="showAttraction('park')">
+                                <div class="attraction-icon">
+                                    <i class="fas fa-tree"></i>
+                                </div>
+                                <div class="attraction-text">
+                                    <span class="attraction-name">艋舺公園</span>
+                                    <small class="attraction-distance">步行2分鐘</small>
+                                </div>
+                            </button>
+                            
+                            <button class="attraction-btn" onclick="showAttraction('bopiliao')">
+                                <div class="attraction-icon">
+                                    <i class="fas fa-landmark"></i>
+                                </div>
+                                <div class="attraction-text">
+                                    <span class="attraction-name">剝皮寮老街</span>
+                                    <small class="attraction-distance">步行5分鐘</small>
+                                </div>
+                            </button>
+                            
+                            <button class="attraction-btn" onclick="showAttraction('station')">
+                                <div class="attraction-icon">
+                                    <i class="fas fa-train"></i>
+                                </div>
+                                <div class="attraction-text">
+                                    <span class="attraction-name">台北車站</span>
+                                    <small class="attraction-distance">步行10分鐘</small>
+                                </div>
+                            </button>
+                        </div>
+                        
+                        <!-- 景點詳細資訊 -->
+                        <div class="attraction-detail" id="attractionDetail">
+                            <div class="detail-content">
+                                <div class="detail-header">
+                                    <h4 id="detailTitle" class="detail-title">龍山寺</h4>
+                                    <span id="detailDistance" class="distance-badge">步行3分鐘</span>
+                                </div>
+                                <p id="detailDescription" class="detail-description">台北最古老的寺廟之一，香火鼎盛，建築精美，是重要的文化古蹟。</p>
+                                
+                                <div id="detailFeatures" class="detail-features">
+                                    <span class="feature-tag">文化古蹟</span>
+                                    <span class="feature-tag">宗教聖地</span>
+                                    <span class="feature-tag">免費參觀</span>
+                                </div>
+                                
+                                <div class="detail-image">
+                                    <img id="detailImage" src="A1_images/longshansi.webp" alt="龍山寺">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 右側：交通便利 -->
+                <div class="location-right">
+                    <div class="content-item">               
+                        <!-- 交通資訊 -->
+                        <div class="transport-info">
+                            <h3 class="location-subtitle"><i class="fas fa-route"></i> 交通方式</h3>
+                            <div class="transport-grid">
+                                <div class="transport-item">
+                                    <div class="transport-icon" style="background: rgba(52, 152, 219, 0.1);">
+                                        <i class="fas fa-train" style="color: #3498db;"></i>
+                                    </div>
+                                    <div class="transport-details">
+                                        <h5>捷運</h5>
+                                        <p>龍山寺站 (板南線)</p>
+                                        <small>步行5分鐘</small>
+                                    </div>
+                                </div>
+                                <div class="transport-item">
+                                    <div class="transport-icon" style="background: rgba(46, 204, 113, 0.1);">
+                                        <i class="fas fa-bus" style="color: #2ecc71;"></i>
+                                    </div>
+                                    <div class="transport-details">
+                                        <h5>公車</h5>
+                                        <p>多條公車路線</p>
+                                        <small>艋舺公園站</small>
+                                    </div>
+                                </div>
+                                <div class="transport-item">
+                                    <div class="transport-icon" style="background: rgba(155, 89, 182, 0.1);">
+                                        <i class="fas fa-shuttle-van" style="color: #9b59b6;"></i>
+                                    </div>
+                                    <div class="transport-details">
+                                        <h5>接駁服務</h5>
+                                        <p>免費酒店接駁</p>
+                                        <small>定時發車</small>
+                                    </div>
+                                </div>
+                                <div class="transport-item">
+                                    <div class="transport-icon" style="background: rgba(230, 126, 34, 0.1);">
+                                        <i class="fas fa-car" style="color: #e67e22;"></i>
+                                    </div>
+                                    <div class="transport-details">
+                                        <h5>自行開車</h5>
+                                        <p>免費停車場</p>
+                                        <small>代客泊車</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 交通便利與地圖區塊 -->
+                        <div class="transport-map-block">
+                            <h3><i class="fas fa-subway"></i> 交通便利</h3>
+                            <p>步行5分鐘可達龍山寺捷運站，10分鐘抵達台北車站，周邊有多條公車路線。</p>
+                            
+                            <!-- 小地圖容器 -->
+                            <div class="map-container" id="miniMap">
+                                <i class="fas fa-map-marked-alt" style="font-size: 40px; margin-right: 15px;"></i>
+                                <div>
+                                    <h3>互動地圖載入中...</h3>
+                                    <p>台北市信義區忠孝東路五段10號</p>
+                                </div>
+                                <div class="map-controls">
+                                    <button class="map-reset-btn" onclick="resetMapPosition()" title="返回原始定位">
+                                        <i class="fas fa-crosshairs"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+
+        <!-- 客房內裝內容 -->
+        <div class="content-section" id="rooms-content">
+            <h2 class="section-title"><i class="fas fa-bed"></i> 客房內裝</h2>
+            
+            <!-- 房型展示輪播 -->
+            <div class="room-types-carousel">
+                <div class="carousel-container">
+                    <div class="carousel-slide active">
+                        <div class="room-type-card">
+                            <div class="room-image">
+                                <img src="A1_images/Deluxe_Double.jpg" alt="豪華雙人房">
+                                <div class="room-overlay">
+                                    <span class="room-badge">熱門</span>
+                                    <button class="view-vr-btn" onclick="showRoomTour()">
+                                        <i class="fas fa-vr-cardboard"></i> VR體驗
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="room-info">
+                                <h3>豪華雙人房</h3>
+                                <div class="room-features">
+                                    <span><i class="fas fa-ruler-combined"></i> 30平方公尺</span>
+                                    <span><i class="fas fa-user-friends"></i> 2人</span>
+                                    <span><i class="fas fa-bed"></i> 1張大床</span>
+                                </div>
+                                <p>現代簡約設計，配備智能控制系統，享受科技帶來的便利與舒適。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="room-type-card">
+                            <div class="room-image">
+                                <img src="A1_images/Deluxe_Twin.jpg" alt="豪華雙床房">
+                                <div class="room-overlay">
+                                    <span class="room-badge premium">尊榮</span>
+                                    <button class="view-vr-btn" onclick="showRoomTour()">
+                                        <i class="fas fa-video"></i> 影片導覽
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="room-info">
+                                <h3>豪華雙床房</h3>
+                                <div class="room-features">
+                                    <span><i class="fas fa-ruler-combined"></i> 30平方公尺</span>
+                                    <span><i class="fas fa-user-friends"></i> 2人</span>
+                                    <span><i class="fas fa-user-friends"></i> 2張單人床</span>
+                                </div>
+                                <p>寬敞空間，獨立客廳，尊享台北101壯麗景色，商務休閒兩相宜。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="room-type-card">
+                            <div class="room-image">
+                                <img src="A1_images/Family_Suite.webp" alt="家庭套房">
+                                <div class="room-overlay">
+                                    <span class="room-badge">家庭首選</span>
+                                    <button class="view-vr-btn" onclick="showRoomTour()">
+                                        <i class="fas fa-vr-cardboard"></i> VR體驗
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="room-info">
+                                <h3>家庭套房</h3>
+                                <div class="room-features">
+                                    <span><i class="fas fa-ruler-combined"></i> 36平方公尺</span>
+                                    <span><i class="fas fa-user-friends"></i> 4人</span>
+                                    <span><i class="fas fa-bed"></i> 2張雙人床</span>
+                                </div>
+                                <p>專為家庭設計，獨立兒童遊戲區，安全防護設施，親子同樂最佳選擇。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="room-type-card">
+                            <div class="room-image">
+                                <img src="A1_images/Junior_Suite.jpg" alt="小型套房">
+                                <div class="room-overlay">
+                                    <span class="room-badge premium">頂級</span>
+                                    <button class="view-vr-btn" onclick="showRoomTour()">
+                                        <i class="fas fa-video"></i> 專屬導覽
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="room-info">
+                                <h3>小型套房</h3>
+                                <div class="room-features">
+                                    <span><i class="fas fa-ruler-combined"></i> 30平方公尺</span>
+                                    <span><i class="fas fa-user-friends"></i> 1人</span>
+                                    <span><i class="fas fa-bed"></i> 1張單人床</span>
+                                </div>
+                                <p>極致奢華體驗，私人管家服務，獨立餐廳與會議室，尊享無與倫比的住宿體驗。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-nav">
+                    <button class="carousel-prev" onclick="prevSlide()"><i class="fas fa-chevron-left"></i></button>
+                    <div class="carousel-dots">
+                        <span class="dot active" onclick="goToSlide(0)"></span>
+                        <span class="dot" onclick="goToSlide(1)"></span>
+                        <span class="dot" onclick="goToSlide(2)"></span>
+                        <span class="dot" onclick="goToSlide(3)"></span>
+                    </div>
+                    <button class="carousel-next" onclick="nextSlide()"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+            <!-- 智能設施網格 -->
+            <div class="tech-features-grid">
+                <div class="tech-feature-card">
+                    <div class="tech-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h4>智能控制</h4>
+                    <p>語音控制燈光、窗簾、空調，個性化場景模式，一鍵切換</p>
+                </div>
+                
+                <div class="tech-feature-card">
+                    <div class="tech-icon">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <h4>高速網路</h4>
+                    <p>Wi-Fi 6 極速上網，無線充電設備，暢享數位生活</p>
+                </div>
+                
+                <div class="tech-feature-card">
+                    <div class="tech-icon">
+                        <i class="fas fa-tv"></i>
+                    </div>
+                    <h4>娛樂系統</h4>
+                    <p>4K超高清電視，藍牙音響，智能鏡面顯示器</p>
+                </div>
+                
+                <div class="tech-feature-card">
+                    <div class="tech-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>智能安防</h4>
+                    <p>電子門鎖，智能保險箱，24小時安全監控</p>
+                </div>
+            </div>
+
+            <!-- 細節展示 -->
+            <div class="room-details">
+                <div class="detail-item">
+                    <div class="detail-image">
+                        <img src="A1_images/wC.jpg" alt="衛浴空間">
+                    </div>
+                    <div class="detail-content">
+                        <h4><i class="fas fa-bath"></i> 奢華衛浴</h4>
+                        <p>乾濕分離設計，智能免治馬桶，獨立浴缸，高級沐浴備品</p>
+                        <ul>
+                            <li>雨淋式花灑</li>
+                            <li>地暖系統</li>
+                            <li>防霧鏡面</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="detail-item reverse">
+                    <div class="detail-content">
+                        <h4><i class="fas fa-couch"></i> 休憩空間</h4>
+                        <p>人體工學設計家具，電動調整床鋪，舒適工作區</p>
+                        <ul>
+                            <li>電動升降桌</li>
+                            <li>人體工學椅</li>
+                            <li>迷你吧台</li>
+                        </ul>
+                    </div>
+                    <div class="detail-image">
+                        <img src="A1_images/Relaxation.jpg" alt="休憩空間">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 公共空間內容 -->
+        <div class="content-section" id="facilities-content">
+            <h2 class="section-title"><i class="fas fa-building"></i> 公共空間</h2>
+            
+            <!-- 設施導覽選項卡 -->
+            <div class="facilities-tabs">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" onclick="showFacilityTab('dining')">
+                        <i class="fas fa-utensils"></i>
+                        <span>餐飲設施</span>
+                    </button>
+                    <button class="tab-btn" onclick="showFacilityTab('leisure')">
+                        <i class="fas fa-swimming-pool"></i>
+                        <span>休閒設施</span>
+                    </button>
+                    <button class="tab-btn" onclick="showFacilityTab('business')">
+                        <i class="fas fa-briefcase"></i>
+                        <span>商務設施</span>
+                    </button>
+                    <button class="tab-btn" onclick="showFacilityTab('wellness')">
+                        <i class="fas fa-spa"></i>
+                        <span>健康養生</span>
+                    </button>
+                </div>
+                
+                <!-- 餐飲設施 -->
+                <div class="tab-content active" id="dining-tab">
+                    <div class="facility-hero">
+                        <div class="facility-info">
+                            <h3><i class="fas fa-crown"></i> 頂級餐飲體驗</h3>
+                            <p>匯聚中西美食，從精緻早餐到浪漫晚餐，為您打造難忘的味蕾之旅</p>
+                            <div class="facility-stats">
+                                <div class="stat">
+                                    <span class="stat-number">5</span>
+                                    <span class="stat-label">特色餐廳</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-number">24</span>
+                                    <span class="stat-label">小時服務</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-number">100+</span>
+                                    <span class="stat-label">精選菜色</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="facility-image">
+                            <img src="A1_images/Catering_facilities.jpg" alt="餐廳環境">
+                            <div class="image-badge">推薦</div>
+                        </div>
+                    </div>
+                    
+                    <div class="facilities-grid">
+                        <div class="facility-card">
+                            <div class="facility-card-image">
+                                <img src="A1_images/jiayan.jpg" alt="家宴中餐廳">
+                                <div class="facility-overlay">
+                                    <button class="facility-view-btn" onclick="viewFacility('buffet')">
+                                        <i class="fas fa-expand"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="facility-card-content">
+                                <h4>家宴中餐廳</h4>
+                                <div class="facility-meta">
+                                    <span><i class="fas fa-clock"></i> 午餐：11:30-14:30</span>
+                                    <span><i class="fas fa-clock"></i> 晚餐：17:30-21:00</span>
+                                    <span><i class="fas fa-star"></i> 需預約</span>
+                                </div>
+                                <p>大片落地窗環繞著寬敞的用餐空間，餐台上擺滿著的各式異國風味料理，在這舒適新穎的氛圍下，品味優雅時尚的用餐時光</p>
+                                <div class="facility-tags">
+                                    <span class="tag">粵滬風格中式美食</span>
+                                    <span class="tag">家庭友善</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="facility-card">
+                            <div class="facility-card-image">
+                                <img src="A1_images/baiyan.jpg" alt="百宴自助餐廳">
+                                <div class="facility-overlay">
+                                    <button class="facility-view-btn" onclick="viewFacility('french')">
+                                        <i class="fas fa-expand"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="facility-card-content">
+                                <h4>百宴自助餐廳</h4>
+                                <div class="facility-meta">
+                                    <span><i class="fas fa-clock"></i> 早餐：06:30-10:00</span>
+                                    <span><i class="fas fa-clock"></i> 午餐：11:30-14:30</span>
+                                    <span><i class="fas fa-clock"></i> 晚餐：17:30-21:30</span>
+                                    <span><i class="fas fa-star"></i> 需預約</span>
+                                </div>
+                                <p>享用新潮與傳統的美饌選擇，同時滿足視覺與味蕾的饗宴。 3F 的中餐廳「家宴」提供粵滬風格中式美食，附設的包廂空間是家庭聚餐與宴客的理想選擇</p>
+                                <div class="facility-tags">
+                                    <span class="tag">異國風味料理</span>
+                                    <span class="tag">優雅時尚</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="facility-card">
+                            <div class="facility-card-image">
+                                <img src="A1_images/Bar98.jpg" alt="98酒吧">
+                                <div class="facility-overlay">
+                                    <button class="facility-view-btn" onclick="viewFacility('lounge')">
+                                        <i class="fas fa-expand"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="facility-card-content">
+                                <h4>98酒吧</h4>
+                                <div class="facility-meta">
+                                    <span><i class="fas fa-clock"></i> 10:00-23:00</span>
+                                </div>
+                                <p>時尚都會的氛圍，無論白天或黑夜，都適合三五好友結伴同行，在變幻的窗外景色中，享受輕鬆的時刻！</p>
+                                <div class="facility-tags">
+                                    <span class="tag">景觀酒吧</span>
+                                    <span class="tag">下午茶</span>
+                                    <span class="tag">商務洽談</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="facility-card">
+                            <div class="facility-card-image">
+                                <img src="A1_images/starbucks.jpg" alt="星巴克咖啡">
+                                <div class="facility-overlay">
+                                    <button class="facility-view-btn" onclick="viewFacility('lounge')">
+                                        <i class="fas fa-expand"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="facility-card-content">
+                                <h4>星巴克咖啡</h4>
+                                <div class="facility-meta">
+                                    <span><i class="fas fa-clock"></i> 07:00–23:00</span>
+                                </div>
+                                <p>提供各式咖啡飲品與輕食，位於飯店大廳，方便旅客與顧客在此休息與會議</p>
+                                <div class="facility-tags">
+                                    <span class="tag">下午茶</span>
+                                    <span class="tag">飯店大廳</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 休閒設施 -->
+                <div class="tab-content" id="leisure-tab">
+                    <div class="facility-hero">
+                        <div class="facility-info">
+                            <h3><i class="fas fa-infinity"></i> 全方位休閒體驗</h3>
+                            <p>從戶外泳池到室內健身，多樣化休閒設施讓您徹底放鬆身心</p>
+                            <div class="facility-stats">
+                                <div class="stat">
+                                    <span class="stat-number">25m</span>
+                                    <span class="stat-label">標準泳池</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-number">24h</span>
+                                    <span class="stat-label">健身中心</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-number">100+</span>
+                                    <span class="stat-label">專業器材</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="facility-image">
+                            <img src="A1_images/Leisure_Space.webp" alt="休閑設施">
+                            <div class="image-badge">熱門</div>
+                        </div>
+                    </div>
+                    
+                    <div class="facilities-grid">
+                        <div class="facility-card">
+                            <div class="facility-card-image">
+                                <img src="A1_images/swimming.webp" alt="露天泳池">
+                                <div class="facility-overlay">
+                                    <button class="facility-view-btn" onclick="viewFacility('pool')">
+                                        <i class="fas fa-expand"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="facility-card-content">
+                                <h4>露天泳池</h4>
+                                <div class="facility-meta">
+                                    <span><i class="fas fa-clock"></i> 07:00–21:00</span>
+                                    <span><i class="fas fa-umbrella-beach"></i> 戶外</span>
+                                </div>
+                                <p>在城市之巔，感受陽光與清涼，盡情暢游於露天泳池的自在時光</p>
+                                <div class="facility-tags">
+                                    <span class="tag">溫水泳池</span>
+                                    <span class="tag">城市景觀</span>
+                                    <span class="tag">日光浴</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="facility-card">
+                            <div class="facility-card-image">
+                                <img src="A1_images/jianshen.jpg" alt="健身房">
+                                <div class="facility-overlay">
+                                    <button class="facility-view-btn" onclick="viewFacility('gym')">
+                                        <i class="fas fa-expand"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="facility-card-content">
+                                <h4>健身房</h4>
+                                <div class="facility-meta">
+                                    <span><i class="fas fa-clock"></i> 06:30–22:00</span>
+                                    <span><i class="fas fa-dumbbell"></i> 專業教練</span>
+                                </div>
+                                <p>不論旅途多忙，保持健康與活力，健身房助你輕鬆鍛鍊每一天</p>
+                                <div class="facility-tags">
+                                    <span class="tag">智能設備</span>
+                                    <span class="tag">專業教練</span>
+                                    <span class="tag">團體課程</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="facility-card">
+                            <div class="facility-card-image">
+                                <img src="A1_images/FUN.jpg" alt="FUN電堡">
+                                <div class="facility-overlay">
+                                    <button class="facility-view-btn" onclick="viewFacility('yoga')">
+                                        <i class="fas fa-expand"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="facility-card-content">
+                                <h4>FUN電堡（兒童遊戲室）</h4>
+                                <div class="facility-meta">
+                                    <span><i class="fas fa-clock"></i> 08:00–21:00</span>
+                                    <span><i class="fas fa-leaf"></i> 兒童樂園</span>
+                                </div>
+                                <p>小小探險家的天堂，FUN電堡帶孩子開啟創意與歡笑的奇妙旅程</p>
+                                <div class="facility-tags">
+                                    <span class="tag">瑜伽課程</span>
+                                    <span class="tag">冥想</span>
+                                    <span class="tag">全景視野</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="facility-card">
+                            <div class="facility-card-image">
+                                <img src="A1_images/car_park.jpg" alt="免費自助停車">
+                                <div class="facility-overlay">
+                                    <button class="facility-view-btn" onclick="viewFacility('yoga')">
+                                        <i class="fas fa-expand"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="facility-card-content">
+                                <h4>免費自助停車</h4>
+                                <div class="facility-meta">
+                                    <span><i class="fas fa-clock"></i> 7:00–23:00</span>
+                                </div>
+                                <p>暢行無阻，安心停靠！凱達專屬停車塔，讓您的旅程從便利開始。</p>
+                                <div class="facility-tags">
+                                    <span class="tag">瑜伽課程</span>
+                                    <span class="tag">冥想</span>
+                                    <span class="tag">全景視野</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 商務設施 -->
+                <div class="tab-content" id="business-tab">
+                    <div class="facility-hero">
+                        <div class="facility-info">
+                            <h3><i class="fas fa-chart-line"></i> 專業商務支援</h3>
+                            <p>全方位商務支援，讓您的每一次洽談都高效順暢，專注成就無限可能</p>
+                            <div class="facility-stats">
+                                <div class="stat">
+                                    <span class="stat-number">8</span>
+                                    <span class="stat-label">會議室</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-number">500+</span>
+                                    <span class="stat-label">人容納</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-number">24h</span>
+                                    <span class="stat-label">商務中心</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="facility-image">
+                            <img src="A1_images/business.jpg" alt="商務中心">
+                            <div class="image-badge">專業</div>
+                        </div>
+                    </div>
+                    
+                    <div class="facilities-grid">
+                        <div class="facility-card">
+                            <div class="facility-card-image">
+                                <img src="A1_images/conference_room.jpg" alt="多功能宴會廳">
+                                <div class="facility-overlay">
+                                    <button class="facility-view-btn" onclick="viewFacility('meeting-room')">
+                                        <i class="fas fa-expand"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="facility-card-content">
+                                <h4>多功能會議室</h4>
+                                <div class="facility-meta">
+                                    <span><i class="fas fa-clock"></i> 24小時預約</span>
+                                    <span><i class="fas fa-users"></i> 基本人數80位</span>
+                                </div>
+                                <p>靈活空間，啟發無限靈感——無論是會議、講座還是宴會，凱達為您量身打造完美場域</p>
+                                <div class="facility-tags">
+                                    <span class="tag">視訊會議</span>
+                                    <span class="tag">專業設備</span>
+                                    <span class="tag">彈性空間</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="facility-card">
+                            <div class="facility-card-image">
+                                <img src="A1_images/professional_service.jpg" alt="會議專案服務">
+                                <div class="facility-overlay">
+                                    <button class="facility-view-btn" onclick="viewFacility('business-lounge')">
+                                        <i class="fas fa-expand"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="facility-card-content">
+                                <h4>會議專案服務</h4>
+                                <div class="facility-meta">
+                                    <span><i class="fas fa-clock"></i> 8:00-16:30</span>
+                                    <span><i class="fas fa-wifi"></i> 視聽設備</span>
+                                </div>
+                                <p>專業團隊全程支援，從籌備到執行，讓每一場會議都盡善盡美、效率非凡</p>
+                                <div class="facility-tags">
+                                    <span class="tag">獨立工作區</span>
+                                    <span class="tag">秘書服務</span>
+                                    <span class="tag">商務支援</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="facility-card">
+                            <div class="facility-card-image">
+                                <img src="A1_images/Check-In.jpg" alt="自助Check-In機">
+                                <div class="facility-overlay">
+                                    <button class="facility-view-btn" onclick="viewFacility('business-lounge')">
+                                        <i class="fas fa-expand"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="facility-card-content">
+                                <h4>自助Check-In機</h4>
+                                <div class="facility-meta">
+                                    <span><i class="fas fa-clock"></i> 15:30–24:00</span>
+                                    <span><i class="fas fa-wifi"></i> 視聽設備</span>
+                                </div>
+                                <p>快速入住，輕鬆啟程，讓自助Check-In為你的旅程節省每一分寶貴時間</p>
+                                <div class="facility-tags">
+                                    <span class="tag">獨立工作區</span>
+                                    <span class="tag">秘書服務</span>
+                                    <span class="tag">商務支援</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="facility-card">
+                            <div class="facility-card-image">
+                                <img src="A1_images/wifi.png" alt="免費wifi">
+                                <div class="facility-overlay">
+                                    <button class="facility-view-btn" onclick="viewFacility('business-services')">
+                                        <i class="fas fa-expand"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="facility-card-content">
+                                <h4>免費wifi</h4>
+                                <div class="facility-meta">
+                                    <span><i class="fas fa-clock"></i> 24小時</span>
+                                    <span><i class="fas fa-print"></i> 列印服務</span>
+                                </div>
+                                <p>高速連線不間斷，商務洽談、休閒娛樂一網搞定</p>
+                                <div class="facility-tags">
+                                    <span class="tag">文書處理</span>
+                                    <span class="tag">翻譯服務</span>
+                                    <span class="tag">票務預訂</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 健康養生 -->
+                <div class="tab-content" id="wellness-tab">
+                    <div class="facility-hero">
+                        <div class="facility-info">
+                            <h3><i class="fas fa-heart"></i> 全方位健康養生</h3>
+                            <p>從健身到休憩，從營養餐飲到專業療程，凱達讓每一位賓客在旅途中，也能享受身心平衡的極致體驗</p>
+                            <div class="facility-stats">
+                                <div class="stat">
+                                    <span class="stat-number">10+</span>
+                                    <span class="stat-label">療程選擇</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-number">5</span>
+                                    <span class="stat-label">專業理療師</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-number">100%</span>
+                                    <span class="stat-label">天然原料</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="facility-image">
+                            <img src="A1_images/healthy-wellness.webp" alt="健康養生">
+                            <div class="image-badge">放鬆</div>
+                        </div>
+                    </div>
+                    
+                    <div class="facilities-grid">
+                        <div class="facility-card">
+                            <div class="facility-card-image">
+                                <img src="A1_images/yoga.webp" alt="瑜伽與伸展課程">
+                                <div class="facility-overlay">
+                                    <button class="facility-view-btn" onclick="viewFacility('spa')">
+                                        <i class="fas fa-expand"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="facility-card-content">
+                                <h4>瑜伽與伸展課程</h4>
+                                <div class="facility-meta">
+                                    <span><i class="fas fa-clock"></i> 08:00–09:00</span>
+                                    <span><i class="fas fa-clock"></i> 18:00–19:00</span>
+                                    <span><i class="fas fa-spa"></i> 需預約</span>
+                                </div>
+                                <p>透過專業瑜伽指導，調整呼吸與姿態，在柔韌中找回內在平衡</p>
+                                <div class="facility-tags">
+                                    <span class="tag">芳療按摩</span>
+                                    <span class="tag">熱石療法</span>
+                                    <span class="tag">專業理療</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="facility-card">
+                            <div class="facility-card-image">
+                                <img src="A1_images/sauna.jpg" alt="三溫暖">
+                                <div class="facility-overlay">
+                                    <button class="facility-view-btn" onclick="viewFacility('sauna')">
+                                        <i class="fas fa-expand"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="facility-card-content">
+                                <h4>三溫暖</h4>
+                                <div class="facility-meta">
+                                    <span><i class="fas fa-clock"></i> 07:00–22:00</span>
+                                    <span><i class="fas fa-fire"></i> 乾濕蒸氣</span>
+                                </div>
+                                <p>釋放壓力、舒緩疲勞，讓身心在溫熱蒸氣中重新充電</p>
+                                <div class="facility-tags">
+                                    <span class="tag">蒸氣室</span>
+                                    <span class="tag">烤箱</span>
+                                    <span class="tag">冷熱泉</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="facility-card">
+                            <div class="facility-card-image">
+                                <img src="A1_images/massage.jpg" alt="按摩與芳療服務">
+                                <div class="facility-overlay">
+                                    <button class="facility-view-btn" onclick="viewFacility('health-food')">
+                                        <i class="fas fa-expand"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="facility-card-content">
+                                <h4>按摩與芳療服務</h4>
+                                <div class="facility-meta">
+                                    <span><i class="fas fa-clock"></i> 10:00–22:00</span>
+                                    <span><i class="fas fa-leaf"></i> 有機食材</span>
+                                </div>
+                                <p>專業按摩師結合芳香精油，帶來深層放鬆與極致療癒體驗</p>
+                                <div class="facility-tags">
+                                    <span class="tag">有機飲食</span>
+                                    <span class="tag">營養調配</span>
+                                    <span class="tag">低卡餐點</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="facility-card">
+                            <div class="facility-card-image">
+                                <img src="A1_images/healthy_dining.jpg" alt="健康餐飲選擇">
+                                <div class="facility-overlay">
+                                    <button class="facility-view-btn" onclick="viewFacility('sauna')">
+                                        <i class="fas fa-expand"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="facility-card-content">
+                                <h4>健康餐飲選擇</h4>
+                                <div class="facility-meta">
+                                    <span><i class="fas fa-clock"></i> 早餐：06:30–10:00</span>
+                                    <span><i class="fas fa-clock"></i> 午餐：11:30–14:00</span>
+                                    <span><i class="fas fa-clock"></i> 晚餐：17:30–21:00</span>
+                                </div>
+                                <p>主廚嚴選新鮮食材，烹調輕盈美味，讓健康從餐桌開始</p>
+                                <div class="facility-tags">
+                                    <span class="tag">有機飲食</span>
+                                    <span class="tag">營養調配</span>
+                                    <span class="tag">低卡餐點</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 其他選項卡內容結構類似... -->
+            </div>
+
+            <!-- 設施預約面板 -->
+            <div class="booking-panel">
+                <div class="booking-header">
+                    <div class="booking-title">
+                        <h4><i class="fas fa-calendar-check"></i> 智能預約服務</h4>
+                        <p>一鍵預約，輕鬆管理您的設施使用時段</p>
+                    </div>
+                    <div class="booking-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">3</span>
+                            <span class="stat-label">步驟完成</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">24h</span>
+                            <span class="stat-label">即時確認</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">100%</span>
+                            <span class="stat-label">保證預約</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="booking-features">
+                    <div class="feature-item">
+                        <i class="fas fa-mobile-alt"></i>
+                        <span>手機App預約</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-clock"></i>
+                        <span>即時時段查詢</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-bell"></i>
+                        <span>預約提醒通知</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-sync-alt"></i>
+                        <span>免費取消政策</span>
+                    </div>
+                </div>
+                
+                <div class="booking-options">
+                    <div class="booking-card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-swimming-pool"></i>
+                            </div>
+                            <div class="card-badge popular">熱門</div>
+                        </div>
+                        <div class="card-content">
+                            <h5>游泳池預約</h5>
+                            <p class="card-desc">實時查看人數，預約專屬時段</p>
+                            <div class="card-features">
+                                <span><i class="fas fa-users"></i> 即時人數顯示</span>
+                                <span><i class="fas fa-clock"></i> 時段選擇</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="availability">
+                                <i class="fas fa-circle" style="color: #2ecc71;"></i>
+                                <span>目前空位充足</span>
+                            </div>
+                            <button class="booking-btn primary" onclick="bookFacility('pool')">
+                                <i class="fas fa-calendar-plus"></i>
+                                立即預約
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="booking-card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-dumbbell"></i>
+                            </div>
+                            <div class="card-badge featured">推薦</div>
+                        </div>
+                        <div class="card-content">
+                            <h5>健身教練課程</h5>
+                            <p class="card-desc">專業教練一對一指導</p>
+                            <div class="card-features">
+                                <span><i class="fas fa-user-tie"></i> 專業認證教練</span>
+                                <span><i class="fas fa-chart-line"></i> 個人化訓練</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="availability">
+                                <i class="fas fa-circle" style="color: #f39c12;"></i>
+                                <span>部分時段已滿</span>
+                            </div>
+                            <button class="booking-btn secondary" onclick="bookFacility('trainer')">
+                                <i class="fas fa-eye"></i>
+                                查看課程
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="booking-card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                            </div>
+                            <div class="card-badge new">全新</div>
+                        </div>
+                        <div class="card-content">
+                            <h5>會議室租借</h5>
+                            <p class="card-desc">商務會議、活動場地</p>
+                            <div class="card-features">
+                                <span><i class="fas fa-video"></i> 視訊會議設備</span>
+                                <span><i class="fas fa-wifi"></i> 高速網路</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="availability">
+                                <i class="fas fa-circle" style="color: #2ecc71;"></i>
+                                <span>可立即預約</span>
+                            </div>
+                            <button class="booking-btn primary" onclick="bookFacility('meeting')">
+                                <i class="fas fa-search"></i>
+                                查看檔期
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="booking-footer">
+                    <div class="footer-note">
+                        <i class="fas fa-info-circle"></i>
+                        <span>所有預約均可於使用前2小時免費取消</span>
+                    </div>
+                    <button class="view-all-btn" onclick="viewAllFacilities()">
+                        <i class="fas fa-th-large"></i>
+                        查看所有可預約設施
+                    </button>
+                </div>
+            </div>
+
+            <!-- 特色服務 -->
+            <div class="content-section" id="services-content">
+                <h2 class="section-title"><i class="fas fa-concierge-bell"></i> 特色服務</h2>
+                <div class="services-grid">
+                    <!-- 第一行 -->
+                    <div class="service-item">
+                        <div class="service-icon"><i class="fas fa-coffee"></i></div>
+                        <div class="service-title">早餐服務</div>
+                        <div class="service-desc">豐盛自助早餐，提供中西式多樣選擇，支持預訂送餐服務</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-icon"><i class="fas fa-swimming-pool"></i></div>
+                        <div class="service-title">設施使用</div>
+                        <div class="service-desc">全天候開放設施，智能預約系統，實時使用狀態顯示</div>
+                    </div>
+                    
+                    <!-- 第二行 -->
+                    <div class="service-item">
+                        <div class="service-icon"><i class="fas fa-user-check"></i></div>
+                        <div class="service-title">迎賓服務</div>
+                        <div class="service-desc">專屬接待服務，快速入住/退房，個性化歡迎禮遇</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-icon"><i class="fas fa-sync-alt"></i></div>
+                        <div class="service-title">營運彈性</div>
+                        <div class="service-desc">24小時彈性服務，免費取消政策，行程變更保障</div>
+                    </div>
+                </div>
+            </div>
+
+        <!-- 優惠與獎勵 -->
+        <div class="content-section" id="rewards-content">
+            <h2 class="section-title"><i class="fas fa-gift"></i> 優惠與獎勵</h2>
+            <div class="promotion-grid">
+                <!-- 第一行 -->
+                <div class="promotion-item">
+                    <div class="promotion-badge">熱門</div>
+                    <h3>價格折扣</h3>
+                    <p>提前預訂享85折優惠，連住3晚以上額外折扣</p>
+                </div>
+                <div class="promotion-item">
+                    <div class="promotion-badge">會員專享</div>
+                    <h3>點數回饋</h3>
+                    <p>每次入住累積點數，可兌換免費住宿或升級服務</p>
+                </div>
+                
+                <!-- 第二行 -->
+                <div class="promotion-item">
+                    <div class="promotion-badge">保證</div>
+                    <h3>價格保證</h3>
+                    <p>發現更低價格，我們將提供差價補償</p>
+                </div>
+                <div class="promotion-item">
+                    <div class="promotion-badge">限時</div>
+                    <h3>期間優惠</h3>
+                    <p>季節性特惠套餐，含早餐及設施使用權益</p>
+                </div>
+            </div>
+        </div>
+    </div>
+        <!-- 功能选择按钮 - 放在左下角 -->
+    <div class="feature-selector-btn" onclick="toggleFeatureSelector()">
+        <i class="fas fa-th-large"></i>
+    </div>
+        <!-- 功能选择弹窗 -->
+    <div class="feature-selector-modal" id="featureSelector">
+        <div class="feature-selector-header">
+            <h3><i class="fas fa-compass"></i> 快速導航</h3>
+            <button class="close-selector" onclick="toggleFeatureSelector()">&times;</button>
+        </div>
+        <div class="feature-selector-body">
+            <div class="feature-option" onclick="showRoomSelection()">
+                <i class="fas fa-bolt"></i>
+                <span>立即預訂</span>
+            </div>
+            <div class="feature-option" onclick="scrollToSection('location-content')">
+                <i class="fas fa-utensils"></i>
+                <span>位置地點</span>
+            </div>
+            <div class="feature-option" onclick="scrollToSection('rooms-content')">
+                <i class="fas fa-swimming-pool"></i>
+                <span>客房內裝</span>
+            </div>
+            <div class="feature-option" onclick="scrollToSection('facilities-content')">
+                <i class="fas fa-gift"></i>
+                <span>公共空間</span>
+            </div>
+            <div class="feature-option" onclick="toggleChat()">
+                <i class="fas fa-clock"></i>
+                <span>疑義詢問</span>
+            </div>
+            <div class="feature-option" onclick="scrollToSection('services-content')">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>特色服務</span>
+            </div>
+            <div class="feature-option" onclick="scrollToSection('rewards-content')">
+                <i class="fas fa-bed"></i>
+                <span>優惠與獎勵</span>
+            </div>
+        </div>
+    </div>
+    <!-- AI聊天窗口 -->
+    <div class="ai-chat" onclick="toggleChat()">
+        <i class="fas fa-robot"></i>
+    </div>
+
+    <div class="ai-chat-window" id="chatWindow">
+        <div class="ai-chat-header">
+            <h3><i class="fas fa-robot"></i> AI智能助理</h3>
+            <button class="close-chat" onclick="toggleChat()">&times;</button>
+        </div>
+        <div class="ai-chat-body" id="chatBody">
+            <div class="ai-message">
+                您好！我是您的AI智能助理，有什麼關於台北凱達大飯店的問題可以為您解答嗎？
+            </div>
+        </div>
+        <div class="ai-chat-input">
+            <input type="text" id="chatInput" placeholder="輸入您的問題..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <script>
+        function returnToHotelInterface(userType) {
+    // 设置标志表示从详情页返回
+    sessionStorage.setItem('fromDetailPage', 'true');
+    window.location.href = 'hotel_interface.html?type=' + userType;
+}
+
+        // 初始化愿望清单状态
+        function initWishlist() {
+            const wishlistBtn = document.getElementById('wishlistBtn');
+            
+            // 从 localStorage 读取愿望清单状态
+            const isInWishlist = localStorage.getItem('hotel_wishlist') === 'true';
+            
+            // 根据保存的状态更新按钮显示
+            if (isInWishlist) {
+                wishlistBtn.innerHTML = '<i class="fas fa-heart"></i> 已加入願望清單';
+                wishlistBtn.style.color = '#e74c3c'; // 红色表示已加入
+            } else {
+                wishlistBtn.innerHTML = '<i class="far fa-heart"></i> 加入願望清單';
+                wishlistBtn.style.color = ''; // 默认颜色
+            }
+        }
+
+        // 愿望清单功能 - 修改后的版本
+        document.getElementById('wishlistBtn').addEventListener('click', function() {
+            const btn = this;
+            const icon = btn.querySelector('i');
+            
+            if (icon.classList.contains('far')) {
+                // 加入愿望清单
+                icon.classList.replace('far', 'fas');
+                btn.innerHTML = '<i class="fas fa-heart"></i> 已加入願望清單';
+                btn.style.color = '#e74c3c';
+                localStorage.setItem('hotel_wishlist', 'true'); // 保存状态
+                showNotification('已將台北凱達大飯店加入您的願望清單！');
+            } else {
+                // 移除愿望清单
+                icon.classList.replace('fas', 'far');
+                btn.innerHTML = '<i class="far fa-heart"></i> 加入願望清單';
+                btn.style.color = '';
+                localStorage.setItem('hotel_wishlist', 'false'); // 保存状态
+                showNotification('已從願望清單中移除台北凱達大飯店。');
+            }
+        });
+
+        // 在页面加载时初始化愿望清单状态
+        document.addEventListener('DOMContentLoaded', function() {
+            initWishlist();
+        });
+
+        // 功能卡片點擊處理
+        function showFeature(feature) {
+            const contents = ['location-content', 'rooms-content', 'facilities-content'];
+            
+
+            
+            // 顯示選中的內容
+            if (feature !== 'ai-chat') {
+                document.getElementById(feature + '-content').style.display = 'block';
+                
+                // 滾動到該內容
+                document.getElementById(feature + '-content').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        // 初始化顯示所有內容
+        document.addEventListener('DOMContentLoaded', function() {
+            const contents = ['location-content', 'rooms-content', 'facilities-content'];
+            contents.forEach(content => {
+                document.getElementById(content).style.display = 'block';
+            });
+        });
+
+        // 預訂功能
+        // 選擇房間功能
+        function selectRoom(roomType, roomName, clickEvent) {
+            console.log('選擇房型:', roomType, roomName);
+            
+            // 阻止事件冒泡
+            if (clickEvent) {
+                clickEvent.stopPropagation();
+                clickEvent.preventDefault();
+            }
+            
+            // 保存數據到 localStorage
+            localStorage.setItem('selectedRoomType', roomType);
+            localStorage.setItem('selectedRoomName', roomName);
+            
+            // 獲取點擊的按鈕
+            let button = clickEvent ? clickEvent.target : null;
+            if (button && !button.classList.contains('select-btn')) {
+                button = button.closest('.select-btn');
+            }
+            
+            if (button) {
+                // 禁用所有其他按鈕
+                document.querySelectorAll('.select-btn').forEach(btn => {
+                    if (btn !== button) {
+                        btn.disabled = true;
+                        btn.style.opacity = '0.5';
+                    }
+                });
+                
+                // 更新當前按鈕狀態 - 變成綠色
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 選擇中...';
+                button.style.cssText = `
+                    background: linear-gradient(135deg, #4caf50, #66bb6a) !important;
+                    color: white !important;
+                    cursor: wait !important;
+                `;
+                button.disabled = true;
+                
+                // 1秒後跳轉
+                setTimeout(() => {
+                    window.location.href = 'A1_room1_page.html';
+                }, 1000);
+            } else {
+                // 如果找不到按鈕，直接跳轉
+                console.warn('找不到按鈕元素，直接跳轉');
+                setTimeout(() => {
+                    window.location.href = 'A1_room1_page.html';
+                }, 500);
+            }
+            
+            return false;
+        }
+// 獲取房型價格的輔助函數
+        function getRoomPrice(roomType) {
+            const prices = {
+                'type1': 3685,
+                'type2': 3685,
+                'type3': 6057,
+                'type4': 3685
+            };
+            return prices[roomType] || 0;
+        }
+
+        // 獲取房型特色的輔助函數
+        function getRoomFeatures(roomType) {
+            const features = {
+                'type1': ['市景', '1張單人床', '免費Wi-Fi', '35平方米'],
+                'type2': ['市景', '特大雙人床', '免費Wi-Fi', '30平方米'],
+                'type3': ['市景', '1張雙人床', '免費Wi-Fi', '30平方米'],
+                'type4': ['市景', '1張單人床', '免費Wi-Fi', '30平方米']
+            };
+            return features[roomType] || [];
+        }
+
+        function showRoomSelection() {
+            document.getElementById('roomSelectionModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideRoomSelection() {
+            document.getElementById('roomSelectionModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        document.getElementById('roomSelectionModal').addEventListener('click', function(e) {
+            if (e.target === this) hideRoomSelection();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') hideRoomSelection();
+        });
+
+        // VR體驗和影片功能
+        function showVR(roomId) {
+            showNotification('正在載入VR體驗...');
+            // 實際應用中這裡會載入VR場景
+        }
+
+        function showVideo(roomId) {
+            showNotification('正在播放介紹影片...');
+            // 實際應用中這裡會播放影片
+        }
+
+        // 點擊模態框外部關閉
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('roomSelectionModal');
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        hideRoomSelection();
+                    }
+                });
+            }
+            
+            // ESC鍵關閉模態框
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    hideRoomSelection();
+                }
+            });
+        });
+
+        function showMap() {
+            showNotification('開啟地圖導覽功能');
+        }
+
+        function showRoomTour() {
+            showNotification('開啟VR看房體驗');
+        }
+
+        function viewFacilities() {
+            showNotification('查看設施詳情');
+        }
+
+        function returnToMain() {
+            window.location.href = 'hotel_interface.html';
+        }
+
+        // 景點數據
+        const attractionsData = {
+            longshan: {
+                title: "龍山寺",
+                distance: "步行3分鐘",
+                description: "台北最古老的寺廟之一，建於1738年，主祀觀世音菩薩。建築融合中國傳統藝術，雕刻精美，是國家二級古蹟。香火鼎盛，是當地居民信仰中心。",
+                image: "A1_images/longshansi.webp",
+                features: ["文化古蹟", "宗教聖地", "免費參觀", "建築藝術"],
+                coordinates: [25.035255, 121.499586],
+                type: "attraction"
+            },
+            huaxi: {
+                title: "華西街夜市",
+                distance: "步行4分鐘", 
+                description: "台北最早的觀光夜市之一，以傳統小吃聞名。推薦美食：鱔魚意麵、擔仔麵、蛇湯等。夜晚燈火通明，充滿傳統台灣夜市風情。",
+                image: "A1_images/huaxi.jpg",
+                features: ["夜市美食", "傳統小吃", "觀光熱點", "夜間活動"],
+                coordinates: [25.038574, 121.498502],
+                type: "food"
+            },
+            ximen: {
+                title: "西門町",
+                distance: "步行8分鐘",
+                description: "台北最繁華的青少年流行文化中心，聚集了各種潮流商店、電影院、餐廳和街頭表演。周末人潮湧現，充滿活力與創意。",
+                image: "A1_images/ximen.jpg",
+                features: ["購物天堂", "潮流聖地", "美食聚集", "娛樂中心"],
+                coordinates: [25.045659, 121.507737],
+                type: "shopping"
+            },
+            park: {
+                title: "艋舺公園",
+                distance: "步行2分鐘", 
+                description: "位於龍山寺前的都市綠洲，提供居民休憩空間。園內綠樹成蔭，設有涼亭、步道和兒童遊樂設施，是放鬆身心的好去處。",
+                image: "A1_images/mengjiapark.jpg",
+                features: ["休閒放鬆", "綠意空間", "免費入場", "親子友善"],
+                coordinates: [25.036000, 121.499917],
+                type: "park"
+            },
+            bopiliao: {
+                title: "剝皮寮老街",
+                distance: "步行5分鐘",
+                description: "保存完好的清代歷史街區，見證艋舺發展歷史。現為文化創意園區，經常舉辦展覽和藝文活動，重現昔日老街風華。",
+                image: "A1_images/bopiliao.webp",
+                features: ["歷史建築", "文化展覽", "拍照聖地", "藝文空間"],
+                coordinates: [25.0364, 121.5014],
+                type: "culture"
+            },
+            station: {
+                title: "台北車站",
+                distance: "步行10分鐘",
+                description: "台灣最大的交通樞紐，匯集高鐵、台鐵、捷運和客運。站內設有大型購物中心和多國美食餐廳，交通便利四通八達。",
+                image: "A1_images/taipei_station.jpg",
+                features: ["交通樞紐", "購物中心", "美食廣場", "便捷轉乘"],
+                coordinates: [25.04778, 121.51722],
+                type: "transport"
+            }
+        };
+
+        // 顯示景點詳情
+        function showAttraction(attractionId) {
+            const attraction = attractionsData[attractionId];
+            if (!attraction) return;
+            
+            // 更新按鈕狀態
+            document.querySelectorAll('.attraction-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // 更新詳細資訊
+            document.getElementById('detailTitle').textContent = attraction.title;
+            document.getElementById('detailDistance').textContent = attraction.distance;
+            document.getElementById('detailDescription').textContent = attraction.description;
+            document.getElementById('detailImage').src = attraction.image;
+            document.getElementById('detailImage').alt = attraction.title;
+            
+            // 更新特色標籤
+            const featuresContainer = document.querySelector('.detail-features');
+            featuresContainer.innerHTML = attraction.features.map(feature => 
+                `<span class="feature-tag">${feature}</span>`
+            ).join('');
+            
+            // 在地圖上定位
+            if (miniMap) {
+                miniMap.setView(attraction.coordinates, 16);
+                showNotification(`已定位到 ${attraction.title}`);
+            }
+                    // 滾動到景點詳細資訊區塊
+            const attractionDetail = document.getElementById('attractionDetail');
+            if (attractionDetail) {
+                const offset = 100; // 可以調整偏移量
+                const elementPosition = attractionDetail.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - offset;
+                
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+
+        }
+
+
+        // 類型對應的中文名稱和圖標
+        const typeInfo = {
+            transport: { name: "交通", icon: "🚇" },
+            attraction: { name: "景點", icon: "🏛️" },
+            shopping: { name: "購物", icon: "🛍️" },
+            food: { name: "美食", icon: "🍜" },
+            park: { name: "公園", icon: "🏞️" },
+            culture: { name: "文化", icon: "🎭" }
+        };
+
+        // 渲染附近景點
+        function renderNearbyAttractions() {
+            const grid = document.getElementById('attractionsGrid');
+            if (!grid) return;
+            
+            grid.innerHTML = nearbyAttractions.map(attraction => `
+                <div class="attraction-card" onclick="showAttractionDetail(${attraction.id})">
+                    <div class="attraction-image">
+                        <img src="${attraction.image}" alt="${attraction.name}" onerror="this.src='https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'">
+                        <span class="attraction-badge badge-${attraction.type}">
+                            ${typeInfo[attraction.type].icon} ${typeInfo[attraction.type].name}
+                        </span>
+                    </div>
+                    <div class="attraction-info">
+                        <div class="attraction-header">
+                            <h4 class="attraction-name">${attraction.name}</h4>
+                            <span class="attraction-distance">${attraction.distance}</span>
+                        </div>
+                        <p class="attraction-description">${attraction.description}</p>
+                        <div class="attraction-features">
+                            ${attraction.features.map(feature => `
+                                <span class="attraction-feature">${feature}</span>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 顯示景點詳情
+        function showAttractionDetail(attractionId) {
+            const attraction = nearbyAttractions.find(a => a.id === attractionId);
+            if (!attraction) return;
+            
+            // 在地圖上高亮顯示該景點
+            if (miniMap) {
+                miniMap.setView(attraction.coordinates, 16);
+                
+                // 顯示通知
+                showNotification(`已定位到 ${attraction.name} - ${attraction.distance}`);
+            }
+            
+            // 這裡可以擴展為顯示詳細的景點信息模態框
+            console.log('顯示景點詳情:', attraction.name);
+        }
+
+        // 在頁面加載時初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 延遲初始化，確保元素已渲染
+            setTimeout(() => {
+                initMiniMap();
+                renderNearbyAttractions(); // 渲染景點
+            }, 500);
+        });
+
+
+
+        // 客房輪播功能
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+            
+            // 更新點點狀態
+            document.querySelectorAll('.dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+            
+            currentSlide = index;
+        }
+
+        function nextSlide() {
+            let next = currentSlide + 1;
+            if (next >= slides.length) next = 0;
+            showSlide(next);
+        }
+
+        function prevSlide() {
+            let prev = currentSlide - 1;
+            if (prev < 0) prev = slides.length - 1;
+            showSlide(prev);
+        }
+
+        function goToSlide(index) {
+            showSlide(index);
+        }
+
+        // 自動輪播
+        setInterval(nextSlide, 5000);
+
+        // 設施選項卡功能
+        // 設施選項卡功能
+        function showFacilityTab(tabName) {
+            // 隱藏所有選項卡內容
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // 移除所有按鈕的激活狀態
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // 顯示選中的選項卡
+            document.getElementById(tabName + '-tab').classList.add('active');
+            
+            // 激活對應的按鈕 - 修正這裡
+            const clickedButton = event.currentTarget || event.target.closest('.tab-btn');
+            clickedButton.classList.add('active');
+        }
+
+        // 或者使用更簡單的方法
+        function showFacilityTab(tabName) {
+            // 隱藏所有選項卡內容
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // 移除所有按鈕的激活狀態
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // 顯示選中的選項卡
+            document.getElementById(tabName + '-tab').classList.add('active');
+            
+            // 找到對應的按鈕並激活
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach((btn, index) => {
+                if (btn.querySelector('span').textContent === 
+                    (tabName === 'dining' ? '餐飲設施' :
+                    tabName === 'leisure' ? '休閒設施' :
+                    tabName === 'business' ? '商務設施' : '健康養生')) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+
+        // 預約功能增強
+        function bookFacility(facility) {
+            let message = '';
+            switch(facility) {
+                case 'pool':
+                    message = '正在為您預約游泳池時段...';
+                    break;
+                case 'trainer':
+                    message = '正在為您查看健身教練課程...';
+                    break;
+                case 'meeting':
+                    message = '正在為您查詢會議室檔期...';
+                    break;
+                case 'spa':
+                    message = '正在為您了解SPA療程詳情...';
+                    break;
+                default:
+                    message = '正在處理您的預約請求...';
+            }
+            showNotification(message);
+        }
+
+        // 初始化顯示第一個選項卡
+        document.addEventListener('DOMContentLoaded', function() {
+            showFacilityTab('dining');
+        });
+        
+        // AI聊天功能
+        function toggleChat(event) {
+            const chatWindow = document.getElementById('chatWindow');
+            
+            // 防止事件冒泡，避免點擊聊天框內部也觸發關閉
+            if (event) {
+                event.stopPropagation();
+            }
+            
+            if (chatWindow.style.display === 'flex') {
+                chatWindow.style.display = 'none';
+                // 移除點擊事件監聽器
+                document.removeEventListener('click', closeChatOnClickOutside);
+            } else {
+                chatWindow.style.display = 'flex';
+                document.getElementById('chatInput').focus();
+                
+                // 添加點擊外部關閉的功能
+                setTimeout(() => {
+                    document.addEventListener('click', closeChatOnClickOutside);
+                }, 100);
+            }
+        }
+
+        // 點擊外部關閉聊天框的函數
+        function closeChatOnClickOutside(event) {
+            const chatWindow = document.getElementById('chatWindow');
+            const chatButton = document.querySelector('.ai-chat');
+            
+            // 如果點擊的不是聊天框本身也不是聊天按鈕，則關閉聊天框
+            if (!chatWindow.contains(event.target) && !chatButton.contains(event.target)) {
+                chatWindow.style.display = 'none';
+                document.removeEventListener('click', closeChatOnClickOutside);
+            }
+        }
+                
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (message === '') return;
+            
+            // 添加用戶消息
+            const chatBody = document.getElementById('chatBody');
+            const userMessage = document.createElement('div');
+            userMessage.className = 'user-message';
+            userMessage.textContent = message;
+            chatBody.appendChild(userMessage);
+            
+            // 清空輸入框
+            input.value = '';
+            
+            // 滾動到底部
+            chatBody.scrollTop = chatBody.scrollHeight;
+            
+            // 模擬AI回應
+            setTimeout(() => {
+                const aiMessage = document.createElement('div');
+                aiMessage.className = 'ai-message';
+                
+                let response = getAIResponse(message);
+                aiMessage.textContent = response;
+                
+                chatBody.appendChild(aiMessage);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }, 1000);
+        }
+        
+        function getAIResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            if (lowerMessage.includes('價格') || lowerMessage.includes('多少錢') || lowerMessage.includes('價錢')) {
+                return '台北凱達大飯店的房價根據房型和季節有所不同，豪華雙人房約TWD 3,685起，豪華雙床房約TWD 3,685起，家庭套房TWD 6,057起，小型套房TWD 2，701起。起我們提供價格保證，如發現更低價格將提供差價補償。';
+            } else if (lowerMessage.includes('設施') || lowerMessage.includes('設備')) {
+                return '酒店提供戶外游泳池、健身中心、多間餐廳、免費Wi-Fi、商務中心等多種設施。所有設施均可透過手機App預約使用。';
+            } else if (lowerMessage.includes('位置') || lowerMessage.includes('地址') || lowerMessage.includes('在哪')) {
+                return '酒店位於台北市萬華區艋舺大道167號，周邊有龍山寺地下街、艋舺公園等。步行5分鐘可達捷運站，交通十分便利。';
+            } else if (lowerMessage.includes('早餐') || lowerMessage.includes('用餐')) {
+                return '我們提供豐盛的自助早餐，包含中西式多樣選擇。營業時間為早上6:30至10:00，也提供客房送餐服務。';
+            } else if (lowerMessage.includes('優惠') || lowerMessage.includes('折扣')) {
+                return '目前有提前預訂85折、連住優惠、會員點數回饋等多項優惠。建議您查看我們的期間優惠頁面獲取最新資訊。';
+            } else if (lowerMessage.includes('停車') || lowerMessage.includes('車位')) {
+                return '酒店提供免費停車服務，每間客房於住宿期間可享有一個免費停車位，採先到先停原則。';
+            } else if (lowerMessage.includes('wifi') || lowerMessage.includes('網絡')) {
+                return '酒店全區域提供免費高速Wi-Fi 6網路，入住後即可免費連接，無需額外付費。';
+            } else if (lowerMessage.includes('游泳池') || lowerMessage.includes('泳池')) {
+                return '酒店設有戶外游泳池，每年3月到12月開放，開放時間為早上7點至晚上9點。';
+            } else if (lowerMessage.includes('健身') || lowerMessage.includes('運動')) {
+                return '酒店設有24小時開放的健身中心，配備先進的健身設備，並有專業教練指導服務。';
+            } else if (lowerMessage.includes('你好') || lowerMessage.includes('您好') || lowerMessage.includes('嗨')) {
+                return '您好！很高興為您服務，有什麼關於台北凱達大飯店的問題嗎？';
+            } else if (lowerMessage.includes('入住') || lowerMessage.includes('退房')) {
+                return '最早可辦理入住的時間為下午三點，最晚可辦理退房的時間為中午12點。我們提供快速入住/退房服務。';
+            } else if (lowerMessage.includes('謝謝') || lowerMessage.includes('感謝')) {
+                return '不客氣！如果有其他問題，隨時可以問我。';
+            } else {
+                return '感謝您的提問！如需更詳細的資訊，請查看頁面上的詳細介紹或聯繫我們的客服人員，電話：（02）2306-6777。';
+            }
+        }
+
+        // 顯示通知
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: #4dabf7;
+                color: white;
+                padding: 15px 25px;
+                border-radius: 8px;
+                border: 1px solid rgba(255,255,255,0.2);
+                box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+                z-index: 1000;
+                font-weight: 500;
+                text-align: center;
+                min-width: 300px;
+                max-width: 80%;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 3000);
+        }
+
+                // 地圖相關變數
+        let miniMap = null;
+        let fullMap = null;
+        let initialMapPosition = null; // 保存初始位置
+
+        // 初始化小地圖 - 使用水滴狀圖標
+        function initMiniMap() {
+            const mapContainer = document.getElementById('miniMap');
+            if (!mapContainer || miniMap) return;
+            
+            // 台北凱達大飯店坐標
+            const hotelLatLng = [25.033283, 121.499636];
+            
+                // 保存初始位置
+            initialMapPosition = {
+                center: hotelLatLng,
+                zoom: 15
+            };
+            // 創建地圖
+            miniMap = L.map('miniMap', {
+                center: hotelLatLng,
+                zoom: 15,
+                zoomControl: true,
+                attributionControl: true
+            });
+            
+            // 使用正常顏色的地圖圖層
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 19
+            }).addTo(miniMap);
+            
+            // 類型顏色對應
+            const typeColors = {
+                attraction: "#e74c3c",  // 紅色 - 景點
+                food: "#e67e22",        // 橙色 - 美食
+                shopping: "#9b59b6",    // 紫色 - 購物
+                park: "#27ae60",        // 綠色 - 公園
+                culture: "#f1c40f",     // 黃色 - 文化
+                transport: "#3498db"    // 藍色 - 交通
+            };
+            
+            const typeIcons = {
+                attraction: "🏛️",
+                food: "🍜", 
+                shopping: "🛍️",
+                park: "🏞️",
+                culture: "🎭",
+                transport: "🚇"
+            };
+            
+            // 添加酒店標記（水滴狀特別標記）
+            const hotelIcon = L.divIcon({
+                html: `
+                    <div style="
+                        background-color:#e74c3c; 
+                        color:white; 
+                        width: 40px;
+                        height: 40px;
+                        position: relative;
+                        transform: rotate(315deg);
+                        border-radius: 50% 50% 50% 0;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+                        border: 2px solid white;
+                    ">
+
+                        <span style="
+                            transform: rotate(45deg) translateY(2px);
+                            font-size: 16px;
+                            display: block;
+                        ">🏨</span>
+
+                    </div>
+                `,
+                className: 'waterdrop-marker',
+                iconSize: [40, 40],
+                iconAnchor: [20, 40]  // 錨點在底部中心
+            });
+            
+            const hotelMarker = L.marker(hotelLatLng, {icon: hotelIcon}).addTo(miniMap)
+                .bindPopup(`
+                    <div style="text-align:center;min-width:200px;">
+                        <strong style="color:#e74c3c;display:block;margin-bottom:8px;font-size:16px;">🏨 台北凱達大飯店</strong>
+                        <small style="color:#666;display:block;margin-bottom:4px;">📍 台北市萬華區艋舺大道167號</small>
+                        <small style="color:#666;">📞 (02) 2306-6777</small>
+                    </div>
+                `)
+                .openPopup();
+            
+            // 添加所有景點標記（水滴狀）
+            Object.keys(attractionsData).forEach(attractionId => {
+                const attraction = attractionsData[attractionId];
+                const color = typeColors[attraction.type];
+                const icon = typeIcons[attraction.type];
+                
+                // 創建水滴狀景點標記
+                const attractionIcon = L.divIcon({
+                    html: `
+                        <div style="
+                            background-color:${color}; 
+                            color:white; 
+                            width: 32px;
+                            height: 32px;
+                            position: relative;
+                            transform: rotate(315deg);
+                            border-radius: 50% 50% 50% 0;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+                            border: 2px solid white;
+                            cursor: pointer;
+                        ">
+                            <span style="transform: rotate(45deg); font-size: 12px; display: block;">${icon}</span>
+                        </div>
+                    `,
+                    className: 'waterdrop-marker',
+                    iconSize: [32, 32],
+                    iconAnchor: [16, 32]  // 錨點在底部中心
+                });
+                
+                // 添加標記到地圖
+                const marker = L.marker(attraction.coordinates, {icon: attractionIcon})
+                    .addTo(miniMap)
+                    .bindPopup(`
+                        <div style="text-align:center;min-width:200px;">
+                            <strong style="color:${color};display:block;margin-bottom:6px;font-size:14px;">
+                                ${icon} ${attraction.title}
+                            </strong>
+                            <small style="color:#666;display:block;margin-bottom:4px;">${attraction.distance}</small>
+                            <small style="color:#888;display:block;margin-bottom:6px;">${attraction.description.substring(0, 60)}...</small>
+                            <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:center;">
+                                ${attraction.features.slice(0, 2).map(feature => 
+                                    `<span style="background:${color}20; color:${color}; padding:2px 6px; border-radius:8px; font-size:10px; border:1px solid ${color}40;">${feature}</span>`
+                                ).join('')}
+                            </div>
+                        </div>
+                    `);
+                
+                // 點擊地圖標記時也更新左側景點資訊
+                marker.on('click', function() {
+                    // 更新左側按鈕狀態
+                    document.querySelectorAll('.attraction-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    
+                    // 找到對應的按鈕並激活
+                    const button = document.querySelector(`.attraction-btn[onclick="showAttraction('${attractionId}')"]`);
+                    if (button) {
+                        button.classList.add('active');
+                    }
+                    
+                    // 更新左側詳細資訊
+                    showAttraction(attractionId);
+                });
+            });
+            
+            // 更新圖例為水滴狀
+            const legend = L.control({position: 'bottomright'});
+            legend.onAdd = function(map) {
+                const div = L.DomUtil.create('div', 'map-legend');
+                div.innerHTML = `
+                    <div style="background:white; padding:10px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.2); font-size:12px; color:#333;">
+                        <div style="margin-bottom:8px; font-weight:bold;">圖例</div>
+                        <div style="display:flex; align-items:center; margin-bottom:6px;">
+                            <div style="width:16px; height:16px; background:#e74c3c; transform:rotate(45deg); border-radius:50% 50% 50% 0; margin-right:8px; border:1px solid #ccc;"></div>
+                            <span>酒店位置</span>
+                        </div>
+                        <div style="display:flex; align-items:center; margin-bottom:6px;">
+                            <div style="width:12px; height:12px; background:#e74c3c; transform:rotate(45deg); border-radius:50% 50% 50% 0; margin-right:8px; border:1px solid #ccc;"></div>
+                            <span>景點古蹟</span>
+                        </div>
+                        <div style="display:flex; align-items:center; margin-bottom:6px;">
+                            <div style="width:12px; height:12px; background:#e67e22; transform:rotate(45deg); border-radius:50% 50% 50% 0; margin-right:8px; border:1px solid #ccc;"></div>
+                            <span>美食夜市</span>
+                        </div>
+                        <div style="display:flex; align-items:center; margin-bottom:6px;">
+                            <div style="width:12px; height:12px; background:#9b59b6; transform:rotate(45deg); border-radius:50% 50% 50% 0; margin-right:8px; border:1px solid #ccc;"></div>
+                            <span>購物商圈</span>
+                        </div>
+                        <div style="display:flex; align-items:center; margin-bottom:6px;">
+                            <div style="width:12px; height:12px; background:#27ae60; transform:rotate(45deg); border-radius:50% 50% 50% 0; margin-right:8px; border:1px solid #ccc;"></div>
+                            <span>公園綠地</span>
+                        </div>
+                        <div style="display:flex; align-items:center; margin-bottom:6px;">
+                            <div style="width:12px; height:12px; background:#f1c40f; transform:rotate(45deg); border-radius:50% 50% 50% 0; margin-right:8px; border:1px solid #ccc;"></div>
+                            <span>文化展館</span>
+                        </div>
+                        <div style="display:flex; align-items:center;">
+                            <div style="width:12px; height:12px; background:#3498db; transform:rotate(45deg); border-radius:50% 50% 50% 0; margin-right:8px; border:1px solid #ccc;"></div>
+                            <span>交通樞紐</span>
+                        </div>
+                    </div>
+                `;
+                return div;
+            };
+            legend.addTo(miniMap);
+            
+            // 確保地圖正確顯示
+            setTimeout(() => {
+                miniMap.invalidateSize();
+            }, 100);
+        }
+
+        // 修改現有的 showMap 函數
+        function showMap() {
+            showFullMap();
+        }
+        // 重置地图位置函数
+        function resetMapPosition() {
+            if (!miniMap || !initialMapPosition) return;
+            
+            // 使用平滑动画返回初始位置
+            miniMap.flyTo(initialMapPosition.center, initialMapPosition.zoom, {
+                duration: 1, // 动画持续时间（秒）
+                easeLinearity: 0.25
+            });
+            
+            // 可选：显示一个短暂的提示
+            showMapNotification('已返回原始定位');
+        }
+        // 地图操作通知函数
+        function showMapNotification(message) {
+            // 创建一个专门的地图通知
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: absolute;
+                top: 60px;
+                right: 10px;
+                background: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 8px 12px;
+                border-radius: 6px;
+                font-size: 12px;
+                z-index: 1002;
+                animation: fadeInOut 2s ease;
+                pointer-events: none;
+            `;
+            notification.textContent = message;
+            
+            const mapContainer = document.getElementById('miniMap');
+            mapContainer.appendChild(notification);
+            
+            setTimeout(() => {
+                if (mapContainer.contains(notification)) {
+                    mapContainer.removeChild(notification);
+                }
+            }, 2000);
+        }
+
+        // 添加淡入淡出动画
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInOut {
+                0% { opacity: 0; transform: translateY(-10px); }
+                20% { opacity: 1; transform: translateY(0); }
+                80% { opacity: 1; transform: translateY(0); }
+                100% { opacity: 0; transform: translateY(-10px); }
+            }
+        `;
+        document.head.appendChild(style);
+                    // 功能选择弹窗控制
+        function toggleFeatureSelector() {
+            const selector = document.getElementById('featureSelector');
+            if (selector.style.display === 'block') {
+                selector.style.display = 'none';
+            } else {
+                selector.style.display = 'block';
+            }
+        }
+        
+        // 点击弹窗外区域关闭弹窗
+        document.addEventListener('click', function(event) {
+            const selector = document.getElementById('featureSelector');
+            const btn = document.querySelector('.feature-selector-btn');
+            
+            if (selector.style.display === 'block' && 
+                !selector.contains(event.target) && 
+                !btn.contains(event.target)) {
+                selector.style.display = 'none';
+            }
+        });
+        
+        // 滚动到指定区块
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                // 计算要滚动到的位置（往上偏移 100px）
+                const offset = 100;
+                const elementPosition = section.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - offset;
+                
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+                
+                // 关闭弹窗
+                document.getElementById('featureSelector').style.display = 'none';
+            }
+        }
+        // 预约数据
+        const bookingData = {
+            pool: {
+                title: "游泳池預約",
+                type: "form",
+                availableSlots: [
+                    "08:00-09:00", "09:00-10:00", "10:00-11:00", "11:00-12:00",
+                    "14:00-15:00", "15:00-16:00", "16:00-17:00", "17:00-18:00",
+                    "19:00-20:00"
+                ],
+                unavailableSlots: ["14:00-15:00", "16:00-17:00"], // 示例不可用时段
+                maxPersons: 4
+            },
+            trainer: {
+                title: "健身教練課程",
+                type: "courses",
+                courses: [
+                    {
+                    id: 1,
+                    title: "基礎體能訓練",
+                    trainer: "王教練",
+                    duration: "60分鐘",
+                    price: "TWD 800",
+                    level: "初級",
+                    features: ["體能評估", "個性化訓練", "動作指導"],
+                    schedule: ["週一 09:00", "週三 14:00", "週五 16:00"]
+                    },
+                    {
+                    id: 2,
+                    title: "高級力量訓練",
+                    trainer: "李教練",
+                    duration: "90分鐘",
+                    price: "TWD 1,200",
+                    level: "高級",
+                    features: ["力量提升", "技巧訓練", "營養建議"],
+                    schedule: ["週二 10:00", "週四 15:00", "週六 11:00"]
+                    },
+                    {
+                    id: 3,
+                    title: "瑜伽與柔韌性",
+                    trainer: "張教練",
+                    duration: "75分鐘",
+                    price: "TWD 900",
+                    level: "所有級別",
+                    features: ["柔韌性提升", "呼吸訓練", "放鬆技巧"],
+                    schedule: ["週一 16:00", "週三 10:00", "週六 14:00"]
+                    }
+                ]
+            },
+            meeting: {
+                title: "會議室租借",
+                type: "schedule",
+                rooms: [
+                    { id: 1, name: "小型會議室", capacity: "8人", price: "TWD 1,500/小時" },
+                    { id: 2, name: "中型會議室", capacity: "20人", price: "TWD 2,500/小時" },
+                    { id: 3, name: "大型會議室", capacity: "50人", price: "TWD 4,000/小時" }
+                ]
+            }
+        };
+
+        // 打开预约模态框
+        function openBookingModal(facilityType) {
+            const facility = bookingData[facilityType];
+            if (!facility) return;
+            
+            const modal = document.getElementById('bookingModal');
+            const title = document.getElementById('bookingModalTitle');
+            const body = document.getElementById('bookingModalBody');
+            
+            // 设置标题
+            title.innerHTML = `<i class="fas fa-calendar-check"></i> ${facility.title}`;
+            
+            // 根据类型设置内容
+            let content = '';
+            switch(facility.type) {
+                case 'form':
+                    content = getPoolBookingForm(facility);
+                    break;
+                case 'courses':
+                    content = getTrainerCourses(facility);
+                    break;
+                case 'schedule':
+                    content = getMeetingSchedule(facility);
+                    break;
+            }
+            
+            body.innerHTML = content;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            
+            // 保存当前预约类型
+            modal.setAttribute('data-facility-type', facilityType);
+        }
+
+        // 关闭预约模态框
+        function closeBookingModal() {
+            const modal = document.getElementById('bookingModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // 确认预约
+        function confirmBooking() {
+            const modal = document.getElementById('bookingModal');
+            const facilityType = modal.getAttribute('data-facility-type');
+            
+            // 根据不同类型处理确认逻辑
+            switch(facilityType) {
+                case 'pool':
+                    confirmPoolBooking();
+                    break;
+                case 'trainer':
+                    confirmTrainerBooking();
+                    break;
+                case 'meeting':
+                    confirmMeetingBooking();
+                    break;
+            }
+        }
+
+        // 游泳池预约表单
+        function getPoolBookingForm(facility) {
+            return `
+                <div class="booking-form">
+                    <div class="form-group">
+                        <label>選擇日期</label>
+                        <input type="date" id="poolDate" min="${getTomorrowDate()}">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>選擇時段</label>
+                        <div class="time-slots" id="poolTimeSlots">
+                            ${facility.availableSlots.map(slot => {
+                                const isUnavailable = facility.unavailableSlots.includes(slot);
+                                return `
+                                    <div class="time-slot ${isUnavailable ? 'unavailable' : ''}" 
+                                        data-slot="${slot}" 
+                                        onclick="${isUnavailable ? '' : `selectTimeSlot(this)`}">
+                                        ${slot}
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>人數 (最多 ${facility.maxPersons} 人)</label>
+                        <input type="number" id="poolPersons" min="1" max="${facility.maxPersons}" value="1">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>備注</label>
+                        <textarea id="poolNotes" placeholder="如有特殊需求，請在此類備注..."></textarea>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 健身教练课程选择
+        function getTrainerCourses(facility) {
+            return `
+                <div class="course-list">
+                    ${facility.courses.map(course => `
+                        <div class="course-item" onclick="selectCourse(this)" data-course-id="${course.id}">
+                            <div class="course-header">
+                                <h4 class="course-title">${course.title}</h4>
+                                <span class="course-badge">${course.level}</span>
+                            </div>
+                            <div class="course-info">
+                                <div><i class="fas fa-user-tie"></i> 教練: ${course.trainer}</div>
+                                <div><i class="fas fa-clock"></i> 時長: ${course.duration}</div>
+                                <div><i class="fas fa-tag"></i> 價格: ${course.price}</div>
+                            </div>
+                            <div class="course-features">
+                                ${course.features.map(feature => 
+                                    `<span class="course-feature">${feature}</span>`
+                                ).join('')}
+                            </div>
+                            <div class="course-schedule" style="margin-top: 10px; font-size: 12px; color: #a0aec0;">
+                                <i class="fas fa-calendar-alt"></i> 可預約時間: ${course.schedule.join(', ')}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <div class="form-group" style="margin-top: 20px;">
+                    <label>选择具体时间</label>
+                    <input type="datetime-local" id="courseDateTime">
+                </div>
+            `;
+        }
+
+        // 会议室档期
+        function getMeetingSchedule(facility) {
+            return `
+                <div class="form-group">
+                    <label>選擇會議室</label>
+                    <select id="meetingRoom">
+                        ${facility.rooms.map(room => 
+                            `<option value="${room.id}">${room.name} (${room.capacity}) - ${room.price}</option>`
+                        ).join('')}
+                    </select>
+                </div>
+                
+                <div class="schedule-calendar">
+                    <div class="calendar-header">
+                        <button class="calendar-nav" onclick="changeMonth(-1)"><i class="fas fa-chevron-left"></i></button>
+                        <h4 id="currentMonth">${getCurrentMonth()}</h4>
+                        <button class="calendar-nav" onclick="changeMonth(1)"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <div class="calendar-grid" id="calendarGrid">
+                        <!-- 日历内容由JavaScript动态生成 -->
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>租借時長 (小時)</label>
+                    <input type="number" id="meetingHours" min="1" max="8" value="2">
+                </div>
+                
+                <div class="form-group">
+                    <label>會議主題</label>
+                    <input type="text" id="meetingTopic" placeholder="請輸入會議主題...">
+                </div>
+            `;
+        }
+
+        // 辅助函数
+        function getTomorrowDate() {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            return tomorrow.toISOString().split('T')[0];
+        }
+
+        function getCurrentMonth() {
+            return new Date().toLocaleDateString('zh-TW', { year: 'numeric', month: 'long' });
+        }
+
+        // 选择时间段
+        function selectTimeSlot(element) {
+            if (element.classList.contains('unavailable')) return;
+            
+            document.querySelectorAll('.time-slot').forEach(slot => {
+                slot.classList.remove('selected');
+            });
+            element.classList.add('selected');
+        }
+
+        // 选择课程
+        function selectCourse(element) {
+            document.querySelectorAll('.course-item').forEach(course => {
+                course.classList.remove('selected');
+            });
+            element.classList.add('selected');
+        }
+
+        // 确认游泳池预约
+        function confirmPoolBooking() {
+            const date = document.getElementById('poolDate').value;
+            const selectedSlot = document.querySelector('.time-slot.selected');
+            const persons = document.getElementById('poolPersons').value;
+            const notes = document.getElementById('poolNotes').value;
+            
+            if (!date || !selectedSlot || !persons) {
+                showNotification('請填寫完整的身份信息！', 'error');
+                return;
+            }
+            
+            const slot = selectedSlot.getAttribute('data-slot');
+            showNotification(`成功預約游泳池！時間: ${date} ${slot}, 人數: ${persons}人`);
+            closeBookingModal();
+        }
+
+        // 确认健身课程预约
+        function confirmTrainerBooking() {
+            const selectedCourse = document.querySelector('.course-item.selected');
+            const dateTime = document.getElementById('courseDateTime').value;
+            
+            if (!selectedCourse || !dateTime) {
+                showNotification('請選擇課程和預約時間！', 'error');
+                return;
+            }
+            
+            const courseId = selectedCourse.getAttribute('data-course-id');
+            showNotification(`成功預約健身教練課程！課程ID: ${courseId}, 時間: ${new Date(dateTime).toLocaleString()}`);
+            closeBookingModal();
+        }
+
+        // 确认会议室预约
+        function confirmMeetingBooking() {
+            const room = document.getElementById('meetingRoom').value;
+            const hours = document.getElementById('meetingHours').value;
+            const topic = document.getElementById('meetingTopic').value;
+            
+            if (!topic) {
+                showNotification('請輸入會議主題！', 'error');
+                return;
+            }
+            
+            showNotification(`成功預約會議室！會議室: ${room}, 時長: ${hours}小時, 主題: ${topic}`);
+            closeBookingModal();
+        }
+
+        // 修改现有的预约函数
+        function bookFacility(facility) {
+            switch(facility) {
+                case 'pool':
+                    openBookingModal('pool');
+                    break;
+                case 'trainer':
+                    openBookingModal('trainer');
+                    break;
+                case 'meeting':
+                    openBookingModal('meeting');
+                    break;
+                default:
+                    showNotification('正在處理您的預約請求...');
+            }
+        }
+
+        // 点击模态框外部关闭
+        document.getElementById('bookingModal').addEventListener('click', function(e) {
+            if (e.target === this) closeBookingModal();
+        });
+
+        // ESC键关闭
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeBookingModal();
+        });
+
+        // 增强通知函数
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            const bgColor = type === 'error' ? '#e74c3c' : '#4dabf7';
+            
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: ${bgColor};
+                color: white;
+                padding: 15px 25px;
+                border-radius: 8px;
+                border: 1px solid rgba(255,255,255,0.2);
+                box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+                z-index: 1004; /* 增加到比模态框更高 */
+                font-weight: 500;
+                text-align: center;
+                min-width: 300px;
+                max-width: 80%;
+                animation: slideDown 0.3s ease;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (document.body.contains(notification)) {
+                    document.body.removeChild(notification);
+                }
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

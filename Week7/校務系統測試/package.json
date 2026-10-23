@@ -1,0 +1,16 @@
+{
+  "name": "wju-eas",
+  "version": "1.0.0",
+  "description": "國立浯江大學 教務資訊系統（示範專案：Node.js 後端 + 單頁前端 + 三層測試）",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "test:unit": "node --test tests/unit/grading.test.js tests/unit/scheduling.test.js tests/unit/enrollment.test.js tests/unit/grades.test.js tests/unit/catalog.test.js tests/unit/auth.test.js",
+    "test:api": "node --test tests/api/api.test.js",
+    "test:e2e": "playwright test",
+    "test": "npm run test:unit && npm run test:api",
+    "coverage": "node --test --experimental-test-coverage tests/unit/grading.test.js tests/unit/scheduling.test.js tests/unit/enrollment.test.js tests/unit/grades.test.js tests/unit/catalog.test.js tests/unit/auth.test.js"
+  },
+  "dependencies": { "express": "^4.19.2" },
+  "devDependencies": { "@playwright/test": "^1.47.0" }
+}

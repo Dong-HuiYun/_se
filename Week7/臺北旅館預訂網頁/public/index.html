@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI語音分類推薦系統</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        header {
+            background: linear-gradient(90deg, #4b6cb7, #182848);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .category-btn {
+            background: white;
+            border: 2px solid #4b6cb7;
+            border-radius: 10px;
+            padding: 15px 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 180px;
+            text-align: center;
+        }
+        
+        .category-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .category-btn.active {
+            background: #4b6cb7;
+            color: white;
+        }
+        
+        .category-icon {
+            font-size: 30px;
+        }
+        
+        .category-btn.type-a.active {
+            background: #3498db;
+            border-color: #3498db;
+        }
+        
+        .category-btn.type-b.active {
+            background: #2ecc71;
+            border-color: #2ecc71;
+        }
+        
+        .category-btn.type-c.active {
+            background: #e74c3c;
+            border-color: #e74c3c;
+        }
+        
+        .voice-section {
+            padding: 40px;
+            text-align: center;
+            background: #f8f9fa;
+        }
+        
+        .voice-btn {
+            background: #4b6cb7;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(75, 108, 183, 0.3);
+        }
+        
+        .voice-btn:hover {
+            transform: scale(1.05);
+            background: #3a5999;
+        }
+        
+        .voice-btn i {
+            font-size: 40px;
+            color: white;
+        }
+        
+        .voice-btn.listening {
+            background: #e74c3c;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .instruction {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        
+        .result-section {
+            padding: 20px 40px;
+            text-align: center;
+        }
+        
+        .user-type {
+            font-size: 1.8rem;
+            color: #4b6cb7;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        
+        .action-buttons {
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .progress-bar {
+            height: 5px;
+            width: 0%;
+            background: #4b6cb7;
+            margin: 20px auto;
+            transition: width 0.5s;
+            max-width: 500px;
+        }
+        
+        @media (max-width: 900px) {
+            header {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .category-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+        
+        footer {
+            margin-top: 20px;
+            color: white;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        .prompt-container {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px auto;
+            max-width: 800px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid #4b6cb7;
+        }
+        
+        .prompt-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: #4b6cb7;
+            font-size: 1.3rem;
+        }
+        
+        .prompt-title i {
+            font-size: 1.5rem;
+        }
+        
+        .prompt-examples {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .prompt-card {
+            background: #f0f4ff;
+            border-radius: 10px;
+            padding: 15px;
+            flex: 1;
+            min-width: 200px;
+            max-width: 250px;
+            text-align: left;
+            border-top: 3px solid #4b6cb7;
+            transition: all 0.3s;
+        }
+        
+        .prompt-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .prompt-card h3 {
+            color: #4b6cb7;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .prompt-card h3 i {
+            font-size: 1rem;
+        }
+        
+        .prompt-card ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .prompt-card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+            font-size: 0.95rem;
+        }
+        
+        .prompt-card li:before {
+            content: "•";
+            color: #4b6cb7;
+            position: absolute;
+            left: 5px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI語音分類推薦系統</h1>
+            <p class="subtitle">告訴我們您的需求，我們將為您推薦最合適的內容</p>
+        </header>
+        
+        <div class="voice-section" id="voiceSection">
+            <div class="instruction">
+                請點擊下方麥克風並說出您的需求或偏好
+            </div>
+            
+            <div class="voice-btn" id="voiceBtn">
+                <i class="fas fa-microphone"></i>
+            </div>
+            
+            <p id="status">點擊麥克風開始語音輸入</p>
+            <div class="progress-bar" id="progressBar"></div>
+
+            <div class="prompt-container">
+                <div class="prompt-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <h2>您可以這樣說...</h2>
+                </div>
+                <div class="prompt-examples">
+                    <div class="prompt-card">
+                        <h3><i class="fas fa-map-marker-alt"></i> 飯店地點</h3>
+                        <ul>
+                            <li>我想要台北市中心的飯店</li>
+                            <li>找靠近捷運站的住宿</li>
+                            <li>希望在海邊或風景區</li>
+                            <li>需要機場附近的飯店</li>
+                        </ul>
+                    </div>
+                    <div class="prompt-card">
+                        <h3><i class="fas fa-building"></i> 飯店類型</h3>
+                        <ul>
+                            <li>想要商務旅館</li>
+                            <li>尋找度假村或民宿</li>
+                            <li>需要親子友善飯店</li>
+                            <li>偏好設計旅店</li>
+                        </ul>
+                    </div>
+                    <div class="prompt-card">
+                        <h3><i class="fas fa-tag"></i> 價格範圍</h3>
+                        <ul>
+                            <li>預算每晚2000元以下</li>
+                            <li>價格在3000-5000元</li>
+                            <li>尋找高CP值選擇</li>
+                            <li>需要特價或優惠</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="prompt-examples">
+                    <div class="prompt-card">
+                        <h3><i class="fas fa-star"></i> CP值要求</h3>
+                        <ul>
+                            <li>希望設施齊全</li>
+                            <li>需要免費早餐</li>
+                            <li>重視服務品質</li>
+                            <li>希望有停車場</li>
+                        </ul>
+                    </div>
+                    <div class="prompt-card">
+                        <h3><i class="fas fa-info-circle"></i> 希望提供的資訊</h3>
+                        <ul>
+                            <li>需要詳細評價</li>
+                            <li>想知道附近景點</li>
+                            <li>需要交通資訊</li>
+                            <li>想知道設施細節</li>
+                        </ul>
+                    </div>
+                </div>
+
+            
+            <div class="result-section">
+                <p id="userInput"></p>
+                <p class="user-type" id="userType"></p>
+                
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2025 AI語音分類推薦系統 - 根據您的需求提供個性化推薦</p>
+    </footer>
+
+    <script>
+        // 全局變量儲存用戶類型
+        let currentUserType = null;
+        let autoRedirect = false; // 控制是否自動跳轉
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const voiceBtn = document.getElementById('voiceBtn');
+            const statusText = document.getElementById('status');
+            const userInput = document.getElementById('userInput');
+            const userType = document.getElementById('userType');
+            const progressBar = document.getElementById('progressBar');
+            const continueBtn = document.getElementById('continueBtn');
+            
+            // 語音按鈕點擊事件
+            voiceBtn.addEventListener('click', function() {
+                // 模擬語音識別過程
+                statusText.textContent = '正在聆聽...請說出您的需求';
+                voiceBtn.classList.add('listening');
+                
+                // 模擬進度條
+                let width = 0;
+                const interval = setInterval(() => {
+                    width += 5;
+                    progressBar.style.width = width + '%';
+                    
+                    if (width >= 100) {
+                        clearInterval(interval);
+                        processVoiceInput();
+                    }
+                }, 100);
+            });
+            
+            // 處理語音輸入
+            function processVoiceInput() {
+                statusText.textContent = '分析中...';
+                
+                // 模擬分析過程
+                setTimeout(() => {
+                    voiceBtn.classList.remove('listening');
+                    statusText.textContent = '分析完成！';
+                    
+                    // 根據語音內容分析用戶類型（這裡使用關鍵詞匹配）
+                    const userKeywords = [
+                        '科技', 'AI', 'VR', '智能', '自動', '現代', '創新', '高科技',
+                        '品質', '服務', '舒適', '豪華', '享受', '體驗', '設施', '完整',
+                        '便宜', '價格', '優惠', '折扣', '省錢', '經濟', '實惠', '划算'
+                    ];
+                    
+                    // 隨機生成一些語音輸入內容
+                    const voiceInputs = [
+                        '我想要有科技感的住宿體驗，像是VR看房和AI助理',
+                        '我需要智能化的房間控制系統和現代化的設施',
+                        '我偏好高科技的飯店，要有自動化服務',
+                        '我重視服務品質，希望有完整的設施和舒適的環境',
+                        '我想要豪華的住宿體驗，設施要齊全',
+                        'CP值要高，服務要好，設施要完整',
+                        '價格要便宜，最好有折扣和優惠',
+                        '我想要經濟實惠的選擇，省錢最重要',
+                        '預算有限，希望找到划算的住宿'
+                    ];
+                    
+                    const randomInput = voiceInputs[Math.floor(Math.random() * voiceInputs.length)];
+                    let detectedType = '';
+                    let typeText = '';
+                    
+                    // 關鍵詞分析
+                    if (randomInput.includes('科技') || randomInput.includes('AI') || randomInput.includes('VR') || 
+                        randomInput.includes('智能') || randomInput.includes('現代') || randomInput.includes('高科技')) {
+                        detectedType = 'A';
+                        typeText = '科技愛好者';
+                    } else if (randomInput.includes('品質') || randomInput.includes('服務') || randomInput.includes('舒適') || 
+                              randomInput.includes('豪華') || randomInput.includes('設施') || randomInput.includes('CP值')) {
+                        detectedType = 'B';
+                        typeText = '高CP值追求者';
+                    } else if (randomInput.includes('便宜') || randomInput.includes('價格') || randomInput.includes('優惠') || 
+                              randomInput.includes('折扣') || randomInput.includes('省錢') || randomInput.includes('經濟')) {
+                        detectedType = 'C';
+                        typeText = '價格敏感者';
+                    } else {
+                        // 如果無法判斷，隨機選擇
+                        const randomType = Math.floor(Math.random() * 3) + 1;
+                        detectedType = String.fromCharCode(64 + randomType); // A, B, or C
+                        typeText = detectedType === 'A' ? '科技愛好者' : 
+                                  detectedType === 'B' ? '高CP值追求者' : '價格敏感者';
+                    }
+                    
+                    userInput.textContent = '您說：' + randomInput;
+                    currentUserType = detectedType;
+                    
+                    // 改為直接跳轉：
+                    redirectToHotelDetail();
+                    // 設置自動跳轉標記
+                    autoRedirect = true;
+                    
+                    // 直接跳轉，不顯示倒數計時
+                    statusText.textContent = '分析完成！正在跳轉...';
+                    setTimeout(() => {
+                        redirectToHotelDetail();
+                    }, 500);
+                    
+                }, 1500);
+            }
+        });
+        
+        // 跳轉到相應的飯店詳情頁面
+        function redirectToHotelDetail() {
+            if (currentUserType) {
+                // 顯示跳轉訊息
+                document.getElementById('status').textContent = `正在為您推薦合適的旅店...`;
+                
+                // 跳轉到旅店推薦頁面並傳遞用戶類型
+                setTimeout(() => {
+                    window.location.href = `hotel_interface.html?type=${currentUserType}`;
+                }, 500);
+            }
+        }
+        
+        // 如果用戶在倒數計時期間點擊按鈕，取消自動跳轉
+        document.getElementById('continueBtn').addEventListener('click', function() {
+            autoRedirect = false;
+        });
+    </script>
+</body>
+</html>

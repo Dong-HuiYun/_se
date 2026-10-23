@@ -1,0 +1,3037 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+.header {
+    background: linear-gradient(90deg, #d32f2f, #f44336);
+    color: white;
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav-buttons button {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 4px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.nav-buttons button:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.hotel-info {
+    background: white;
+    border-radius: 10px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    position: relative;
+}
+
+.hotel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.hotel-title {
+    font-size: 28px;
+    color: #d32f2f;
+    margin-bottom: 5px;
+}
+
+.hotel-location {
+    color: #666;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.hotel-rating {
+    background: #ff9800;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.price-section {
+    text-align: right;
+}
+
+.original-price {
+    font-size: 18px;
+    color: #999;
+    text-decoration: line-through;
+    margin-bottom: 5px;
+}
+
+.price {
+    font-size: 32px;
+    font-weight: bold;
+    color: #d32f2f;
+}
+
+.discount-badge {
+    background: #d32f2f;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.price-note {
+    font-size: 14px;
+    color: #666;
+}
+
+.urgency-banner {
+    background: linear-gradient(90deg, #d32f2f, #f44336);
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    margin: 30px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.urgency-text {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.countdown {
+    font-size: 18px;
+    font-weight: bold;
+    background: rgba(255,255,255,0.2);
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.rooms-left {
+    font-size: 16px;
+    background: rgba(255,255,255,0.2);
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-primary {
+    background: #d32f2f;
+    color: white;
+    flex: 2;
+}
+
+.btn-secondary {
+    background: #f5f7fa;
+    color: #333;
+    border: 1px solid #ddd;
+    flex: 1;
+}
+
+.btn-secondary:hover {
+    background: #e9ecef;
+}
+
+.btn i {
+    margin-right: 8px;
+}
+
+.benefits {
+    display: flex;
+    gap: 15px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+.benefit {
+    background: #ffebee;
+    color: #d32f2f;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 200px;
+}
+
+.benefit i {
+    font-size: 18px;
+}
+
+.tabs {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+    background: white;
+    border-radius: 10px 10px 0 0;
+    overflow: hidden;
+}
+
+.tab {
+    padding: 15px 25px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #666;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s;
+    flex: 1;
+    text-align: center;
+}
+
+.tab.active {
+    color: #d32f2f;
+    border-bottom: 3px solid #d32f2f;
+    background: #ffebee;
+}
+
+.tab-content {
+    display: none;
+    padding: 20px 0;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.room-options {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.room-card {
+    display: flex;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    transition: transform 0.3s;
+    position: relative;
+}
+
+.room-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.room-image {
+    flex: 0 0 250px;
+    height: 200px;
+    overflow: hidden;
+}
+
+.room-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.room-info {
+    flex: 1;
+    padding: 20px;
+}
+
+.room-title {
+    font-size: 20px;
+    color: #d32f2f;
+    margin-bottom: 10px;
+}
+
+.room-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.room-feature {
+    background: #ffebee;
+    color: #d32f2f;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.room-price {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    min-width: 180px;
+    border-left: 1px solid #f0f0f0;
+}
+
+.room-price .btn {
+    margin-top: 15px;
+    width: fit-content;
+    min-width: 130px;
+    padding: 10px 20px;
+}
+
+.room-price .original-price {
+    font-size: 16px;
+}
+
+.room-price .price {
+    font-size: 24px;
+}
+
+.room-price .btn-primary {
+    width: 40px;
+    height: 40px;
+    padding: 8px 16px;
+    margin-top: 15px;
+    font-size: 13px;
+    flex: none;
+    white-space: nowrap;
+}
+
+.reviews {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.review-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.review-rating {
+    color: #ff9800;
+    margin: 5px 0;
+}
+
+.price-guarantee {
+    background: #e8f5e9;
+    border: 1px solid #4caf50;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.price-guarantee i {
+    color: #4caf50;
+    font-size: 24px;
+}
+
+.price-guarantee-content h3 {
+    color: #2e7d32;
+    margin-bottom: 5px;
+}
+
+.points-system {
+    background: #fff3e0;
+    border: 1px solid #ff9800;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.points-system i {
+    color: #ff9800;
+    font-size: 24px;
+}
+
+.points-system-content h3 {
+    color: #ef6c00;
+    margin-bottom: 5px;
+}
+
+.limited-offer {
+    position: absolute;
+    top: -10px;
+    right: 20px;
+    background: #d32f2f;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.room-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.room-modal-content {
+    background: white;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 900px;
+    max-height: 85vh;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease;
+}
+
+.room-modal-header {
+    background: linear-gradient(135deg, #d32f2f, #f44336);
+    color: white;
+    padding: 25px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.room-modal-body {
+    padding: 0;
+    max-height: calc(85vh - 140px);
+    overflow-y: auto;
+}
+
+.room-option {
+    display: flex;
+    padding: 25px 30px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    gap: 20px;
+}
+
+.room-option:hover {
+    background-color: #f8fafc;
+}
+
+.room-option:last-child {
+    border-bottom: none;
+}
+
+.room-image {
+    flex: 0 0 150px;
+    height: 120px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.room-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.room-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.room-size {
+    background: #ffebee;
+    color: #d32f2f;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+.room-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.feature-tag {
+    background: #f5f7fa;
+    color: #5a6c7d;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.room-description {
+    color: #666;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.room-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.select-btn {
+    background: #d32f2f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.select-btn:hover {
+    background: #b71c1c;
+}
+
+.room-modal-footer {
+    padding: 5px 40px;
+    background: #f8f9fa;
+    text-align: center;
+    border-top: 1px solid #e9ecef;
+}
+
+.cancel-btn {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 25px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.map-container {
+    height: 300px;
+    background: #e9ecef;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { 
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .hotel-header {
+        flex-direction: column;
+    }
+    
+    .price-section {
+        text-align: left;
+        margin-top: 15px;
+    }
+    
+    .room-card {
+        flex-direction: column;
+    }
+    
+    .room-image {
+        flex: 0 0 200px;
+        width: 100%;
+    }
+    
+    .room-option {
+        flex-direction: column;
+    }
+    
+    .tabs {
+        flex-direction: column;
+    }
+    
+    .urgency-banner {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    .benefits {
+        flex-direction: column;
+    }
+}
+
+/* 地圖樣式 */
+#map, #restaurantMap, #attractionMap {
+    width: 100%;
+    height: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 1; /* 限制地圖的 z-index */
+}
+
+/* 小地圖樣式 */
+#restaurantMap, #attractionMap {
+    height: 200px;
+    z-index: 1;
+}
+
+/* 確保其他重要元素有更高的 z-index */
+.header {
+    z-index: 1000; /* 保持 header 在最上層 */
+}
+
+.room-modal {
+    z-index: 1000; /* 模態框在最上層 */
+}
+
+/* 確保地圖的彈出窗口不會被覆蓋 */
+.leaflet-popup {
+    z-index: 10;
+}
+
+.leaflet-container {
+    z-index: 1;
+}
+
+@media (max-width: 768px) {
+    #restaurantMap, #attractionMap {
+        height: 150px;
+    }
+}
+
+/* 自訂標記樣式 */
+.red-marker {
+    background: transparent !important;
+    border: none !important;
+}
+
+/* 通知動畫 */
+@keyframes slideInDownCenter {
+    from { 
+        transform: translate(-50%, -100%); 
+        opacity: 0; 
+    }
+    to { 
+        transform: translate(-50%, 0); 
+        opacity: 1; 
+    }
+}
+
+@keyframes slideOutUpCenter {
+    from { 
+        transform: translate(-50%, 0); 
+        opacity: 1; 
+    }
+    to { 
+        transform: translate(-50%, -100%); 
+        opacity: 0; 
+    }
+}
+
+/* 新增：主要四個功能區塊 */
+.main-features {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.feature-card {
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border-radius: 15px;
+    padding: 30px 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    border-color: #d32f2f;
+    box-shadow: 0 10px 30px rgba(211, 47, 47, 0.3);
+}
+
+.feature-icon {
+    font-size: 40px;
+    color: #d32f2f;
+    margin-bottom: 15px;
+}
+
+.feature-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #d32f2f;
+}
+
+.feature-desc {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.4;
+}
+
+/* 新增：功能選擇按鈕和彈窗 */
+.feature-selector-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #d32f2f, #f44336);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(211, 47, 47, 0.5);
+    z-index: 1000;
+    transition: all 0.3s;
+}
+
+.feature-selector-btn:hover {
+    transform: scale(1.1);
+}
+
+.feature-selector-modal {
+    display: none;
+    position: fixed;
+    bottom: 90px;
+    left: 20px;
+    width: 280px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    z-index: 1002;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+    backdrop-filter: blur(10px);
+    animation: slideUp 0.3s ease;
+}
+
+.feature-selector-header {
+    background: linear-gradient(90deg, #d32f2f, #f44336);
+    padding: 15px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.feature-selector-body {
+    padding: 15px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.feature-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 8px;
+    border: 1px solid rgba(211, 47, 47, 0.1);
+}
+
+.feature-option:hover {
+    background: rgba(211, 47, 47, 0.1);
+    transform: translateX(5px);
+}
+
+.feature-option i {
+    width: 20px;
+    text-align: center;
+    color: #d32f2f;
+}
+
+.feature-option span {
+    color: #d32f2f;
+    font-weight: 500;
+    text-decoration: none !important;
+}
+
+.close-selector {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+/* 新增：AI聊天窗口 */
+.ai-chat {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #d32f2f, #f44336);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(211, 47, 47, 0.5);
+    z-index: 1000;
+    transition: all 0.3s;
+}
+
+.ai-chat:hover {
+    transform: scale(1.1);
+}
+
+.ai-chat-window {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 350px;
+    height: 450px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    z-index: 1001;
+    display: none;
+    flex-direction: column;
+    border: 1px solid #e0e0e0;
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+}
+
+.ai-chat-header {
+    background: linear-gradient(90deg, #d32f2f, #f44336);
+    padding: 15px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.ai-chat-body {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ai-message, .user-message {
+    max-width: 80%;
+    padding: 10px 15px;
+    border-radius: 18px;
+    margin-bottom: 10px;
+    word-wrap: break-word;
+}
+
+.ai-message {
+    background: #ffebee;
+    color: #d32f2f;
+    align-self: flex-start;
+    border-bottom-left-radius: 5px;
+}
+
+.user-message {
+    background: #f5f7fa;
+    color: #333;
+    align-self: flex-end;
+    border-bottom-right-radius: 5px;
+}
+
+.ai-chat-input {
+    display: flex;
+    padding: 15px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.ai-chat-input input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    background: #f5f7fa;
+    color: #333;
+    outline: none;
+}
+
+.ai-chat-input button {
+    background: #d32f2f;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.close-chat {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+/* 新增：内容区块样式 */
+.content-section {
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+.section-title {
+    font-size: 24px;
+    color: #d32f2f;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .main-features {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .feature-selector-modal {
+        width: 90%;
+        left: 5%;
+    }
+    
+    .ai-chat-window {
+        width: 90%;
+        right: 5%;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-features {
+        grid-template-columns: 1fr;
+    }
+}
+    /* 價格折扣區塊樣式 */
+.discount-hero {
+    background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.discount-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(211, 47, 47, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+}
+
+.discount-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #d32f2f, #f44336);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(211, 47, 47, 0.3);
+}
+
+.badge-discount {
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.discount-title {
+    font-size: 32px;
+    color: #d32f2f;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.discount-desc {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 30px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.discount-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: 32px;
+    font-weight: 700;
+    color: #d32f2f;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
+}
+
+/* 折扣房型卡片樣式 */
+.discount-rooms {
+    margin-top: 40px;
+}
+
+.section-subtitle {
+    font-size: 24px;
+    color: #d32f2f;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.discount-room-card {
+    display: flex;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.discount-room-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(211, 47, 47, 0.15);
+}
+
+.room-image-container {
+    flex: 0 0 300px;
+    position: relative;
+    overflow: hidden;
+}
+
+.room-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.discount-room-card:hover .room-image-container img {
+    transform: scale(1.05);
+}
+
+.discount-ribbon {
+    position: absolute;
+    top: 15px;
+    left: -30px;
+    background: #d32f2f;
+    color: white;
+    padding: 8px 40px;
+    font-size: 14px;
+    font-weight: 600;
+    transform: rotate(-45deg);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.room-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.discount-room-card:hover .room-overlay {
+    opacity: 1;
+}
+
+.view-details-btn {
+    background: white;
+    color: #d32f2f;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.view-details-btn:hover {
+    background: #d32f2f;
+    color: white;
+}
+
+.room-content {
+    flex: 1;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.room-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.room-title {
+    font-size: 22px;
+    color: #d32f2f;
+    margin: 0;
+}
+
+.discount-percent {
+    background: #ffebee;
+    color: #d32f2f;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.room-specs {
+    color: #666;
+    margin-bottom: 15px;
+    font-size: 15px;
+}
+
+.room-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.feature-tag {
+    background: #f5f7fa;
+    color: #5a6c7d;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.room-desc {
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    flex: 1;
+}
+
+.price-section {
+    border-top: 1px solid #f0f0f0;
+    padding-top: 20px;
+}
+
+.price-comparison {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.original-price {
+    font-size: 16px;
+    color: #999;
+    text-decoration: line-through;
+}
+
+.savings {
+    font-size: 14px;
+    color: #4caf50;
+    font-weight: 600;
+}
+
+.current-price {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.price {
+    font-size: 28px;
+    font-weight: 700;
+    color: #d32f2f;
+}
+
+.price-note {
+    font-size: 14px;
+    color: #666;
+}
+
+.btn-discount {
+    background: linear-gradient(135deg, #d32f2f, #f44336);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-discount:hover {
+    background: linear-gradient(135deg, #b71c1c, #d32f2f);
+    box-shadow: 0 5px 15px rgba(211, 47, 47, 0.3);
+    transform: translateY(-2px);
+}
+
+/* 點數回饋區塊樣式 */
+.points-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.points-visual {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.points-circle {
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(135deg, #ffebee, #ffcdd2);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(211, 47, 47, 0.15);
+    border: 8px solid white;
+    position: relative;
+}
+
+.points-circle::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #d32f2f, #f44336);
+    z-index: -1;
+}
+
+.points-percent {
+    font-size: 42px;
+    font-weight: 800;
+    color: #d32f2f;
+}
+
+.points-label {
+    font-size: 16px;
+    color: #666;
+    font-weight: 500;
+}
+
+.points-details {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.points-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 4px solid #d32f2f;
+}
+
+.points-item i {
+    font-size: 24px;
+    color: #d32f2f;
+    width: 30px;
+    text-align: center;
+}
+
+.points-item h4 {
+    margin: 0 0 5px 0;
+    color: #d32f2f;
+    font-size: 16px;
+}
+
+.points-item p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.points-info h3 {
+    color: #d32f2f;
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.points-info p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.points-example {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 4px solid #d32f2f;
+}
+
+.points-example h4 {
+    color: #d32f2f;
+    margin-bottom: 15px;
+}
+
+.example-calc {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px 0;
+    border-bottom: 1px dashed #ddd;
+}
+
+.highlight {
+    color: #d32f2f;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.example-note {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+}
+
+/* 點數使用步驟 */
+.points-usage {
+    margin-top: 40px;
+}
+
+.usage-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.usage-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 30px 20px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+}
+
+.usage-step:hover {
+    transform: translateY(-5px);
+}
+
+.step-number {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #d32f2f, #f44336);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.step-content h4 {
+    color: #d32f2f;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.step-content p {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* 響應式設計 */
+@media (max-width: 968px) {
+    .points-hero {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .discount-room-card {
+        flex-direction: column;
+    }
+    
+    .room-image-container {
+        flex: 0 0 250px;
+    }
+}
+
+@media (max-width: 768px) {
+    .discount-stats {
+        gap: 20px;
+    }
+    
+    .usage-steps {
+        grid-template-columns: 1fr;
+    }
+    
+    .discount-hero {
+        padding: 30px 20px;
+    }
+    
+    .discount-title {
+        font-size: 26px;
+    }
+}
+            
+.nearby-places {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.place-card {
+    padding: 15px;
+    background: #f5f7fa;
+    border-radius: 8px;
+}
+
+.place-card h4 {
+    color: #d32f2f;
+    margin-bottom: 5px;
+}
+
+.place-card p {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #666;
+}
+
+@media (max-width: 768px) {
+    .nearby-places {
+        grid-template-columns: 1fr;
+    }
+}
+    /* 價格保證主視覺區樣式 */
+.guarantee-hero {
+background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+border-radius: 20px;
+padding: 40px;
+text-align: center;
+margin-bottom: 40px;
+position: relative;
+overflow: hidden;
+}
+
+.guarantee-hero::before {
+content: '';
+position: absolute;
+top: -50%;
+right: -20%;
+width: 300px;
+height: 300px;
+background: radial-gradient(circle, rgba(255, 152, 0, 0.1) 0%, transparent 70%);
+border-radius: 50%;
+}
+
+.guarantee-badge {
+display: inline-flex;
+align-items: center;
+gap: 10px;
+background: linear-gradient(135deg, #ff9800, #ffb74d);
+color: white;
+padding: 12px 24px;
+border-radius: 50px;
+font-weight: bold;
+margin-bottom: 20px;
+box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+}
+
+.guarantee-title {
+font-size: 32px;
+color: #ff9800;
+margin-bottom: 15px;
+font-weight: 700;
+}
+
+.guarantee-desc {
+font-size: 18px;
+color: #666;
+margin-bottom: 30px;
+max-width: 600px;
+margin-left: auto;
+margin-right: auto;
+}
+
+.guarantee-visual {
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 40px;
+flex-wrap: wrap;
+}
+
+.price-comparison {
+display: flex;
+align-items: center;
+gap: 20px;
+background: white;
+padding: 25px;
+border-radius: 15px;
+box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.other-price, .our-price {
+text-align: center;
+min-width: 150px;
+}
+
+.price-source {
+font-size: 14px;
+color: #666;
+margin-bottom: 10px;
+}
+
+.price-amount {
+font-size: 24px;
+font-weight: 700;
+padding: 10px;
+border-radius: 8px;
+}
+
+.price-amount.higher {
+background: #ffebee;
+color: #d32f2f;
+text-decoration: line-through;
+}
+
+.price-amount.lower {
+background: #e8f5e9;
+color: #2e7d32;
+}
+
+.savings-badge {
+background: #4caf50;
+color: white;
+padding: 5px 10px;
+border-radius: 15px;
+font-size: 12px;
+font-weight: 600;
+margin-top: 8px;
+}
+
+.comparison-arrow {
+font-size: 24px;
+color: #ff9800;
+}
+
+.double-refund {
+display: flex;
+align-items: center;
+gap: 15px;
+background: linear-gradient(135deg, #ff9800, #ffb74d);
+color: white;
+padding: 20px 25px;
+border-radius: 15px;
+box-shadow: 0 5px 20px rgba(255, 152, 0, 0.3);
+}
+
+.refund-icon {
+font-size: 32px;
+}
+
+.refund-text {
+display: flex;
+flex-direction: column;
+}
+
+.refund-amount {
+font-size: 20px;
+font-weight: 700;
+margin-bottom: 5px;
+}
+
+.refund-desc {
+font-size: 14px;
+opacity: 0.9;
+}
+
+/* 保證條款與流程樣式 */
+.guarantee-details {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 40px;
+margin-bottom: 40px;
+}
+
+.terms-grid {
+display: grid;
+grid-template-columns: 1fr;
+gap: 20px;
+}
+
+.term-card {
+display: flex;
+align-items: flex-start;
+gap: 15px;
+padding: 20px;
+background: white;
+border-radius: 12px;
+box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+transition: transform 0.3s ease;
+}
+
+.term-card:hover {
+transform: translateY(-3px);
+}
+
+.term-icon {
+width: 50px;
+height: 50px;
+background: linear-gradient(135deg, #ff9800, #ffb74d);
+border-radius: 12px;
+display: flex;
+align-items: center;
+justify-content: center;
+color: white;
+font-size: 20px;
+flex-shrink: 0;
+}
+
+.term-content h4 {
+color: #ff9800;
+margin-bottom: 8px;
+font-size: 16px;
+}
+
+.term-content p {
+color: #666;
+font-size: 14px;
+margin: 0;
+line-height: 1.5;
+}
+
+.process-steps {
+display: flex;
+flex-direction: column;
+gap: 25px;
+}
+
+.process-step {
+display: flex;
+gap: 20px;
+}
+
+.step-indicator {
+width: 40px;
+height: 40px;
+display: flex;
+flex-direction: column;
+align-items: center;
+flex-shrink: 0;
+}
+
+.step-number {
+width: 40px;
+height: 40px;
+background: linear-gradient(135deg, #ff9800, #ffb74d);
+color: white;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-weight: 700;
+font-size: 16px;
+}
+
+.step-line {
+width: 2px;
+height: 100%;
+background: #ffcc80;
+margin-top: 10px;
+}
+
+.process-step:last-child .step-line {
+display: none;
+}
+
+.step-content {
+padding-bottom: 25px;
+}
+
+.step-content h4 {
+color: #ff9800;
+margin-bottom: 8px;
+font-size: 16px;
+}
+
+.step-content p {
+color: #666;
+font-size: 14px;
+margin: 0;
+line-height: 1.5;
+}
+
+/* 成功案例樣式 */
+.success-cases {
+margin-bottom: 40px;
+}
+
+.cases-grid {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 20px;
+}
+
+.case-card {
+background: white;
+border-radius: 15px;
+padding: 25px;
+box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+border-left: 4px solid #ff9800;
+}
+
+.case-header {
+display: flex;
+align-items: center;
+gap: 15px;
+margin-bottom: 20px;
+}
+
+.user-avatar {
+width: 50px;
+height: 50px;
+background: #fff3e0;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #ff9800;
+font-size: 20px;
+}
+
+.user-info {
+display: flex;
+flex-direction: column;
+}
+
+.user-info strong {
+color: #333;
+font-size: 16px;
+}
+
+.user-info span {
+color: #999;
+font-size: 13px;
+}
+
+.price-difference {
+display: flex;
+justify-content: space-between;
+margin-bottom: 15px;
+padding-bottom: 15px;
+border-bottom: 1px dashed #eee;
+}
+
+.difference-amount {
+color: #666;
+font-size: 14px;
+}
+
+.refund-amount {
+color: #4caf50;
+font-weight: 700;
+font-size: 16px;
+}
+
+.case-comment {
+color: #666;
+font-style: italic;
+margin: 0;
+line-height: 1.5;
+}
+
+/* CTA 區域樣式 */
+.guarantee-cta {
+background: linear-gradient(135deg, #ff9800, #ffb74d);
+border-radius: 20px;
+padding: 40px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+position: relative;
+overflow: hidden;
+}
+
+.guarantee-cta::before {
+content: '';
+position: absolute;
+top: -50%;
+right: -20%;
+width: 300px;
+height: 300px;
+background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+border-radius: 50%;
+}
+
+.cta-content {
+flex: 1;
+color: white;
+}
+
+.cta-content h3 {
+font-size: 28px;
+margin-bottom: 10px;
+font-weight: 700;
+}
+
+.cta-content p {
+font-size: 16px;
+margin-bottom: 20px;
+opacity: 0.9;
+}
+
+.btn-guarantee {
+background: white;
+color: #ff9800;
+border: none;
+padding: 15px 30px;
+border-radius: 50px;
+font-weight: 700;
+font-size: 16px;
+cursor: pointer;
+transition: all 0.3s ease;
+display: inline-flex;
+align-items: center;
+gap: 10px;
+box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.btn-guarantee:hover {
+background: #fff3e0;
+transform: translateY(-2px);
+box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.cta-badge {
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 10px;
+color: white;
+}
+
+.cta-badge i {
+font-size: 32px;
+}
+
+.cta-badge span {
+font-weight: 700;
+font-size: 14px;
+}
+
+/* 響應式設計 */
+@media (max-width: 968px) {
+.guarantee-details {
+    grid-template-columns: 1fr;
+    gap: 30px;
+}
+
+.guarantee-visual {
+    flex-direction: column;
+    gap: 20px;
+}
+
+.guarantee-cta {
+    flex-direction: column;
+    gap: 30px;
+    text-align: center;
+}
+}
+
+@media (max-width: 768px) {
+.cases-grid {
+    grid-template-columns: 1fr;
+}
+
+.price-comparison {
+    flex-direction: column;
+    gap: 15px;
+}
+
+.guarantee-hero {
+    padding: 30px 20px;
+}
+
+.guarantee-title {
+    font-size: 26px;
+}
+}
+/* 選擇按鈕狀態樣式 */
+.select-btn {
+transition: all 0.3s ease !important;
+position: relative;
+overflow: hidden;
+}
+
+.select-btn:disabled {
+opacity: 0.7;
+cursor: not-allowed !important;
+}
+
+.select-btn.loading {
+background: #2e7d32 !important;
+color: white !important;
+}
+
+.select-btn.success {
+background: #1b5e20 !important;
+color: white !important;
+}
+
+/* 旋轉動畫 */
+.fa-spinner {
+animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
+}
+
+/* 成功通知樣式 */
+.notification {
+position: fixed;
+top: 20px;
+right: 20px;
+background: #4caf50;
+color: white;
+padding: 15px 20px;
+border-radius: 8px;
+box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+z-index: 10000;
+animation: slideInRight 0.3s ease;
+}
+
+@keyframes slideInRight {
+from {
+transform: translateX(100%);
+opacity: 0;
+}
+to {
+transform: translateX(0);
+opacity: 1;
+}
+}
+/* 期間優惠主視覺區樣式 */
+.promotion-hero {
+background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+border-radius: 20px;
+padding: 40px;
+text-align: center;
+margin-bottom: 40px;
+position: relative;
+overflow: hidden;
+}
+
+.promotion-hero::before {
+content: '';
+position: absolute;
+top: -50%;
+right: -20%;
+width: 300px;
+height: 300px;
+background: radial-gradient(circle, rgba(33, 150, 243, 0.1) 0%, transparent 70%);
+border-radius: 50%;
+}
+
+.promotion-badge {
+display: inline-flex;
+align-items: center;
+gap: 10px;
+background: linear-gradient(135deg, #2196f3, #64b5f6);
+color: white;
+padding: 12px 24px;
+border-radius: 50px;
+font-weight: bold;
+margin-bottom: 20px;
+box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+}
+
+.promotion-title {
+font-size: 32px;
+color: #2196f3;
+margin-bottom: 15px;
+font-weight: 700;
+}
+
+.promotion-desc {
+font-size: 18px;
+color: #666;
+margin-bottom: 30px;
+max-width: 600px;
+margin-left: auto;
+margin-right: auto;
+}
+
+.promotion-countdown {
+background: white;
+padding: 25px;
+border-radius: 15px;
+display: inline-block;
+box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.countdown-title {
+font-size: 16px;
+color: #666;
+margin-bottom: 15px;
+font-weight: 600;
+}
+
+.countdown-timer {
+display: flex;
+align-items: center;
+gap: 15px;
+}
+
+.time-unit {
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+.time-number {
+font-size: 32px;
+font-weight: 700;
+color: #2196f3;
+background: #e3f2fd;
+padding: 10px 15px;
+border-radius: 8px;
+min-width: 70px;
+}
+
+.time-label {
+font-size: 12px;
+color: #666;
+margin-top: 5px;
+font-weight: 500;
+}
+
+.time-separator {
+font-size: 24px;
+color: #2196f3;
+font-weight: 700;
+margin-top: -10px;
+}
+
+/* 優惠活動卡片樣式 */
+.promotion-cards {
+margin-bottom: 40px;
+}
+
+.cards-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 25px;
+}
+
+.promotion-card {
+background: white;
+border-radius: 20px;
+padding: 25px;
+box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+position: relative;
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+border: 2px solid transparent;
+}
+
+.promotion-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 10px 30px rgba(33, 150, 243, 0.15);
+border-color: #2196f3;
+}
+
+.promotion-card.featured {
+border-color: #2196f3;
+background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%);
+}
+
+.card-badge {
+position: absolute;
+top: -10px;
+right: 20px;
+background: linear-gradient(135deg, #ff9800, #ffb74d);
+color: white;
+padding: 6px 15px;
+border-radius: 15px;
+font-size: 12px;
+font-weight: 700;
+}
+
+.card-header {
+display: flex;
+align-items: center;
+gap: 15px;
+margin-bottom: 20px;
+}
+
+.promotion-icon {
+width: 60px;
+height: 60px;
+background: linear-gradient(135deg, #2196f3, #64b5f6);
+border-radius: 15px;
+display: flex;
+align-items: center;
+justify-content: center;
+color: white;
+font-size: 24px;
+}
+
+.promotion-info {
+flex: 1;
+}
+
+.promotion-info h4 {
+color: #2196f3;
+margin-bottom: 5px;
+font-size: 20px;
+}
+
+.discount-tag {
+background: #e3f2fd;
+color: #2196f3;
+padding: 4px 12px;
+border-radius: 15px;
+font-size: 14px;
+font-weight: 700;
+display: inline-block;
+}
+
+.card-content {
+margin-bottom: 25px;
+}
+
+.card-content .promotion-desc {
+color: #666;
+margin-bottom: 15px;
+font-size: 14px;
+line-height: 1.5;
+}
+
+.benefits-list {
+list-style: none;
+padding: 0;
+margin: 0 0 20px 0;
+}
+
+.benefits-list li {
+display: flex;
+align-items: center;
+gap: 10px;
+margin-bottom: 8px;
+color: #666;
+font-size: 14px;
+}
+
+.benefits-list i {
+color: #4caf50;
+font-size: 12px;
+}
+
+.valid-period {
+display: flex;
+align-items: center;
+gap: 8px;
+color: #999;
+font-size: 13px;
+}
+
+.btn-promotion {
+background: linear-gradient(135deg, #2196f3, #64b5f6);
+color: white;
+border: none;
+padding: 12px 25px;
+border-radius: 8px;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.3s ease;
+width: 100%;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 8px;
+}
+
+.btn-promotion:hover {
+background: linear-gradient(135deg, #1976d2, #2196f3);
+box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+transform: translateY(-2px);
+}
+
+/* 季節性優惠樣式 */
+.seasonal-promotions {
+margin-bottom: 40px;
+}
+
+.seasonal-grid {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 20px;
+}
+
+.seasonal-card {
+height: 200px;
+border-radius: 15px;
+position: relative;
+overflow: hidden;
+background-size: cover;
+background-position: center;
+}
+
+.seasonal-card.spring {
+background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');
+}
+
+.seasonal-card.summer {
+background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');
+}
+
+.seasonal-card.autumn {
+background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');
+}
+
+.seasonal-card.winter {
+background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1483664852095-d6cc6870702d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');
+}
+
+.seasonal-overlay {
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background: rgba(0,0,0,0.5);
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 20px;
+opacity: 0;
+transition: opacity 0.3s ease;
+}
+
+.seasonal-card:hover .seasonal-overlay {
+opacity: 1;
+}
+
+.seasonal-content {
+text-align: center;
+color: white;
+}
+
+.seasonal-content h4 {
+font-size: 20px;
+margin-bottom: 10px;
+font-weight: 700;
+}
+
+.seasonal-content p {
+font-size: 14px;
+margin-bottom: 15px;
+opacity: 0.9;
+}
+
+.seasonal-discount {
+background: #2196f3;
+color: white;
+padding: 8px 16px;
+border-radius: 20px;
+font-weight: 700;
+margin-bottom: 15px;
+display: inline-block;
+}
+
+.btn-seasonal {
+background: white;
+color: #2196f3;
+border: none;
+padding: 8px 20px;
+border-radius: 20px;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.3s ease;
+}
+
+.btn-seasonal:hover {
+background: #2196f3;
+color: white;
+}
+
+/* 優惠條款樣式 */
+.promotion-terms {
+margin-bottom: 40px;
+}
+
+.terms-content {
+background: #f8f9fa;
+border-radius: 15px;
+padding: 30px;
+}
+
+.term-item {
+margin-bottom: 25px;
+padding-bottom: 25px;
+border-bottom: 1px solid #e9ecef;
+}
+
+.term-item:last-child {
+margin-bottom: 0;
+padding-bottom: 0;
+border-bottom: none;
+}
+
+.term-item h4 {
+display: flex;
+align-items: center;
+gap: 10px;
+color: #2196f3;
+margin-bottom: 10px;
+font-size: 16px;
+}
+
+.term-item p {
+color: #666;
+margin: 0;
+line-height: 1.6;
+font-size: 14px;
+}
+
+/* 優惠比較表樣式 */
+.promotion-comparison {
+margin-bottom: 20px;
+}
+
+.comparison-table {
+background: white;
+border-radius: 15px;
+overflow: hidden;
+box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.table-header {
+display: grid;
+grid-template-columns: 2fr 1fr 1fr 1fr;
+background: linear-gradient(135deg, #2196f3, #64b5f6);
+color: white;
+}
+
+.table-row {
+display: grid;
+grid-template-columns: 2fr 1fr 1fr 1fr;
+border-bottom: 1px solid #f0f0f0;
+}
+
+.table-row:last-child {
+border-bottom: none;
+}
+
+.table-cell {
+padding: 20px;
+display: flex;
+align-items: center;
+justify-content: center;
+text-align: center;
+}
+
+.table-header .table-cell {
+font-weight: 700;
+font-size: 16px;
+}
+
+.table-row .table-cell:first-child {
+justify-content: flex-start;
+text-align: left;
+color: #666;
+font-weight: 500;
+}
+
+.table-row .table-cell:not(:first-child) {
+color: #2196f3;
+font-weight: 600;
+}
+
+.table-row:nth-child(even) {
+background: #f8f9fa;
+}
+
+/* 響應式設計 */
+@media (max-width: 968px) {
+.cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.seasonal-grid {
+    grid-template-columns: 1fr;
+}
+}
+
+@media (max-width: 768px) {
+.cards-grid {
+    grid-template-columns: 1fr;
+}
+
+.countdown-timer {
+    flex-direction: column;
+    gap: 10px;
+}
+
+.time-separator {
+    display: none;
+}
+
+.table-header, .table-row {
+    grid-template-columns: 1fr;
+}
+
+.table-cell {
+    justify-content: flex-start;
+    text-align: left;
+}
+
+.promotion-hero {
+    padding: 30px 20px;
+}
+
+.promotion-title {
+    font-size: 26px;
+}
+}
+.reviews-summary {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #f5f7fa;
+    border-radius: 10px;
+}
+
+.overall-rating {
+    text-align: center;
+    flex: 0 0 150px;
+}
+
+.rating-score {
+    font-size: 36px;
+    font-weight: bold;
+    color: #d32f2f;
+}
+
+.rating-text {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #d32f2f;
+}
+
+.rating-stars {
+    color: #ff9800;
+    margin-bottom: 5px;
+}
+
+.review-count {
+    font-size: 14px;
+    color: #666;
+}
+
+.rating-breakdown {
+    flex: 1;
+}
+
+.rating-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.rating-item span:first-child {
+    width: 80px;
+    font-size: 14px;
+}
+
+.rating-bar {
+    flex: 1;
+    height: 8px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    margin: 0 10px;
+    overflow: hidden;
+}
+
+.rating-fill {
+    height: 100%;
+    background: #d32f2f;
+    border-radius: 4px;
+}
+
+.rating-item span:last-child {
+    width: 30px;
+    text-align: right;
+    font-weight: bold;
+    color: #d32f2f;
+}
+
+@media (max-width: 768px) {
+    .reviews-summary {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .overall-rating {
+        flex: none;
+    }
+}
+    /* 服務區塊通用樣式 */
+.service-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 40px;
+align-items: center;
+}
+
+.service-grid.reverse {
+direction: rtl;
+}
+
+.service-grid.reverse > * {
+direction: ltr;
+}
+
+.service-image {
+position: relative;
+border-radius: 15px;
+overflow: hidden;
+box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+height: 300px;
+}
+
+.service-image img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+transition: transform 0.5s ease;
+}
+
+.service-image:hover img {
+transform: scale(1.05);
+}
+
+.image-overlay {
+position: absolute;
+top: 15px;
+left: 15px;
+background: rgba(211, 47, 47, 0.9);
+color: white;
+padding: 8px 15px;
+border-radius: 20px;
+font-size: 14px;
+font-weight: 600;
+}
+
+.service-info h3 {
+color: #d32f2f;
+font-size: 24px;
+margin-bottom: 15px;
+font-weight: 700;
+}
+
+.service-info p {
+color: #666;
+line-height: 1.6;
+margin-bottom: 25px;
+font-size: 15px;
+}
+
+/* 早餐服務特色樣式 */
+.service-features {
+display: flex;
+gap: 20px;
+}
+
+.feature-item {
+display: flex;
+align-items: center;
+gap: 8px;
+color: #d32f2f;
+font-weight: 500;
+}
+
+.feature-item i {
+font-size: 16px;
+}
+
+/* 設施使用特色樣式 */
+.facility-highlights {
+display: flex;
+flex-direction: column;
+gap: 15px;
+}
+
+.highlight-item {
+display: flex;
+align-items: center;
+gap: 15px;
+padding: 15px;
+background: #f8f9fa;
+border-radius: 10px;
+border-left: 4px solid #d32f2f;
+}
+
+.highlight-icon {
+width: 40px;
+height: 40px;
+background: #ffebee;
+border-radius: 10px;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #d32f2f;
+font-size: 18px;
+}
+
+.highlight-item strong {
+display: block;
+color: #333;
+margin-bottom: 4px;
+}
+
+.highlight-item span {
+color: #666;
+font-size: 14px;
+}
+
+/* 迎賓服務特色樣式 */
+.welcome-items {
+display: flex;
+gap: 20px;
+}
+
+.welcome-item {
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 8px;
+text-align: center;
+}
+
+.welcome-item i {
+width: 50px;
+height: 50px;
+background: #ffebee;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #d32f2f;
+font-size: 20px;
+}
+
+.welcome-item span {
+font-size: 14px;
+color: #666;
+font-weight: 500;
+}
+
+/* 運營彈性特色樣式 */
+.flexibility-options {
+display: flex;
+flex-direction: column;
+gap: 15px;
+}
+
+.option {
+display: flex;
+align-items: center;
+gap: 15px;
+padding: 15px;
+background: #f8f9fa;
+border-radius: 10px;
+}
+
+.option i {
+width: 40px;
+height: 40px;
+background: #ffebee;
+border-radius: 10px;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #d32f2f;
+font-size: 18px;
+}
+
+.option strong {
+display: block;
+color: #333;
+margin-bottom: 4px;
+}
+
+.option span {
+color: #666;
+font-size: 14px;
+}
+
+/* 公共空間特色樣式 */
+.space-features {
+display: flex;
+gap: 25px;
+}
+
+.space-item {
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 8px;
+text-align: center;
+}
+
+.space-item i {
+width: 50px;
+height: 50px;
+background: #ffebee;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #d32f2f;
+font-size: 20px;
+}
+
+.space-item span {
+font-size: 14px;
+color: #666;
+font-weight: 500;
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+.service-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+}
+
+.service-grid.reverse {
+    direction: ltr;
+}
+
+.service-image {
+    height: 250px;
+}
+
+.service-features,
+.welcome-items,
+.space-features {
+    flex-direction: column;
+    gap: 15px;
+}
+
+.facility-highlights,
+.flexibility-options {
+    gap: 10px;
+}
+}
+/* 通知彈窗樣式 - 居中紅色版本 */
+.notification {
+position: fixed;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%) scale(0.8);
+background: white;
+border-radius: 12px;
+padding: 20px 25px;
+box-shadow: 0 15px 40px rgba(231, 76, 60, 0.3);
+border: 2px solid #e74c3c;
+opacity: 0;
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+z-index: 1000;
+max-width: 400px;
+min-width: 300px;
+text-align: center;
+}
+
+.notification.show {
+transform: translate(-50%, -50%) scale(1);
+opacity: 1;
+}
+
+.notification-content {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 12px;
+font-size: 16px;
+color: #333;
+font-weight: 500;
+}
+
+.notification-content i {
+font-size: 20px;
+color: #e74c3c;
+flex-shrink: 0;
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+.notification {
+max-width: 90%;
+min-width: 280px;
+padding: 16px 20px;
+}
+
+.notification-content {
+font-size: 14px;
+}
+}
+/* 地图控制按钮样式 */
+.map-controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.map-reset-btn {
+    width: 40px;
+    height: 40px;
+    background: white;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: #333;
+    transition: all 0.3s ease;
+    z-index: 1001;
+}
+
+.map-reset-btn:hover {
+    background: #4dabf7;
+    color: white;
+    transform: scale(1.1);
+}
+
+.map-reset-btn:active {
+    transform: scale(0.95);
+}
+
+/* 确保地图容器有相对定位 */
+.map-container {
+    position: relative;
+    height: 300px;
+    background: #1a2435;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #a0aec0;
+    border: 1px solid #2a3a52;
+}
+.map-controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.map-reset-btn,
+.map-attractions-btn,
+.map-zoom-in-btn,
+.map-zoom-out-btn {
+    width: 40px;
+    height: 40px;
+    background: white;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: #333;
+    transition: all 0.3s ease;
+    z-index: 1001;
+}
+
+.map-reset-btn:hover,
+.map-attractions-btn:hover,
+.map-zoom-in-btn:hover,
+.map-zoom-out-btn:hover {
+    background: #4dabf7;
+    color: white;
+    transform: scale(1.1);
+}
+
+.map-reset-btn:active,
+.map-attractions-btn:active,
+.map-zoom-in-btn:active,
+.map-zoom-out-btn:active {
+    transform: scale(0.95);
+}
+

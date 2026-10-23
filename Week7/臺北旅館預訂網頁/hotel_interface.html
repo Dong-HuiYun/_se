@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅遊推薦平台 - 個性化選擇</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .back-to-ai-btn {
+            background: linear-gradient(90deg, #6e8efb, #a777e3);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 3px 10px rgba(110, 142, 251, 0.3);
+        }
+
+        .back-to-ai-btn:hover {
+            background: linear-gradient(90deg, #5d7de0, #9666d8);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(110, 142, 251, 0.4);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            color: #4b6cb7;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #4b6cb7, #182848);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .user-type-indicator {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        
+        .recommendation-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            color: #4b6cb7;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        /* 長條狀旅店卡片 */
+        .hotel-card-long {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            margin-bottom: 30px;
+        }
+        
+        .hotel-card-long:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .hotel-image-long {
+            width: 300px;
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+            flex-shrink: 0;
+        }
+        
+        .hotel-image-long img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .hotel-card-long:hover .hotel-image-long img {
+            transform: scale(1.05);
+        }
+        
+        .hotel-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .badge-a {
+            background: rgba(52, 152, 219, 0.9);
+        }
+        
+        .badge-b {
+            background: rgba(46, 204, 113, 0.9);
+        }
+        
+        .badge-c {
+            background: rgba(231, 76, 60, 0.9);
+        }
+        
+        .hotel-content-long {
+            flex: 1;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .hotel-name {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .hotel-location {
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .hotel-location i {
+            color: #3498db;
+        }
+        
+        .hotel-description {
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            flex: 1;
+        }
+        
+        .hotel-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .feature-tag {
+            background: #f8f9fa;
+            color: #495057;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            border: 1px solid #e9ecef;
+        }
+        
+        .hotel-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            color: #f39c12;
+        }
+        
+        .hotel-price-long {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .price-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .price-amount {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        
+        .price-a {
+            color: #3498db;
+        }
+        
+        .price-b {
+            color: #2ecc71;
+        }
+        
+        .price-c {
+            color: #e74c3c;
+        }
+        
+        .price-note {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
+        .book-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: white;
+            font-size: 1rem;
+        }
+        
+        .btn-a {
+            background: #3498db;
+        }
+        
+        .btn-a:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .btn-b {
+            background: #2ecc71;
+        }
+        
+        .btn-b:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
+        }
+        
+        .btn-c {
+            background: #e74c3c;
+        }
+        
+        .btn-c:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+        
+        .discount-price {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .original-price {
+            text-decoration: line-through;
+            color: #95a5a6;
+            font-size: 1.1rem;
+        }
+        
+        .discount-badge {
+            background: #e74c3c;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .urgency-banner {
+            background: linear-gradient(90deg, #e74c3c, #f39c12);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .countdown {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .rooms-left {
+            font-weight: bold;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: white;
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 1100px) {
+            .categories-container {
+                flex-direction: column;
+            }
+            
+            .hotel-card-long {
+                flex-direction: column;
+            }
+            
+            .hotel-image-long {
+                width: 100%;
+                height: 200px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .category-title {
+                font-size: 1.5rem;
+            }
+            
+            .hotel-content-long {
+                padding: 20px;
+            }
+            
+            .hotel-price-long {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            
+            .book-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 120px;"></div>
+                <div style="text-align: center; flex: 2; min-width: 300px;">
+                    <h1>旅遊推薦平台</h1>
+                    <p class="subtitle">根據您的偏好，為您精選最合適的旅遊選擇</p>
+                    <div id="userTypeIndicator" class="user-type-indicator user-type-a"></div>
+                </div>
+                <div style="flex: 1; text-align: right; min-width: 150px;">
+                    <button id="backToAIBtn" class="back-to-ai-btn" onclick="window.location.href='index.html'">
+                        <i class="fas fa-microphone"></i> 重新語音輸入
+                    </button>
+                </div>
+            </div>
+        </header>
+        
+        <div class="categories-container">
+            <div class="category-tab type-a active" id="tabA"></div>    
+            <div class="category-tab type-b disabled" id="tabB"> </div>
+            <div class="category-tab type-c disabled" id="tabC"></div>
+        </div>
+        
+        <!-- A類推薦內容 -->
+        <div class="recommendation-section" id="sectionA">
+            <h2 class="section-title">科技體驗精選</h2>
+            
+            <!-- 第一個旅館 -->
+            <div class="hotel-card-long">
+                <div class="hotel-image-long">
+                    <img src="hotel_exterior/kaida.jpg" alt="台北凱達大飯店">
+                    <div class="hotel-badge badge-a">VR體驗 · AI助理</div>
+                </div>
+                <div class="hotel-content-long">
+                    <h3 class="hotel-name">台北凱達大飯店</h3>
+                    <p class="hotel-location"><i class="fas fa-map-marker-alt"></i> 台北市萬華區艋舺大道167號 · 距離龍山寺 0.2 公里</p>
+                    <p class="hotel-description">台北凱達大飯店以現代科技結合都會風格，提供智能化住宿體驗。房內配備高速網路與智慧電視，館內設有無邊際泳池與健身房，坐擁城市天際線。鄰近捷運龍山寺站，交通便捷，輕鬆連結整個台北。</p>
+                    <div class="hotel-features">
+                        <span class="feature-tag">VR實境看房</span>
+                        <span class="feature-tag">AI智能助理</span>
+                        <span class="feature-tag">3D地圖導覽</span>
+                        <span class="feature-tag">智能客房控制</span>
+                        <span class="feature-tag">高速Wi-Fi</span>
+                        <span class="feature-tag">語音控制</span>
+                    </div>
+                    <div class="hotel-rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        4.9 (2,385 則評論) · 8.7 很棒
+                    </div>
+                    <div class="hotel-price-long">
+                        <div class="price-info">
+                            <div class="price-amount price-a">TWD 5,800</div>
+                            <div class="price-note">平均每晚價格 · 含稅費</div>
+                        </div>
+                        <button class="book-btn btn-a" onclick="window.location.href='A1_detail.html?category=A'">體驗科技住宿</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 第二個旅館 -->
+            <div class="hotel-card-long">
+                <div class="hotel-image-long">
+                    <img src="hotel_exterior/W.jpg" alt="台北W飯店">
+                    <div class="hotel-badge badge-a">智能客房 · 科技設施</div>
+                </div>
+                <div class="hotel-content-long">
+                    <h3 class="hotel-name">台北W飯店</h3>
+                    <p class="hotel-location"><i class="fas fa-map-marker-alt"></i> 台北市信義區忠孝東路五段10號 · 距離台北101 0.3 公里</p>
+                    <p class="hotel-description">W 飯店以未來感設計與潮流科技著稱，結合聲光互動與智能控制系統。位於信義區核心，步行即可到台北101與百貨商圈，擁有絕佳夜景與娛樂資源，是數位世代旅人的理想選擇。</p>
+                    <div class="hotel-features">
+                        <span class="feature-tag">智能客房控制</span>
+                        <span class="feature-tag">互動投影牆</span>
+                        <span class="feature-tag">高科技健身中心</span>
+                        <span class="feature-tag">智能會議室</span>
+                        <span class="feature-tag">平板控制系統</span>
+                        <span class="feature-tag">高速Wi-Fi</span>
+                    </div>
+                    <div class="hotel-rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        4.7 (1,842 則評論) · 8.5 很棒
+                    </div>
+                    <div class="hotel-price-long">
+                        <div class="price-info">
+                            <div class="price-amount price-a">TWD 6,200</div>
+                            <div class="price-note">平均每晚價格 · 含稅費</div>
+                        </div>
+                        <button class="book-btn btn-a" onclick="window.location.href='A2_detail.html?category=A'">體驗科技住宿</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 第三個旅館 -->
+            <div class="hotel-card-long">
+                <div class="hotel-image-long">
+                    <img src="hotel_exterior/hanshe.jpg" alt="台北寒舍艾美酒店">
+                    <div class="hotel-badge badge-a">AI服務 · 智能體驗</div>
+                </div>
+                <div class="hotel-content-long">
+                    <h3 class="hotel-name">台北寒舍艾美酒店</h3>
+                    <p class="hotel-location"><i class="fas fa-map-marker-alt"></i> 台北市信義區松仁路38號 · 距離台北101 0.4 公里</p>
+                    <p class="hotel-description">寒舍艾美以歐式簡約與科技質感打造高雅住宿氛圍。提供智能入住、電子客房控制、室內泳池與高階會議設施。鄰近台北101與捷運市政府站，是兼具設計美學與商務效率的高端之選。</p>
+                    <div class="hotel-features">
+                        <span class="feature-tag">AI管家服務</span>
+                        <span class="feature-tag">智能鏡面顯示器</span>
+                        <span class="feature-tag">數位藝術展覽</span>
+                        <span class="feature-tag">智能照明系統</span>
+                        <span class="feature-tag">語音助理</span>
+                        <span class="feature-tag">高速Wi-Fi</span>
+                    </div>
+                    <div class="hotel-rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        4.8 (1,956 則評論) · 8.6 很棒
+                    </div>
+                    <div class="hotel-price-long">
+                        <div class="price-info">
+                            <div class="price-amount price-a">TWD 5,500</div>
+                            <div class="price-note">平均每晚價格 · 含稅費</div>
+                        </div>
+                        <button class="book-btn btn-a" onclick="window.location.href='A3_detail.html?category=A'">體驗科技住宿</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- B類推薦內容 -->
+        <div class="recommendation-section" id="sectionB" style="display: none;">
+            <h2 class="section-title">高CP值精選</h2>
+            
+            <!-- 第一個旅館 -->
+            <div class="hotel-card-long">
+                <div class="hotel-image-long">
+                    <img src="hotel_exterior/junyue.webp" alt="台北君悅酒店">
+                    <div class="hotel-badge badge-b">免費早餐 · 設施齊全</div>
+                </div>
+                <div class="hotel-content-long">
+                    <h3 class="hotel-name">台北君悅酒店</h3>
+                    <p class="hotel-location"><i class="fas fa-map-marker-alt"></i> 台北市信義區松壽路2號 · 距離台北101 0.3公里</p>
+                    <p class="hotel-description">台北君悅酒店位於信義區中心，提供超高CP值的五星級住宿體驗。包含豐盛自助早餐、免費使用所有設施（室內泳池、健身中心、Spa）、迎賓禮品及彈性入住退房服務。館內8間餐廳提供多國料理，讓您物超所值。</p>
+                    <div class="hotel-features">
+                        <span class="feature-tag">豐盛自助早餐</span>
+                        <span class="feature-tag">免費設施使用</span>
+                        <span class="feature-tag">迎賓禮品</span>
+                        <span class="feature-tag">彈性入住退房</span>
+                        <span class="feature-tag">免費接駁服務</span>
+                        <span class="feature-tag">免費停車</span>
+                    </div>
+                    <div class="hotel-rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        4.7 (1,542 則評論) · 8.7 很棒
+                    </div>
+                    <div class="hotel-price-long">
+                        <div class="price-info">
+                            <div class="price-amount price-b">TWD 5,800</div>
+                            <div class="price-note">含早餐及所有設施 · 含稅費</div>
+                        </div>
+                        <button class="book-btn btn-b" onclick="window.location.href='B1_detail.html?category=B'">查看超值方案</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 第二個旅館 -->
+            <div class="hotel-card-long">
+                <div class="hotel-image-long">
+                    <img src="hotel_exterior/jinghua.webp" alt="台北晶華酒店">
+                    <div class="hotel-badge badge-b">多項服務 · 設施完善</div>
+                </div>
+                <div class="hotel-content-long">
+                    <h3 class="hotel-name">台北晶華酒店</h3>
+                    <p class="hotel-location"><i class="fas fa-map-marker-alt"></i> 台北市中山區中山北路二段39巷3號 · 距離中山站商圈 0.4 公里</p>
+                    <p class="hotel-description">晶華酒店以頂級設施與親切服務著稱，卻維持極高性價比。入住即可享用健身房、露天泳池與頂樓Spa。周邊商圈繁華，餐飲購物皆便利，是商務與休閒旅客的首選。</p>
+                    <div class="hotel-features">
+                        <span class="feature-tag">免費早餐</span>
+                        <span class="feature-tag">下午茶</span>
+                        <span class="feature-tag">晚間雞尾酒會</span>
+                        <span class="feature-tag">免費設施使用</span>
+                        <span class="feature-tag">免費接駁服務</span>
+                        <span class="feature-tag">免費停車</span>
+                    </div>
+                    <div class="hotel-rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        4.8 (2,125 則評論) · 8.9 很棒
+                    </div>
+                    <div class="hotel-price-long">
+                        <div class="price-info">
+                            <div class="price-amount price-b">TWD 6,500</div>
+                            <div class="price-note">含早餐及所有服務 · 含稅費</div>
+                        </div>
+                        <button class="book-btn btn-b" onclick="window.location.href='B2_detail.html?category=B'">查看超值方案</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 第三個旅館 -->
+            <div class="hotel-card-long">
+                <div class="hotel-image-long">
+                    <img src="hotel_exterior/yuandong.webp" alt="台北遠東國際大飯店">
+                    <div class="hotel-badge badge-b">豐富設施 · 服務完善</div>
+                </div>
+                <div class="hotel-content-long">
+                    <h3 class="hotel-name">台北遠東國際大飯店</h3>
+                    <p class="hotel-location"><i class="fas fa-map-marker-alt"></i> 台北市大安區敦化南路二段201號 · 距離台北101 1.2 公里</p>
+                    <p class="hotel-description">遠東飯店結合香格里拉品牌優雅與實惠價格，提供極具CP值的五星體驗。房間可俯瞰台北全景，擁有豪華Spa、露天泳池與多國餐飲。特別適合追求品質又精打細算的旅人。</p>
+                    <div class="hotel-features">
+                        <span class="feature-tag">免費早餐</span>
+                        <span class="feature-tag">健身中心</span>
+                        <span class="feature-tag">游泳池</span>
+                        <span class="feature-tag">三溫暖</span>
+                        <span class="feature-tag">免費停車</span>
+                        <span class="feature-tag">商務中心</span>
+                    </div>
+                    <div class="hotel-rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        4.6 (1,785 則評論) · 8.4 很棒
+                    </div>
+                    <div class="hotel-price-long">
+                        <div class="price-info">
+                            <div class="price-amount price-b">TWD 5,200</div>
+                            <div class="price-note">含早餐及設施使用 · 含稅費</div>
+                        </div>
+                        <button class="book-btn btn-b" onclick="window.location.href='B3_detail.html?category=B'">查看超值方案</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- C類推薦內容 -->
+        <div class="recommendation-section" id="sectionC" style="display: none;">
+            <h2 class="section-title">限時優惠精選</h2>
+            
+            <div class="urgency-banner">
+                <div>
+                    <i class="fas fa-clock"></i>
+                    <span>優惠倒數: <span class="countdown" id="countdown-hotel1">23:59:45</span></span>
+                </div>
+                <div>
+                    <i class="fas fa-bed"></i>
+                    <span>剩餘房數: <span class="rooms-left">僅剩3間</span></span>
+                </div>
+            </div>
+            
+            <!-- 第一個旅館 -->
+            <div class="hotel-card-long">
+                <div class="hotel-image-long">
+                    <img src="hotel_exterior/meihao.jpeg" alt="台北美好境界西門館">
+                    <div class="hotel-badge badge-c">-26% 限時優惠</div>
+                </div>
+                <div class="hotel-content-long">
+                    <h3 class="hotel-name">台北美好境界西門館</h3>
+                    <p class="hotel-location"><i class="fas fa-map-marker-alt"></i> 台北市萬華區西寧南路36號B棟9樓之2 · 距離西門町徒步區 0.2 公里</p>
+                    <p class="hotel-description">限時優惠！美好境界西門館主打年輕風格與高CP住宿，簡約房型乾淨舒適，步行即達西門町。常有限時優惠與短期促銷，適合自由行旅客或情侶小旅行。</p>
+                    <div class="hotel-features">
+                        <span class="feature-tag">限時折扣26%</span>
+                        <span class="feature-tag">點數回饋5%</span>
+                        <span class="feature-tag">價格保證</span>
+                        <span class="feature-tag">免費取消</span>
+                        <span class="feature-tag">免費早餐</span>
+                        <span class="feature-tag">免費Wi-Fi</span>
+                    </div>
+                    <div class="hotel-rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        4.8 (892 則評論) · 8.7 很棒
+                    </div>
+                    <div class="hotel-price-long">
+                        <div class="price-info">
+                            <div class="discount-price">
+                                <span class="original-price">TWD 5,253</span>
+                                <span class="price-amount price-c">TWD 1,647</span>
+                            </div>
+                            <div class="price-note">含稅費 · 含早餐 · 點數回饋</div>
+                        </div>
+                        <button class="book-btn btn-c" onclick="redirectToDetailWithCountdown('C1_detail.html', 'C', 'hotel1')">立即搶訂</button>
+                    </div>
+                </div>
+            </div>
+            <div class="urgency-banner">
+                <div>
+                    <i class="fas fa-clock"></i>
+                    <span>優惠倒數: <span class="countdown" id="countdown-hotel2">23:59:45</span></span>
+                </div>
+                <div>
+                    <i class="fas fa-bed"></i>
+                    <span>剩餘房數: <span class="rooms-left">僅剩3間</span></span>
+                </div>
+            </div>
+            <!-- 第二個旅館 -->
+            <div class="hotel-card-long">
+                <div class="hotel-image-long">
+                    <img src="hotel_exterior/xilaideng.jpg" alt="台北喜來登大飯店">
+                    <div class="hotel-badge badge-c">-30% 限時優惠</div>
+                </div>
+                <div class="hotel-content-long">
+                    <h3 class="hotel-name">台北喜來登大飯店</h3>
+                    <p class="hotel-location"><i class="fas fa-map-marker-alt"></i> 台北市中正區忠孝東路一段12號 · 距離善導寺捷運站 0.1 公里</p>
+                    <p class="hotel-description">限時特惠！喜來登位於市中心黃金地段，結合傳統奢華與現代舒適。現正推出限時促銷專案，讓您以中價位享受五星飯店設施與服務。交通四通八達，商務與觀光皆宜。</p>
+                    <div class="hotel-features">
+                        <span class="feature-tag">限時折扣30%</span>
+                        <span class="feature-tag">點數回饋6%</span>
+                        <span class="feature-tag">價格保證</span>
+                        <span class="feature-tag">免費取消</span>
+                        <span class="feature-tag">免費早餐</span>
+                        <span class="feature-tag">免費Wi-Fi</span>
+                    </div>
+                    <div class="hotel-rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        4.9 (1,245 則評論) · 8.8 很棒
+                    </div>
+                    <div class="hotel-price-long">
+                        <div class="price-info">
+                            <div class="discount-price">
+                                <span class="original-price">TWD 8,500</span>
+                                <span class="price-amount price-c">TWD 5,950</span>
+                            </div>
+                            <div class="price-note">含稅費 · 含早餐 · 點數回饋</div>
+                        </div>
+                        <button class="book-btn btn-c" onclick="redirectToDetailWithCountdown('C2_detail.html', 'C', 'hotel2')">立即搶訂</button>
+                    </div>
+                </div>
+            </div>
+            <div class="urgency-banner">
+                <div>
+                    <i class="fas fa-clock"></i>
+                    <span>優惠倒數: <span class="countdown" id="countdown-hotel3">23:59:45</span></span>
+                </div>
+                <div>
+                    <i class="fas fa-bed"></i>
+                    <span>剩餘房數: <span class="rooms-left">僅剩3間</span></span>
+                </div>
+            </div>
+            <!-- 第三個旅館 -->
+            <div class="hotel-card-long">
+                <div class="hotel-image-long">
+                    <img src="hotel_exterior/delizhuang.webp" alt="台北德立莊酒店">
+                    <div class="hotel-badge badge-c">-25% 限時優惠</div>
+                </div>
+                <div class="hotel-content-long">
+                    <h3 class="hotel-name">台北德立莊酒店</h3>
+                    <p class="hotel-location"><i class="fas fa-map-marker-alt"></i> 台北市中正區寶慶路4號 · 距離西門町捷運站 0.1 公里</p>
+                    <p class="hotel-description">限時優惠！德立莊以平實價格提供乾淨、便利的住宿體驗。鄰近捷運出口與熱鬧商圈，常有早鳥及限時優惠活動，是想省預算又想住市中心的旅人理想選擇。</p>
+                    <div class="hotel-features">
+                        <span class="feature-tag">限時折扣25%</span>
+                        <span class="feature-tag">點數回饋5%</span>
+                        <span class="feature-tag">價格保證</span>
+                        <span class="feature-tag">免費取消</span>
+                        <span class="feature-tag">免費早餐</span>
+                        <span class="feature-tag">免費Wi-Fi</span>
+                    </div>
+                    <div class="hotel-rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        4.7 (1,056 則評論) · 8.6 很棒
+                    </div>
+                    <div class="hotel-price-long">
+                        <div class="price-info">
+                            <div class="discount-price">
+                                <span class="original-price">TWD 7,300</span>
+                                <span class="price-amount price-c">TWD 5,475</span>
+                            </div>
+                            <div class="price-note">含稅費 · 含早餐 · 點數回饋</div>
+                        </div>
+                        <button class="book-btn btn-c" onclick="redirectToDetailWithCountdown('C3_detail.html', 'C', 'hotel3')">立即搶訂</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 旅遊推薦平台 - 為您提供最合適的旅遊選擇</p>
+        </footer>
+    </div>
+
+    <script>
+    // 從URL參數獲取用戶類型
+    function getUserTypeFromURL() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('type') || 'B'; // 默認為A類
+    }
+    
+    // 設置用戶類型
+    function setUserType(userType) {
+        const indicator = document.getElementById('userTypeIndicator');
+        const tabA = document.getElementById('tabA');
+        const tabB = document.getElementById('tabB');
+        const tabC = document.getElementById('tabC');
+        const sectionA = document.getElementById('sectionA');
+        const sectionB = document.getElementById('sectionB');
+        const sectionC = document.getElementById('sectionC');
+        
+        // 重置所有狀態
+        tabA.classList.remove('active', 'disabled');
+        tabB.classList.remove('active', 'disabled');
+        tabC.classList.remove('active', 'disabled');
+        sectionA.style.display = 'none';
+        sectionB.style.display = 'none';
+        sectionC.style.display = 'none';
+        
+        // 根據用戶類型設置狀態
+        switch(userType) {
+            case 'A':
+                indicator.className = 'user-type-indicator user-type-a';
+                tabA.classList.add('active');
+                tabB.classList.add('disabled');
+                tabC.classList.add('disabled');
+                sectionA.style.display = 'block';
+                break;
+            case 'B':
+                indicator.className = 'user-type-indicator user-type-b';
+                tabA.classList.add('disabled');
+                tabB.classList.add('active');
+                tabC.classList.add('disabled');
+                sectionB.style.display = 'block';
+                break;
+            case 'C':
+                indicator.className = 'user-type-indicator user-type-c';
+                tabA.classList.add('disabled');
+                tabB.classList.add('disabled');
+                tabC.classList.add('active');
+                sectionC.style.display = 'block';
+                break;
+        }
+    }
+    
+    // 返回AI語音輸入頁面
+    function backToAIPage() {
+        window.location.href = 'index.html';
+    }
+    // 新增函數：獲取當前剩餘時間（秒）
+    // 定義每個旅館的初始倒計時時間（秒）
+const hotelCountdowns = {
+    'hotel1': 23 * 60 * 60 + 59 * 60 + 45, // 23:59:45
+    'hotel2': 18 * 60 * 60 + 30 * 60 + 15, // 18:30:15
+    'hotel3': 12 * 60 * 60 + 45 * 60 + 30  // 12:45:30
+};
+
+// 為每個旅館啟動獨立的倒計時
+function startHotelCountdowns() {
+    Object.keys(hotelCountdowns).forEach(hotelId => {
+        startSingleCountdown(hotelId);
+    });
+}
+
+// 單個旅館的倒計時邏輯
+function startSingleCountdown(hotelId) {
+    const countdownElement = document.getElementById(`countdown-${hotelId}`);
+    if (!countdownElement) return;
+    
+    // 獲取該旅館的剩餘時間
+    function getRemainingTime(hotelId) {
+        const savedTime = localStorage.getItem(`countdown-${hotelId}`);
+        const savedTimestamp = localStorage.getItem(`countdown-timestamp-${hotelId}`);
+        
+        if (savedTime && savedTimestamp) {
+            const elapsed = Math.floor((Date.now() - parseInt(savedTimestamp)) / 1000);
+            return Math.max(0, parseInt(savedTime) - elapsed);
+        } else {
+            const defaultTime = hotelCountdowns[hotelId];
+            localStorage.setItem(`countdown-${hotelId}`, defaultTime);
+            localStorage.setItem(`countdown-timestamp-${hotelId}`, Date.now());
+            return defaultTime;
+        }
+    }
+    
+    let time = getRemainingTime(hotelId);
+    let countdownInterval;
+    
+    function updateCountdown() {
+        let hours = Math.floor(time / 3600);
+        let minutes = Math.floor((time % 3600) / 60);
+        let seconds = time % 60;
+        
+        hours = hours < 10 ? '0' + hours : hours;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+        
+        if (countdownElement) {
+            countdownElement.textContent = `${hours}:${minutes}:${seconds}`;
+        }
+        
+        if (time > 0) {
+            time--;
+            // 每10秒保存一次進度
+            if (time % 10 === 0) {
+                localStorage.setItem(`countdown-${hotelId}`, time);
+                localStorage.setItem(`countdown-timestamp-${hotelId}`, Date.now());
+            }
+        } else {
+            clearInterval(countdownInterval);
+            countdownElement.textContent = "優惠已結束";
+            
+            // 3秒後重新開始
+            setTimeout(() => {
+                const defaultTime = hotelCountdowns[hotelId];
+                time = defaultTime;
+                localStorage.setItem(`countdown-${hotelId}`, defaultTime);
+                localStorage.setItem(`countdown-timestamp-${hotelId}`, Date.now());
+                updateCountdown();
+                countdownInterval = setInterval(updateCountdown, 1000);
+            }, 3000);
+        }
+    }
+    
+    updateCountdown();
+    countdownInterval = setInterval(updateCountdown, 1000);
+}
+
+// 修改跳轉函數，傳遞對應的旅館ID
+function redirectToDetailWithCountdown(detailPage, category, hotelId) {
+    const remainingTime = getRemainingTimeForHotel(hotelId);
+    window.location.href = `${detailPage}?category=${category}&hotelId=${hotelId}&countdown=${remainingTime}`;
+}
+
+// 獲取特定旅館的剩餘時間
+function getRemainingTimeForHotel(hotelId) {
+    const savedTime = localStorage.getItem(`countdown-${hotelId}`);
+    const savedTimestamp = localStorage.getItem(`countdown-timestamp-${hotelId}`);
+    
+    if (savedTime && savedTimestamp) {
+        const elapsed = Math.floor((Date.now() - parseInt(savedTimestamp)) / 1000);
+        return Math.max(0, parseInt(savedTime) - elapsed);
+    } else {
+        return hotelCountdowns[hotelId];
+    }
+}
+function saveScrollPosition() {
+    sessionStorage.setItem('hotelInterfaceScrollPos', window.scrollY);
+}
+
+// 恢复滚动位置
+function restoreScrollPosition() {
+    const savedPosition = sessionStorage.getItem('hotelInterfaceScrollPos');
+    if (savedPosition) {
+        window.scrollTo(0, parseInt(savedPosition));
+        sessionStorage.removeItem('hotelInterfaceScrollPos'); // 使用后清除
+    }
+}
+
+    // 頁面載入時初始化
+    document.addEventListener('DOMContentLoaded', function() {
+        const fromDetailPage = sessionStorage.getItem('fromDetailPage');
+        if (fromDetailPage === 'true') {
+            restoreScrollPosition();
+            sessionStorage.removeItem('fromDetailPage'); // 使用后清除
+        }
+        // 設置用戶類型
+        const userType = getUserTypeFromURL();
+        setUserType(userType);
+        startHotelCountdowns();
+        
+        // 添加返回AI按鈕事件監聽
+        document.getElementById('backToAIBtn').addEventListener('click', backToAIPage);
+        
+        // 添加分類標籤點擊事件
+        document.getElementById('tabA').addEventListener('click', function() {
+            if (!this.classList.contains('disabled')) {
+                setUserType('A');
+            }
+        });
+        
+        document.getElementById('tabB').addEventListener('click', function() {
+            if (!this.classList.contains('disabled')) {
+                setUserType('B');
+            }
+        });
+        
+        document.getElementById('tabC').addEventListener('click', function() {
+            if (!this.classList.contains('disabled')) {
+                setUserType('C');
+            }
+        });
+    });
+    window.addEventListener('scroll', saveScrollPosition);
+    </script>
+</body>
+</html>

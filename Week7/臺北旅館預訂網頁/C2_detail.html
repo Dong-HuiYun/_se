@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>台北喜來登大飯店 - 限時優惠</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="C1_detail.css">
+</head>
+<body>
+    <div class="header">
+        <div class="logo"><i class="fas fa-hotel"></i> 台北<span style="color: #ffeb3b">喜來登大飯店</span></div>
+        <div class="nav-buttons">
+            <button onclick="returnToHotelInterface('C')"><i class="fas fa-arrow-left"></i> 返回</button>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="hotel-info">
+            <div class="limited-offer">限時優惠</div>
+            
+            <div class="hotel-header">
+                <div>
+                    <h1 class="hotel-title">台北喜來登大飯店</h1>
+                    <p class="hotel-location"><i class="fas fa-map-marker-alt"></i> 臺北市中正區忠孝東路一段12號</p>
+                    <div class="hotel-rating">8.6 很棒 · 1，056 則評價</div>
+                </div>
+                <div class="price-section">
+                    <div class="original-price">TWD 5,253</div>
+                    <div class="price">TWD 1,647 <span class="discount-badge">-68.65%</span></div>
+                    <div class="price-note">平均每晚價格</div>
+                </div>
+            </div>
+            
+            <div class="urgency-banner">
+                <div class="urgency-text">
+                    <i class="fas fa-clock"></i>
+                    <span>優惠倒數: <span class="countdown" id="countdown">23:59:45</span></span>
+                </div>
+                <div class="urgency-text">
+                    <i class="fas fa-bed"></i>
+                    <span>剩餘房數: <span class="rooms-left">僅剩3間</span></span>
+                </div>
+            </div>
+            
+            <div class="benefits">
+                <div class="benefit">
+                    <i class="fas fa-tag"></i>
+                    <span>限時折扣68.65%</span>
+                </div>
+                <div class="benefit">
+                    <i class="fas fa-coins"></i>
+                    <span>點數回饋5%</span>
+                </div>
+                <div class="benefit">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>價格保證：買貴退2倍差價</span>
+                </div>
+                <div class="benefit">
+                    <i class="fas fa-gift"></i>
+                    <span>免費取消 · 免費早餐</span>
+                </div>
+            </div>
+            
+            <div class="price-guarantee">
+                <i class="fas fa-shield-alt"></i>
+                <div class="price-guarantee-content">
+                    <h3>最低價格保證</h3>
+                    <p>如果您在別處找到相同日期相同房型的更低價格，我們將退還2倍差價！</p>
+                </div>
+            </div>
+            
+            <div class="points-system">
+                <i class="fas fa-coins"></i>
+                <div class="points-system-content">
+                    <h3>點數回饋計畫</h3>
+                    <p>本次住宿可獲得290點，可用於下次住宿折抵現金！</p>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="showRoomSelection()"><i class="fas fa-bolt"></i> 立即搶訂</button>
+                <button class="btn btn-secondary" id="wishlistBtn"><i class="far fa-heart"></i> 加入願望清單</button>
+            </div>
+        </div>
+
+        <!-- 新增：主要四個功能區塊 -->
+        <div class="main-features">
+            <div class="feature-card" onclick="scrollToSection('rooms-content')">
+                <div class="feature-icon">
+                    <i class="fas fa-bed"></i>
+                </div>
+                <div class="feature-title">價格折扣</div>
+                <div class="feature-desc">限時優惠最高68.65%折扣</div>
+            </div>
+            
+            <div class="feature-card" onclick="scrollToSection('benefits-content')">
+                <div class="feature-icon">
+                    <i class="fas fa-gift"></i>
+                </div>
+                <div class="feature-title">點數回饋</div>
+                <div class="feature-desc">消費回饋5%點數下次折抵</div>
+            </div>
+            
+            <div class="feature-card" onclick="scrollToSection('location-content')">
+                <div class="feature-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="feature-title">價格保證</div>
+                <div class="feature-desc">買貴退2倍差價保證</div>
+            </div>
+            
+            <div class="feature-card" onclick="scrollToSection('discount-content')">
+                <div class="feature-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="feature-title">期間優惠</div>
+                <div class="feature-desc">限時專屬優惠價格</div>
+            </div>
+        </div>
+
+<!-- 新增：價格折扣內容區塊 -->
+<div class="content-section" id="rooms-content">
+    <h2 class="section-title"><i class="fas fa-tag"></i> 價格折扣</h2>
+    
+    <!-- 折扣優惠標語區 -->
+    <div class="discount-hero">
+        <div class="discount-badge">
+            <span class="badge-text">限時優惠</span>
+            <span class="badge-discount">-68.65%</span>
+        </div>
+        <h3 class="discount-title">年度最大優惠來襲</h3>
+        <p class="discount-desc">立即預訂享最高68.65%折扣，再加贈5%點數回饋</p>
+        <div class="discount-stats">
+            <div class="stat-item">
+                <span class="stat-number">68.65%</span>
+                <span class="stat-label">最高折扣</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">5%</span>
+                <span class="stat-label">點數回饋</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">24hr</span>
+                <span class="stat-label">免費取消</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 折扣房型展示 -->
+    <div class="discount-rooms">
+        <h3 class="section-subtitle">精選折扣房型</h3>
+        
+        <!-- 輕奢背包客 -->
+        <div class="discount-room-card">
+            <div class="room-image-container">
+                <img src="C1_images/qingshebeibaoke.jpeg" alt="輕奢背包客">
+                <div class="discount-ribbon">限時優惠</div>
+            </div>
+            <div class="room-content">
+                <div class="room-header">
+                    <h3 class="room-title">輕奢背包客</h3>
+                    <div class="discount-percent">-46%</div>
+                </div>
+                <p class="room-specs">面積: 20平方米 · 市景 · 單人床</p>
+                <div class="room-features">
+                    <span class="feature-tag"><i class="fas fa-wifi"></i> 免費Wi-Fi</span>
+                    <span class="feature-tag"><i class="fas fa-snowflake"></i> 空調</span>
+                    <span class="feature-tag"><i class="fas fa-wine-bottle"></i> 迷你吧</span>
+                    <span class="feature-tag"><i class="fas fa-lock"></i> 保險箱</span>
+                </div>
+                <p class="room-desc">提供舒適的住宿環境，配有現代化設施，適合商務或休閒旅客。</p>
+                
+                <div class="price-section">
+                    <div class="price-comparison">
+                        <span class="original-price">TWD 1,080</span>
+                        <span class="savings">節省 TWD 500</span>
+                    </div>
+                    <div class="current-price">
+                        <span class="price">TWD 580</span>
+                        <span class="price-note">含稅費 · 含早餐</span>
+                    </div>
+                    <button class="btn btn-discount" onclick="selectRoom('type1', '輕奢背包客', event)">
+                        <i class="fas fa-bolt"></i> 立即搶訂
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 雅緻大床房 -->
+        <div class="discount-room-card">
+            <div class="room-image-container">
+                <img src="C1_images/shuangrenchuang.jpeg" alt="雅緻大床房">
+                <div class="discount-ribbon">熱門選擇</div>
+            </div>
+            <div class="room-content">
+                <div class="room-header">
+                    <h3 class="room-title">雅緻大床房</h3>
+                    <div class="discount-percent">-48%</div>
+                </div>
+                <p class="room-specs">面積: 14平方米 · 市景 · 1張雙人床</p>
+                <div class="room-features">
+                    <span class="feature-tag"><i class="fas fa-wifi"></i> 免費Wi-Fi</span>
+                    <span class="feature-tag"><i class="fas fa-snowflake"></i> 空調</span>
+                    <span class="feature-tag"><i class="fas fa-wine-bottle"></i> 迷你吧</span>
+                    <span class="feature-tag"><i class="fas fa-lock"></i> 保險箱</span>
+                </div>
+                <p class="room-desc">寬敞的套房，設有獨立起居區，提供豪華住宿體驗。</p>
+                
+                <div class="price-section">
+                    <div class="price-comparison">
+                        <span class="original-price">TWD 3,080</span>
+                        <span class="savings">節省 TWD 1,000</span>
+                    </div>
+                    <div class="current-price">
+                        <span class="price">TWD 2,080</span>
+                        <span class="price-note">含稅費 · 含早餐</span>
+                    </div>
+                    <button class="btn btn-discount" onclick="selectRoom('type2', '雅緻大床房', event)">
+                        <i class="fas fa-bolt"></i> 立即搶訂
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 豪華大床房 -->
+        <div class="discount-room-card">
+            <div class="room-image-container">
+                <img src="C1_images/haohuashuangrenshuang.jpeg" alt="豪華大床房">
+                <div class="discount-ribbon">情侶首選</div>
+            </div>
+            <div class="room-content">
+                <div class="room-header">
+                    <h3 class="room-title">豪華大床房</h3>
+                    <div class="discount-percent">-44%</div>
+                </div>
+                <p class="room-specs">面積: 20平方米 · 市景 · 1張雙人床</p>
+                <div class="room-features">
+                    <span class="feature-tag"><i class="fas fa-wifi"></i> 免費Wi-Fi</span>
+                    <span class="feature-tag"><i class="fas fa-snowflake"></i> 空調</span>
+                    <span class="feature-tag"><i class="fas fa-wine-bottle"></i> 迷你吧</span>
+                    <span class="feature-tag"><i class="fas fa-lock"></i> 保險箱</span>
+                    <span class="feature-tag"><i class="fas fa-bath"></i> 浴缸</span>
+                    <span class="feature-tag"><i class="fas fa-child"></i> 兒童遊戲區</span>
+                </div>
+                <p class="room-desc">靠窗浴缸，看見窗外的美好景色。</p>
+                
+                <div class="price-section">
+                    <div class="price-comparison">
+                        <span class="original-price">TWD 3,280</span>
+                        <span class="savings">節省 TWD 1,000</span>
+                    </div>
+                    <div class="current-price">
+                        <span class="price">TWD 2,280</span>
+                        <span class="price-note">含稅費 · 含早餐</span>
+                    </div>
+                    <button class="btn btn-discount" onclick="selectRoom('type3', '豪華大床房', event)">
+                        <i class="fas fa-bolt"></i> 立即搶訂
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 新增：點數回饋內容區塊 -->
+<div class="content-section" id="benefits-content">
+    <h2 class="section-title"><i class="fas fa-coins"></i> 點數回饋</h2>
+    
+    <!-- 點數回饋介紹 -->
+    <div class="points-hero">
+        <div class="points-visual">
+            <div class="points-circle">
+                <span class="points-percent">5%</span>
+                <span class="points-label">回饋率</span>
+            </div>
+            <div class="points-details">
+                <div class="points-item">
+                    <i class="fas fa-gift"></i>
+                    <div>
+                        <h4>每消費TWD 100</h4>
+                        <p>可獲得5點回饋</p>
+                    </div>
+                </div>
+                <div class="points-item">
+                    <i class="fas fa-exchange-alt"></i>
+                    <div>
+                        <h4>100點 = TWD 100</h4>
+                        <p>點數可直接折抵現金</p>
+                    </div>
+                </div>
+                <div class="points-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <div>
+                        <h4>有效期1年</h4>
+                        <p>點數自獲得日起一年有效</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="points-info">
+            <h3>消費越多，回饋越多</h3>
+            <p>加入我們的點數回饋計畫，每次住宿都能累積點數，下次預訂時可直接折抵現金，讓您的每次旅行都更划算！</p>
+            <div class="points-example">
+                <h4>本次住宿範例：</h4>
+                <div class="example-calc">
+                    <span>住宿費用: TWD 1,080</span>
+                    <span>× 5% = </span>
+                    <span class="highlight"> 54點</span>
+                </div>
+                <p class="example-note">可於下次住宿折抵 TWD 54</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 點數使用方式 -->
+    <div class="points-usage">
+        <h3 class="section-subtitle">點數使用方式</h3>
+        <div class="usage-steps">
+            <div class="usage-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>累積點數</h4>
+                    <p>每次住宿自動累積點數，無需額外申請</p>
+                </div>
+            </div>
+            <div class="usage-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>查看點數</h4>
+                    <p>登入會員帳號即可查看點數餘額</p>
+                </div>
+            </div>
+            <div class="usage-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>折抵消費</h4>
+                    <p>預訂時選擇使用點數折抵房費</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 新增：價格保證內容區塊 -->
+<div class="content-section" id="price-content">
+    <h2 class="section-title"><i class="fas fa-shield-alt"></i> 價格保證</h2>
+    
+    <!-- 價格保證主視覺區 -->
+    <div class="guarantee-hero">
+        <div class="guarantee-badge">
+            <i class="fas fa-award"></i>
+            <span>最低價格保證</span>
+        </div>
+        <h3 class="guarantee-title">買貴退2倍差價</h3>
+        <p class="guarantee-desc">我們承諾提供最優惠價格，如果您找到更低的價格，我們將退還2倍差價！</p>
+        
+        <div class="guarantee-visual">
+            <div class="price-comparison">
+                <div class="other-price">
+                    <div class="price-source">其他平台價格</div>
+                    <div class="price-amount higher">TWD 5,253</div>
+                </div>
+                <div class="comparison-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="our-price">
+                    <div class="price-source">我們的價格</div>
+                    <div class="price-amount lower">TWD 1,647</div>
+                    <div class="savings-badge">節省 TWD 3,606</div>
+                </div>
+            </div>
+            <div class="double-refund">
+                <div class="refund-icon">
+                    <i class="fas fa-money-bill-wave"></i>
+                </div>
+                <div class="refund-text">
+                    <span class="refund-amount">退還 TWD 3,294</span>
+                    <span class="refund-desc">2倍差價保證</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 保證條款與流程 -->
+    <div class="guarantee-details">
+        <div class="guarantee-terms">
+            <h3 class="section-subtitle">保證條款</h3>
+            <div class="terms-grid">
+                <div class="term-card">
+                    <div class="term-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="term-content">
+                        <h4>24小時內申請</h4>
+                        <p>需在預訂後24小時內提供證明</p>
+                    </div>
+                </div>
+                <div class="term-card">
+                    <div class="term-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="term-content">
+                        <h4>相同條件</h4>
+                        <p>房型、日期、取消政策必須相同</p>
+                    </div>
+                </div>
+                <div class="term-card">
+                    <div class="term-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="term-content">
+                        <h4>即時處理</h4>
+                        <p>確認後24小時內完成退款</p>
+                    </div>
+                </div>
+                <div class="term-card">
+                    <div class="term-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="term-content">
+                        <h4>全球適用</h4>
+                        <p>適用於所有預訂管道</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="guarantee-process">
+            <h3 class="section-subtitle">申請流程</h3>
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-indicator">
+                        <span class="step-number">1</span>
+                        <div class="step-line"></div>
+                    </div>
+                    <div class="step-content">
+                        <h4>發現更低價格</h4>
+                        <p>在其他預訂平台找到相同條件的更低價格</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="step-indicator">
+                        <span class="step-number">2</span>
+                        <div class="step-line"></div>
+                    </div>
+                    <div class="step-content">
+                        <h4>提供證明</h4>
+                        <p>截圖或連結證明較低價格的存在</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="step-indicator">
+                        <span class="step-number">3</span>
+                        <div class="step-line"></div>
+                    </div>
+                    <div class="step-content">
+                        <h4>提交申請</h4>
+                        <p>透過客服或線上表單提交價格保證申請</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="step-indicator">
+                        <span class="step-number">4</span>
+                    </div>
+                    <div class="step-content">
+                        <h4>獲得退款</h4>
+                        <p>確認後獲得2倍差價退款</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 成功案例 -->
+    <div class="success-cases">
+        <h3 class="section-subtitle">成功案例</h3>
+        <div class="cases-grid">
+            <div class="case-card">
+                <div class="case-header">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-info">
+                        <strong>張先生</strong>
+                        <span>2024年3月15日</span>
+                    </div>
+                </div>
+                <div class="case-details">
+                    <div class="price-difference">
+                        <span class="difference-amount">差價 TWD 800</span>
+                        <span class="refund-amount">退款 TWD 1,600</span>
+                    </div>
+                    <p class="case-comment">"申請流程很簡單，3天內就收到退款，服務很棒！"</p>
+                </div>
+            </div>
+            <div class="case-card">
+                <div class="case-header">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-info">
+                        <strong>林小姐</strong>
+                        <span>2024年2月28日</span>
+                    </div>
+                </div>
+                <div class="case-details">
+                    <div class="price-difference">
+                        <span class="difference-amount">差價 TWD 1,200</span>
+                        <span class="refund-amount">退款 TWD 2,400</span>
+                    </div>
+                    <p class="case-comment">"沒想到真的退2倍差價，以後訂房首選這裡！"</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- CTA 按鈕 -->
+    <div class="guarantee-cta">
+        <div class="cta-content">
+            <h3>安心預訂，價格最優</h3>
+            <p>現在就預訂，享受最優惠價格與雙倍差價保證</p>
+            <button class="btn btn-guarantee" onclick="showRoomSelection()">
+                <i class="fas fa-shield-alt"></i>
+                立即預訂享保證
+            </button>
+        </div>
+        <div class="cta-badge">
+            <i class="fas fa-lock"></i>
+            <span>100% 保證</span>
+        </div>
+    </div>
+</div>
+<!-- 新增：期間優惠內容區塊 -->
+<div class="content-section" id="discount-content">
+    <h2 class="section-title"><i class="fas fa-star"></i> 期間優惠</h2>
+    
+    <!-- 期間優惠主視覺區 -->
+    <div class="promotion-hero">
+        <div class="promotion-badge">
+            <i class="fas fa-clock"></i>
+            <span>限時優惠</span>
+        </div>
+        <h3 class="promotion-title">季節限定特惠</h3>
+        <p class="promotion-desc">精選季節性優惠，把握最佳預訂時機！</p>
+        
+        <div class="promotion-countdown">
+            <div class="countdown-title">優惠倒數</div>
+            <div class="countdown-timer" id="promotionCountdown">
+                <div class="time-unit">
+                    <span class="time-number">23</span>
+                    <span class="time-label">小時</span>
+                </div>
+                <div class="time-separator">:</div>
+                <div class="time-unit">
+                    <span class="time-number">59</span>
+                    <span class="time-label">分鐘</span>
+                </div>
+                <div class="time-separator">:</div>
+                <div class="time-unit">
+                    <span class="time-number">45</span>
+                    <span class="time-label">秒</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 優惠活動卡片 -->
+    <div class="promotion-cards">
+        <h3 class="section-subtitle">精選優惠活動</h3>
+        <div class="cards-grid">
+            <!-- 早鳥優惠 -->
+            <div class="promotion-card featured">
+                <div class="card-badge">熱門</div>
+                <div class="card-header">
+                    <div class="promotion-icon">
+                        <i class="fas fa-earlybirds"></i>
+                    </div>
+                    <div class="promotion-info">
+                        <h4>早鳥優惠</h4>
+                        <div class="discount-tag">-20%</div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p class="promotion-desc">提前30天預訂，享房價8折優惠</p>
+                    <ul class="benefits-list">
+                        <li><i class="fas fa-check"></i> 適用所有房型</li>
+                        <li><i class="fas fa-check"></i> 免費取消服務</li>
+                        <li><i class="fas fa-check"></i> 加贈迎賓飲品</li>
+                    </ul>
+                    <div class="valid-period">
+                        <i class="fas fa-calendar"></i>
+                        <span>有效期至：2024年12月31日</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-promotion" onclick="selectPromotion('earlybird')">
+                        <i class="fas fa-gift"></i>
+                        立即預訂
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 連住優惠 -->
+            <div class="promotion-card">
+                <div class="card-header">
+                    <div class="promotion-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="promotion-info">
+                        <h4>連住優惠</h4>
+                        <div class="discount-tag">-15%</div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p class="promotion-desc">連續住宿3晚以上，享額外折扣</p>
+                    <ul class="benefits-list">
+                        <li><i class="fas fa-check"></i> 連住3晚85折</li>
+                        <li><i class="fas fa-check"></i> 連住5晚8折</li>
+                        <li><i class="fas fa-check"></i> 免費延遲退房</li>
+                    </ul>
+                    <div class="valid-period">
+                        <i class="fas fa-calendar"></i>
+                        <span>全年適用</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-promotion" onclick="selectPromotion('extendedstay')">
+                        <i class="fas fa-gift"></i>
+                        立即預訂
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 會員專屬 -->
+            <div class="promotion-card">
+                <div class="card-header">
+                    <div class="promotion-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div class="promotion-info">
+                        <h4>會員專屬</h4>
+                        <div class="discount-tag">-10%</div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p class="promotion-desc">會員獨享優惠，再加贈雙倍點數</p>
+                    <ul class="benefits-list">
+                        <li><i class="fas fa-check"></i> 會員專屬房價</li>
+                        <li><i class="fas fa-check"></i> 雙倍點數回饋</li>
+                        <li><i class="fas fa-check"></i> 優先入住服務</li>
+                    </ul>
+                    <div class="valid-period">
+                        <i class="fas fa-calendar"></i>
+                        <span>永久有效</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-promotion" onclick="selectPromotion('member')">
+                        <i class="fas fa-gift"></i>
+                        立即預訂
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 季節性優惠 -->
+    <div class="seasonal-promotions">
+        <h3 class="section-subtitle">季節限定優惠</h3>
+        <div class="seasonal-grid">
+            <div class="seasonal-card spring">
+                <div class="seasonal-overlay">
+                    <div class="seasonal-content">
+                        <h4>春季賞花專案</h4>
+                        <p>3-5月限定，享住宿優惠與賞花導覽</p>
+                        <div class="seasonal-discount">-15%</div>
+                    </div>
+                </div>
+            </div>
+            <div class="seasonal-card summer">
+                <div class="seasonal-overlay">
+                    <div class="seasonal-content">
+                        <h4>夏日親子專案</h4>
+                        <p>6-8月限定，家庭住宿最佳選擇</p>
+                        <div class="seasonal-discount">-20%</div>
+                    </div>
+                </div>
+            </div>
+            <div class="seasonal-card autumn">
+                <div class="seasonal-overlay">
+                    <div class="seasonal-content">
+                        <h4>秋季美食專案</h4>
+                        <p>9-11月限定，品嚐季節限定料理</p>
+                        <div class="seasonal-discount">-12%</div>
+                    </div>
+                </div>
+            </div>
+            <div class="seasonal-card winter">
+                <div class="seasonal-overlay">
+                    <div class="seasonal-content">
+                        <h4>冬季溫泉專案</h4>
+                        <p>12-2月限定，享受暖心溫泉體驗</p>
+                        <div class="seasonal-discount">-18%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 優惠條款 -->
+    <div class="promotion-terms">
+        <h3 class="section-subtitle">優惠條款說明</h3>
+        <div class="terms-content">
+            <div class="term-item">
+                <h4><i class="fas fa-info-circle"></i> 預訂條件</h4>
+                <p>所有優惠需透過官方管道預訂，不得與其他優惠合併使用。</p>
+            </div>
+            <div class="term-item">
+                <h4><i class="fas fa-calendar-times"></i> 取消政策</h4>
+                <p>預訂後24小時內可免費取消，超過時限將收取第一晚房費。</p>
+            </div>
+            <div class="term-item">
+                <h4><i class="fas fa-exclamation-triangle"></i> 注意事項</h4>
+                <p>部分優惠可能有特定日期限制，請在預訂前確認適用日期。</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 優惠比較表 -->
+    <div class="promotion-comparison">
+        <h3 class="section-subtitle">優惠方案比較</h3>
+        <div class="comparison-table">
+            <div class="table-header">
+                <div class="table-cell"></div>
+                <div class="table-cell">早鳥優惠</div>
+                <div class="table-cell">連住優惠</div>
+                <div class="table-cell">會員專屬</div>
+            </div>
+            <div class="table-row">
+                <div class="table-cell">折扣幅度</div>
+                <div class="table-cell">-20%</div>
+                <div class="table-cell">-15%</div>
+                <div class="table-cell">-10%</div>
+            </div>
+            <div class="table-row">
+                <div class="table-cell">適用條件</div>
+                <div class="table-cell">提前30天</div>
+                <div class="table-cell">連住3晚</div>
+                <div class="table-cell">會員身份</div>
+            </div>
+            <div class="table-row">
+                <div class="table-cell">點數回饋</div>
+                <div class="table-cell"><i class="fas fa-check"></i></div>
+                <div class="table-cell"><i class="fas fa-check"></i></div>
+                <div class="table-cell"><i class="fas fa-check"></i> 雙倍</div>
+            </div>
+            <div class="table-row">
+                <div class="table-cell">免費取消</div>
+                <div class="table-cell"><i class="fas fa-check"></i></div>
+                <div class="table-cell"><i class="fas fa-check"></i></div>
+                <div class="table-cell"><i class="fas fa-check"></i></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        <!-- 新增：位置周邊內容區塊 -->
+        <div class="content-section" id="location-content">
+            <h2 class="section-title"><i class="fas fa-map-marker-alt"></i> 位置周邊</h2>
+            
+            <div id="map"></div>
+            
+            <div style="margin-top: 20px;">
+                <h3 style="color: #d32f2f; margin-bottom: 15px;">周邊景點</h3>
+                <div class="nearby-places">
+                    <div class="place-card">
+                        <h4>西門町商圈</h4>
+                        <p>距離: 步行2分鐘</p>
+                        <p>台北最著名的購物與娛樂區</p>
+                    </div>
+                    <div class="place-card">
+                        <h4>紅樓劇場</h4>
+                        <p>距離: 步行5分鐘</p>
+                        <p>歷史建築，現為文化創意空間</p>
+                    </div>
+                    <div class="place-card">
+                        <h4>總統府</h4>
+                        <p>距離: 步行15分鐘</p>
+                        <p>台灣政治中心，歷史建築</p>
+                    </div>
+                </div>
+            </div>
+
+            </style>
+        </div>
+        <!-- 新增：早餐服務區塊 -->
+<div class="content-section" id="breakfast-content">
+    <h2 class="section-title"><i class="fas fa-utensils"></i> 早餐服務</h2>
+    
+    <div class="service-grid">
+        <div class="service-image">
+            <img src="C1_images/zaocan.jpg" alt="豐盛自助早餐">
+            <div class="image-overlay">
+                <span>精選食材</span>
+            </div>
+        </div>
+        <div class="service-info">
+            <h3>特別節日菜單</h3>
+            <p>季節性食物，因應要求特別提供。</p>
+            <div class="service-features">
+                <div class="feature-item">
+                    <i class="fas fa-clock"></i>
+                    <span>06:30 - 10:00</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-utensils"></i>
+                    <span>4大主題餐區</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-child"></i>
+                    <span>兒童免費</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 新增：設施使用區塊 -->
+<div class="content-section" id="facilities-content">
+    <h2 class="section-title"><i class="fas fa-swimming-pool"></i> 設施使用</h2>
+    
+    <div class="service-grid reverse">
+        <div class="service-info">
+            <h3>全方位休閒設施</h3>
+            <p>提供洗衣機、無障礙設施、沏茶/咖啡設備、臨時藝術展，讓您在旅途中也能保持健康與放鬆。</p>
+            <div class="facility-highlights">
+                <div class="highlight-item">
+                    <div class="highlight-icon">
+                        <i class="fas fa-swimmer"></i>
+                    </div>
+                    <div>
+                        <strong>洗衣機</strong>
+                        <span>全年開放</span>
+                    </div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <div>
+                        <strong>沏茶/咖啡設備</strong>
+                        <span>24小時專業設備</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="service-image">
+            <img src="C1_images/coffee.jpeg" alt="酒店設施">
+            <div class="image-overlay">
+                <span>專業設備</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 新增：迎賓服務區塊 -->
+<div class="content-section" id="welcome-content">
+    <h2 class="section-title"><i class="fas fa-gift"></i> 迎賓服務</h2>
+    
+    <div class="service-grid">
+        <div class="service-image">
+            <img src="C1_images/yingbin.jpeg" alt="迎賓服務">
+            <div class="image-overlay">
+                <span>尊榮禮遇</span>
+            </div>
+        </div>
+        <div class="service-info">
+            <h3>貼心迎賓體驗</h3>
+            <p>從您踏入酒店的那一刻起，我們便為您準備了迎賓飲品、精緻水果與專屬管家服務，讓您感受賓至如歸的尊榮體驗。</p>
+            <div class="welcome-items">
+                <div class="welcome-item">
+                    <i class="fas fa-wine-glass-alt"></i>
+                    <span>迎賓飲品</span>
+                </div>
+                <div class="welcome-item">
+                    <i class="fas fa-apple-alt"></i>
+                    <span>精緻果籃</span>
+                </div>
+                <div class="welcome-item">
+                    <i class="fas fa-concierge-bell"></i>
+                    <span>專屬管家</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 新增：運營彈性區塊 -->
+<div class="content-section" id="flexibility-content">
+    <h2 class="section-title"><i class="fas fa-clock"></i> 運營彈性</h2>
+    
+    <div class="service-grid reverse">
+        <div class="service-info">
+            <h3>靈活住宿安排</h3>
+            <p>我們理解旅行計劃可能隨時變化，因此提供提前入住、延後退房、免費取消等全方位靈活服務，讓您的住宿體驗更加輕鬆自在。</p>
+            <div class="flexibility-options">
+                <div class="option">
+                    <i class="fas fa-earlybirds"></i>
+                    <div>
+                        <strong>提前入住</strong>
+                        <span>最早10:00</span>
+                    </div>
+                </div>
+                <div class="option">
+                    <i class="fas fa-sun"></i>
+                    <div>
+                        <strong>延後退房</strong>
+                        <span>最晚14:00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="service-image">
+            <img src="C1_images/kefang.webp" alt="靈活住宿">
+            <div class="image-overlay">
+                <span>彈性服務</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 新增：公共空間區塊 -->
+<div class="content-section" id="public-space-content">
+    <h2 class="section-title"><i class="fas fa-building"></i> 公共空間</h2>
+    
+    <div class="service-grid">
+        <div class="service-image">
+            <img src="C1_images/public.jpeg" alt="酒店公共空間">
+            <div class="image-overlay">
+                <span>奢華體驗</span>
+            </div>
+        </div>
+        <div class="service-info">
+            <h3>精緻公共區域</h3>
+            <p>挑高設計的豪華大堂、舒適的休息區、多功能會議室與商務中心，為您提供完美的社交與工作空間。</p>
+            <div class="space-features">
+                <div class="space-item">
+                    <i class="fas fa-concierge-bell"></i>
+                    <span>豪華大堂</span>
+                </div>
+                <div class="space-item">
+                    <i class="fas fa-users"></i>
+                    <span>會議設施</span>
+                </div>
+                <div class="space-item">
+                    <i class="fas fa-wifi"></i>
+                    <span>商務中心</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    </div>
+
+    <!-- 房型選擇模態框 -->
+    <div class="room-modal" id="roomSelectionModal">
+        <div class="room-modal-content">
+            <div class="room-modal-header">
+                <h2>選擇房型</h2>
+                <button class="close-btn" onclick="closeRoomModal()">&times;</button>
+            </div>
+            <div class="room-modal-body">
+                <div class="room-option">
+                    <div class="room-image">
+                        <img src="C1_images/qingshebeibaoke.jpeg" alt="輕奢背包房">
+                    </div>
+                    <div class="room-info">
+                        <div class="room-header">
+                            <h3>輕奢背包房（8人床）</h3>
+                            <span class="room-size">20 m²</span>
+                        </div>
+                        <div class="room-features">
+                            <span class="feature-tag"><i class="fas fa-wifi"></i> 免費Wi-Fi</span>
+                            <span class="feature-tag"><i class="fas fa-snowflake"></i> 空調</span>
+                            <span class="feature-tag"><i class="fas fa-wine-bottle"></i> 迷你吧</span>
+                            <span class="feature-tag"><i class="fas fa-lock"></i> 保險箱</span>
+                        </div>
+                        <p class="room-description">提供舒適的住宿環境，配有現代化設施，適合商務或休閒旅客。</p>
+                        <div class="room-footer">
+                            <div class="room-price-info">
+                                <span class="original-price">TWD 1080</span>
+                                <span class="price">TWD 580</span>
+                                <span class="price-note">含稅費 · 含早餐</span>
+                            </div>
+                            <!-- 選擇此房型按鈕 - 應該跳轉頁面 -->
+                            <button class="select-btn" onclick="selectRoom('type1', '豪華雙人房', event)">
+                                選擇此房型
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="room-option">
+                    <div class="room-image">
+                        <img src="C1_images/shuangrenchuang.jpeg" alt="雅緻大床房">
+                    </div>
+                    <div class="room-info">
+                        <div class="room-header">
+                            <h3>雅緻大床房</h3>
+                            <span class="room-size">14 m²</span>
+                        </div>
+                        <div class="room-features">
+                            <span class="feature-tag"><i class="fas fa-wifi"></i> 免費Wi-Fi</span>
+                            <span class="feature-tag"><i class="fas fa-snowflake"></i> 空調</span>
+                            <span class="feature-tag"><i class="fas fa-wine-bottle"></i> 迷你吧</span>
+                            <span class="feature-tag"><i class="fas fa-lock"></i> 保險箱</span>
+                            <span class="feature-tag"><i class="fas fa-bath"></i> 浴缸</span>
+                        </div>
+                        <p class="room-description">寬敞的套房，設有獨立起居區，提供豪華住宿體驗。</p>
+                        <div class="room-footer">
+                            <div class="room-price-info">
+                                <span class="original-price">TWD 3080</span>
+                                <span class="price">TWD 2080</span>
+                                <span class="price-note">含稅費 · 含早餐</span>
+                            </div>
+                            <!-- 選擇此房型按鈕 - 應該跳轉頁面 -->
+                            <button class="select-btn" onclick="selectRoom('type2', '行政套房', event)">
+                                選擇此房型
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="room-option">
+                    <div class="room-image">
+                        <img src="C1_images/haohuashuangrenshuang.jpeg" alt="豪華大床房">
+                    </div>
+                    <div class="room-info">
+                        <div class="room-header">
+                            <h3>豪華大床房</h3>
+                            <span class="room-size">20 m²</span>
+                        </div>
+                        <div class="room-features">
+                            <span class="feature-tag"><i class="fas fa-wifi"></i> 免費Wi-Fi</span>
+                            <span class="feature-tag"><i class="fas fa-snowflake"></i> 空調</span>
+                            <span class="feature-tag"><i class="fas fa-wine-bottle"></i> 迷你吧</span>
+                            <span class="feature-tag"><i class="fas fa-lock"></i> 保險箱</span>
+                            <span class="feature-tag"><i class="fas fa-bath"></i> 浴缸</span>
+                            <span class="feature-tag"><i class="fas fa-child"></i> 兒童遊戲區</span>
+                        </div>
+                        <p class="room-description">專為家庭設計的套房，提供充足的空間和兒童友善設施。</p>
+                        <div class="room-footer">
+                            <div class="room-price-info">
+                                <span class="original-price">TWD 3280</span>
+                                <span class="price">TWD 2280</span>
+                                <span class="price-note">含稅費 · 含早餐</span>
+                            </div>
+                            <!-- 選擇此房型按鈕 - 應該跳轉頁面 -->
+                            <button class="select-btn" onclick="selectRoom('type3', '家庭套房', event)">
+                                選擇此房型
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="room-modal-footer">
+                <button class="cancel-btn" onclick="closeRoomModal()">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 新增：功能選擇按鈕 -->
+    <div class="feature-selector-btn" id="featureSelectorBtn">
+        <i class="fas fa-th-large"></i>
+    </div>
+
+    <!-- 新增：功能選擇彈窗 -->
+    <div class="feature-selector-modal" id="featureSelectorModal">
+        <div class="feature-selector-header">
+            <h3>功能選單</h3>
+            <button class="close-selector" onclick="closeFeatureSelector()">&times;</button>
+        </div>
+        <div class="feature-selector-body">
+            <div class="feature-option" onclick="showRoomSelection()">
+                <i class="fas fa-bolt"></i>
+                <span>立即搶訂</span>
+            </div>
+            <div class="feature-option" onclick="scrollToSection('rooms-content')">
+                <i class="fas fa-bed"></i>
+                <span>價格折扣</span>
+            </div>
+            <div class="feature-option" onclick="scrollToSection('benefits-content')">
+                <i class="fas fa-gift"></i>
+                <span>點數回饋</span>
+            </div>
+            <div class="feature-option" onclick="scrollToSection('price-content')">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>價格保證</span>
+            </div>
+            <div class="feature-option" onclick="scrollToSection('discount-content')">
+                <i class="fas fa-star"></i>
+                <span>期間優惠</span>
+            </div>
+            <div class="feature-option" onclick="scrollToSection('location-content')">
+                <i class="fas fa-star"></i>
+                <span>位置周邊</span>
+            </div>
+            <div class="feature-option" onclick="scrollToSection('breakfast-content')">
+                <i class="fas fa-star"></i>
+                <span>早餐服務</span>
+            </div>
+            <div class="feature-option" onclick="scrollToSection('facilities-content')">
+                <i class="fas fa-star"></i>
+                <span>設施使用</span>
+            </div>
+            <div class="feature-option" onclick="scrollToSection('welcome-content')">
+                <i class="fas fa-star"></i>
+                <span>迎賓服務</span>
+            </div>
+            <div class="feature-option" onclick="scrollToSection('flexibility-content')">
+                <i class="fas fa-star"></i>
+                <span>彈性運營</span>
+            </div>
+            <div class="feature-option" onclick="scrollToSection('public-space-content')">
+                <i class="fas fa-star"></i>
+                <span>公共空間</span>
+            </div>
+            <div class="feature-option" onclick="openChatWindow()">
+                <i class="fas fa-robot"></i>
+                <span>AI助手</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 新增：AI聊天窗口 -->
+    <div class="ai-chat" id="aiChatBtn">
+        <i class="fas fa-robot"></i>
+    </div>
+
+    <div class="ai-chat-window" id="aiChatWindow">
+        <div class="ai-chat-header">
+            <h3>AI 助手</h3>
+            <button class="close-chat" onclick="closeChatWindow()">&times;</button>
+        </div>
+        <div class="ai-chat-body" id="chatMessages">
+            <div class="ai-message">
+                您好！我是您的AI助手，有什麼可以幫助您的嗎？
+            </div>
+        </div>
+        <div class="ai-chat-input">
+            <input type="text" id="chatInput" placeholder="輸入您的問題...">
+            <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <script>
+    function returnToHotelInterface(userType) {
+    // 设置标志表示从详情页返回
+    sessionStorage.setItem('fromDetailPage', 'true');
+    window.location.href = 'hotel_interface.html?type=' + userType;
+}
+    // 倒數計時功能
+    function startPromotionCountdown() {
+        const countdownElement = document.getElementById('promotionCountdown');
+        let time = 23 * 60 * 60 + 59 * 60 + 45; // 23小時59分45秒
+        
+        function updateCountdown() {
+            let hours = Math.floor(time / 3600);
+            let minutes = Math.floor((time % 3600) / 60);
+            let seconds = time % 60;
+            
+            const timeNumbers = countdownElement.querySelectorAll('.time-number');
+            timeNumbers[0].textContent = hours.toString().padStart(2, '0');
+            timeNumbers[1].textContent = minutes.toString().padStart(2, '0');
+            timeNumbers[2].textContent = seconds.toString().padStart(2, '0');
+            
+            if (time > 0) {
+                time--;
+            } else {
+                clearInterval(countdownInterval);
+                countdownElement.innerHTML = '<div class="countdown-ended">優惠已結束</div>';
+            }
+        }
+        
+        updateCountdown();
+        const countdownInterval = setInterval(updateCountdown, 1000);
+    }
+    
+    // 優惠選擇功能
+    function selectPromotion(promotionType) {
+        const promotions = {
+            earlybird: '早鳥優惠',
+            extendedstay: '連住優惠',
+            member: '會員專屬'
+        };
+        
+        alert(`您已選擇 ${promotions[promotionType]}，即將為您跳轉至預訂頁面`);
+        // 實際應用中這裡會有跳轉到預訂頁面的代碼
+    }
+    
+    // 頁面加載完成後初始化
+    document.addEventListener('DOMContentLoaded', function() {
+        startPromotionCountdown();
+    });
+    
+    function startCountdown() {
+    let countdownElement = document.getElementById('countdown');
+    if (!countdownElement) return;
+    
+    // 優先從URL參數獲取時間，如果沒有則使用默認值
+    function getInitialTime() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const countdownParam = urlParams.get('countdown');
+        
+        if (countdownParam) {
+            // 從URL獲取剩餘時間（秒）
+            return parseInt(countdownParam);
+        } else {
+            // 默認時間：23小時59分45秒
+            return 23 * 60 * 60 + 59 * 60 + 45;
+        }
+    }
+    
+    let time = getInitialTime();
+    let countdownInterval;
+    
+    function updateCountdown() {
+        let hours = Math.floor(time / 3600);
+        let minutes = Math.floor((time % 3600) / 60);
+        let seconds = time % 60;
+        
+        countdownElement.textContent = 
+            `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        
+        if (time > 0) {
+            time--;
+            // 定期保存到 localStorage
+            if (time % 10 === 0) { // 每10秒保存一次
+                localStorage.setItem('countdownRemaining', time);
+                localStorage.setItem('countdownStartTime', Date.now());
+            }
+        } else {
+            clearInterval(countdownInterval);
+            countdownElement.textContent = "優惠已結束";
+            
+            // 3秒後重新開始倒計時
+            setTimeout(() => {
+                const defaultTime = 24 * 60 * 60;
+                time = defaultTime;
+                localStorage.setItem('countdownRemaining', defaultTime);
+                localStorage.setItem('countdownStartTime', Date.now());
+                updateCountdown();
+                countdownInterval = setInterval(updateCountdown, 1000);
+            }, 3000);
+        }
+    }
+    
+    updateCountdown();
+    countdownInterval = setInterval(updateCountdown, 1000);
+}
+function selectRoom(roomType, roomName, clickEvent) {
+    console.log('選擇房型:', roomType, roomName);
+    
+    // 阻止事件冒泡
+    if (clickEvent) {
+        clickEvent.stopPropagation();
+        clickEvent.preventDefault();
+    }
+    
+    // 保存數據到 localStorage
+    localStorage.setItem('selectedRoomType', roomType);
+    localStorage.setItem('selectedRoomName', roomName);
+    
+    // 獲取點擊的按鈕
+    let button = clickEvent ? clickEvent.target : null;
+    if (button && !button.classList.contains('select-btn')) {
+        button = button.closest('.select-btn');
+    }
+    
+    if (button) {
+        // 禁用所有其他按鈕
+        document.querySelectorAll('.select-btn').forEach(btn => {
+            if (btn !== button) {
+                btn.disabled = true;
+                btn.style.opacity = '0.5';
+            }
+        });
+        
+        // 更新當前按鈕狀態 - 變成綠色
+        button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 選擇中...';
+        button.style.cssText = `
+            background: linear-gradient(135deg, #4caf50, #66bb6a) !important;
+            color: white !important;
+            cursor: wait !important;
+        `;
+        button.disabled = true;
+        
+        // 1秒後跳轉
+        setTimeout(() => {
+            window.location.href = 'C1_room1_page.html';
+        }, 1000);
+    } else {
+        // 如果找不到按鈕，直接跳轉
+        console.warn('找不到按鈕元素，直接跳轉');
+        setTimeout(() => {
+            window.location.href = 'C1_room1_page.html';
+        }, 500);
+    }
+    
+    return false;
+}
+        // 顯示通知
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: #e74c3c;
+                color: white;
+                padding: 15px 25px;
+                border-radius: 8px;
+                border: 2px solid #c0392b;
+                box-shadow: 0 10px 30px rgba(231, 76, 60, 0.4);
+                z-index: 1000;
+                font-weight: 500;
+                text-align: center;
+                min-width: 300px;
+                max-width: 80%;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 3000);
+        }
+// 獲取房型價格
+function getRoomPrice(roomType) {
+    const prices = {
+        'type1': 580,
+        'type2': 2080,
+        'type3': 2280
+    };
+    return prices[roomType] || 0;
+}
+
+// 獲取房型特色
+function getRoomFeatures(roomType) {
+    const features = {
+        'type1': ['市景', '1張單人床', '免費Wi-Fi', '20平方米'],
+        'type2': ['市景', '1張雙人床', '獨立起居區', '14平方米'],
+        'type3': ['市景', '1張雙人床', '浴缸', '20平方米']
+    };
+    return features[roomType] || [];
+}
+
+// 關閉模態框函數
+function closeRoomModal() {
+    const modal = document.getElementById('roomSelectionModal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+}
+        function showRoomSelection() {
+            document.getElementById('roomSelectionModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideRoomSelection() {
+            document.getElementById('roomSelectionModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        function closeRoomModal() {
+            const modal = document.getElementById('roomSelectionModal');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // 添加點擊外部關閉功能
+        document.addEventListener('click', function(e) {
+            const modal = document.getElementById('roomSelectionModal');
+            if (e.target === modal) {
+                closeRoomModal();
+            }
+        });
+
+        // 添加ESC鍵關閉功能
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeRoomModal();
+            }
+        });
+        // 願望清單功能
+        document.getElementById('wishlistBtn').addEventListener('click', function() {
+            const btn = this;
+            const icon = btn.querySelector('i');
+            if (icon.classList.contains('far')) {
+                icon.classList.replace('far', 'fas');
+                btn.innerHTML = '<i class="fas fa-heart"></i> 已加入願望清單';
+                showNotification('已將台北美好境界西門館加入您的願望清單！');
+            } else {
+                icon.classList.replace('fas', 'far');
+                btn.innerHTML = '<i class="far fa-heart"></i> 加入願望清單';
+                showNotification('已從願望清單中移除台北美好境界西門館。');
+            }
+        });
+        
+        
+        // 地圖初始化
+        function initMap() {
+            // 飯店位置
+            const hotelLocation = [25.0443, 121.509];
+            
+            // 主地圖
+            const map = L.map('map').setView(hotelLocation, 16);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            
+            // 自訂紅色標記圖標
+            const redIcon = L.divIcon({
+                className: 'red-marker',
+                html: '<i class="fas fa-map-marker-alt" style="font-size: 30px; color: #d32f2f;"></i>',
+                iconSize: [30, 30],
+                iconAnchor: [15, 30]
+            });
+            
+            // 添加飯店標記
+            L.marker(hotelLocation, {icon: redIcon}).addTo(map)
+                .bindPopup('<b>台北美好境界西門館</b><br>台北市萬華區西寧南路36號B棟9樓')
+                .openPopup();
+        }
+        
+        // 頁面加載完成後初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 檢查是否有從上個頁面傳來的倒數計時
+            const urlParams = new URLSearchParams(window.location.search);
+            const countdownParam = urlParams.get('countdown');
+            
+            if (countdownParam) {
+                console.log('從上個頁面接收到的倒數計時:', countdownParam);
+            }
+            
+            startCountdown();
+            initMap();
+            
+            // 添加願望清單按鈕點擊事件
+            document.getElementById('wishlistBtn').addEventListener('click', toggleWishlist);
+        });
+
+        // 新增：滾動到指定區塊功能
+                // 新增：滾動到指定區塊功能
+        function scrollToSection(sectionId) {
+            const targetElement = document.getElementById(sectionId);
+            if (targetElement) {
+                const header = document.querySelector(".header"); // 獲取頂部導航欄元素
+                // 獲取導航欄高度，如果不存在則為0。這裡假設導航欄高度是固定的，或者可以動態獲取。
+                // 如果導航欄高度是動態的，使用 header.offsetHeight 是最準確的。
+                const headerHeight = header ? header.offsetHeight : 0; 
+                
+                // 計算滾動目標位置，減去導航欄高度，並額外增加一些間距（例如 10px）以確保標題上方有足夠空間
+                const offsetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight - 10;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth" // 平滑滾動效果
+                });
+                closeFeatureSelector(); // 滾動後關閉功能選單，提供更好的用戶體驗
+            }
+        }
+
+
+        // 新增：功能選擇彈窗控制
+        function toggleFeatureSelector() {
+            const modal = document.getElementById('featureSelectorModal');
+            if (modal.style.display === 'block') {
+                modal.style.display = 'none';
+            } else {
+                modal.style.display = 'block';
+            }
+        }
+
+        function closeFeatureSelector() {
+            document.getElementById('featureSelectorModal').style.display = 'none';
+        }
+
+        // 新增：AI聊天窗口控制
+        function openChatWindow() {
+            document.getElementById('aiChatWindow').style.display = 'flex';
+            closeFeatureSelector();
+        }
+
+        function closeChatWindow() {
+            document.getElementById('aiChatWindow').style.display = 'none';
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (message === '') return;
+            
+            // 添加用戶消息
+            const chatMessages = document.getElementById('chatMessages');
+            const userMessage = document.createElement('div');
+            userMessage.className = 'user-message';
+            userMessage.textContent = message;
+            chatMessages.appendChild(userMessage);
+            
+            // 清空輸入框
+            input.value = '';
+            
+            // 模擬AI回應
+            setTimeout(() => {
+                const aiMessage = document.createElement('div');
+                aiMessage.className = 'ai-message';
+                
+                // 簡單的關鍵字回應
+                if (message.includes('房') || message.includes('room')) {
+                    aiMessage.textContent = '我們提供多種房型選擇，包括輕奢背包客八人房、雅緻大床房和豪華大床房。您可以在「房型選擇」區塊查看詳細資訊。';
+                } else if (message.includes('優惠') || message.includes('折扣') || message.includes('discount')) {
+                    aiMessage.textContent = '目前我們有限時68.65%折扣，還有點數回饋計畫。您可以在「優惠詳情」區塊查看所有優惠資訊。';
+                } else if (message.includes('位置') || message.includes('location') || message.includes('地圖')) {
+                    aiMessage.textContent = '飯店位於西門町中心，交通便利，周邊有豐富的購物和餐飲選擇。您可以在「位置周邊」區塊查看詳細地圖和周邊資訊。';
+                } else if (message.includes('評價') || message.includes('review') || message.includes('評分')) {
+                    aiMessage.textContent = '我們的住客評價分數為8.7分（很棒），共有1,248則評價。您可以在「住客評價」區塊查看詳細評價內容。';
+                } else {
+                    aiMessage.textContent = '感謝您的詢問！如需更多幫助，請聯繫我們的客服人員。您也可以查看頁面上的各個功能區塊獲取更多資訊。';
+                }
+                
+                chatMessages.appendChild(aiMessage);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1000);
+            
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // 新增：按Enter發送消息
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // 新增：點擊功能選擇按鈕
+        document.getElementById('featureSelectorBtn').addEventListener('click', toggleFeatureSelector);
+
+        // 新增：點擊AI聊天按鈕
+        document.getElementById('aiChatBtn').addEventListener('click', openChatWindow);
+
+        // 新增：點擊頁面其他地方關閉功能選擇彈窗
+        document.addEventListener('click', function(e) {
+            const featureSelectorBtn = document.getElementById('featureSelectorBtn');
+            const featureSelectorModal = document.getElementById('featureSelectorModal');
+            
+            if (!featureSelectorBtn.contains(e.target) && !featureSelectorModal.contains(e.target)) {
+                closeFeatureSelector();
+            }
+        });
+        // 在酒店詳情頁面中獲取倒數計時參數
+        function getCountdownFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const countdownParam = urlParams.get('countdown');
+            const hotelId = urlParams.get('hotelId');
+            
+            if (countdownParam && hotelId) {
+                // 使用從列表頁傳來的時間
+                const countdownTime = parseInt(countdownParam);
+                localStorage.setItem(`countdown-${hotelId}`, countdownTime);
+                localStorage.setItem(`countdown-timestamp-${hotelId}`, Date.now());
+                return countdownTime;
+            } else {
+                // 默認邏輯
+                return calculateRemainingTime();
+            }
+        }
+    </script>
+</body>
+</html>

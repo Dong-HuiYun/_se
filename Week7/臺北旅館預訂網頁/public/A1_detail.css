@@ -1,0 +1,3544 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #0f1b33, #1a3658);
+    color: #e0e0e0;
+    line-height: 1.6;
+}
+
+.header {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    color: white;
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.logo i {
+    color: #4dabf7;
+    margin-right: 10px;
+}
+
+.nav-buttons button {
+    background: rgba(77, 171, 247, 0.3);
+    border: 1px solid rgba(77, 171, 247, 0.5);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 4px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.nav-buttons button:hover {
+    background: rgba(77, 171, 247, 0.5);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 照片展示區 */
+.image-gallery {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 200px 200px;
+    gap: 10px;
+    margin-bottom: 30px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.main-image, .sub-image {
+    background: rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    position: relative;
+    border-radius: 10px;
+}
+
+.main-image {
+    grid-row: span 2;
+}
+
+.main-image img, .sub-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.main-image:hover img, .sub-image:hover img {
+    transform: scale(1.05);
+}
+
+.image-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+    padding: 15px;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.main-image:hover .image-overlay, .sub-image:hover .image-overlay {
+    opacity: 1;
+}
+
+.vr-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(77, 171, 247, 0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* 酒店資訊和預訂 */
+.hotel-info {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 30px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hotel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.hotel-title {
+    font-size: 28px;
+    color: #4dabf7;
+    margin-bottom: 5px;
+}
+
+.hotel-location {
+    color: #a0aec0;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.hotel-rating {
+    background: linear-gradient(90deg, #4dabf7, #339af0);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.price-section {
+    text-align: right;
+}
+
+.price {
+    font-size: 32px;
+    font-weight: bold;
+    color: #4dabf7;
+}
+
+.price-note {
+    font-size: 14px;
+    color: #a0aec0;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-primary {
+    background: linear-gradient(90deg, #4dabf7, #339af0);
+    color: white;
+    flex: 1;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(90deg, #339af0, #228be6);
+    box-shadow: 0 5px 15px rgba(77, 171, 247, 0.4);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: #e0e0e0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.btn i {
+    margin-right: 8px;
+}
+
+/* 主要功能區塊 */
+.main-features {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 30px 20px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #4dabf7;
+    box-shadow: 0 10px 30px rgba(77, 171, 247, 0.3);
+}
+
+.feature-icon {
+    font-size: 40px;
+    color: #4dabf7;
+    margin-bottom: 15px;
+}
+
+.feature-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.feature-desc {
+    font-size: 14px;
+    color: #a0aec0;
+    line-height: 1.4;
+}
+
+/* 內容區塊 */
+.content-section {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.section-title {
+    font-size: 24px;
+    color: #4dabf7;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.content-item {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.content-item h3 {
+    color: #4dabf7;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.content-item h3 i {
+    font-size: 20px;
+}
+
+.image-gallery-small {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.gallery-item {
+    border-radius: 8px;
+    overflow: hidden;
+    height: 120px;
+    position: relative;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+/* 特色服務網格 - 每行2個 */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.service-item {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 35px 30px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 220px;
+}
+
+.service-item:hover {
+    transform: translateY(-5px);
+    border-color: #4dabf7;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 25px rgba(77, 171, 247, 0.2);
+}
+
+.service-icon {
+    font-size: 42px;
+    color: #4dabf7;
+    margin-bottom: 20px;
+    width: 80px;
+    height: 80px;
+    background: rgba(77, 171, 247, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.service-item:hover .service-icon {
+    background: rgba(77, 171, 247, 0.2);
+    transform: scale(1.1);
+}
+
+.service-title {
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: white;
+    font-size: 20px;
+}
+
+.service-desc {
+    font-size: 15px;
+    color: #a0aec0;
+    line-height: 1.5;
+    max-width: 300px;
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+    .services-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .service-item {
+        padding: 25px 20px;
+        min-height: 180px;
+    }
+    
+    .service-icon {
+        font-size: 36px;
+        width: 70px;
+        height: 70px;
+        margin-bottom: 15px;
+    }
+    
+    .service-title {
+        font-size: 18px;
+        margin-bottom: 12px;
+    }
+    
+    .service-desc {
+        font-size: 14px;
+    }
+}
+
+/* 優惠與獎勵網格 - 每行2個 */
+.promotion-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.promotion-item {
+    background: rgba(77, 171, 247, 0.1);
+    border: 1px solid rgba(77, 171, 247, 0.3);
+    border-radius: 15px;
+    padding: 35px 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+}
+
+.promotion-item:hover {
+    transform: translateY(-5px);
+    border-color: #4dabf7;
+    background: rgba(77, 171, 247, 0.15);
+    box-shadow: 0 10px 25px rgba(77, 171, 247, 0.2);
+}
+
+.promotion-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #4dabf7, #339af0);
+    opacity: 0.8;
+}
+
+.promotion-badge {
+    background: #e74c3c;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.promotion-item h3 {
+    color: white;
+    font-size: 22px;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.promotion-item p {
+    color: #a0aec0;
+    font-size: 15px;
+    line-height: 1.5;
+    margin: 0;
+    max-width: 300px;
+}
+
+/* 不同徽章顏色 */
+.promotion-item:nth-child(1) .promotion-badge {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+.promotion-item:nth-child(2) .promotion-badge {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+}
+
+.promotion-item:nth-child(3) .promotion-badge {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+}
+
+.promotion-item:nth-child(4) .promotion-badge {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+    .promotion-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .promotion-item {
+        padding: 25px 20px;
+        min-height: 180px;
+    }
+    
+    .promotion-item h3 {
+        font-size: 20px;
+        margin-bottom: 12px;
+    }
+    
+    .promotion-item p {
+        font-size: 14px;
+    }
+    
+    .promotion-badge {
+        padding: 6px 12px;
+        font-size: 11px;
+        margin-bottom: 15px;
+    }
+}
+
+/* AI聊天窗口 */
+.ai-chat {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #4dabf7, #339af0);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(77, 171, 247, 0.5);
+    z-index: 1000;
+    transition: all 0.3s;
+}
+
+.ai-chat:hover {
+    transform: scale(1.1);
+}
+
+.ai-chat-window {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 350px;
+    height: 450px;
+    background: rgba(26, 36, 53, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    z-index: 1001;
+    display: none;
+    flex-direction: column;
+    border: 1px solid rgba(42, 58, 82, 0.8);
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+}
+
+.ai-chat-header {
+    background: linear-gradient(135deg, #0f1b33, #1a3658);
+    padding: 15px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(42, 74, 122, 0.8);
+}
+
+.ai-chat-body {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ai-message, .user-message {
+    max-width: 80%;
+    padding: 10px 15px;
+    border-radius: 18px;
+    margin-bottom: 10px;
+    word-wrap: break-word;
+}
+
+.ai-message {
+    background: rgba(42, 58, 82, 0.8);
+    align-self: flex-start;
+    border-bottom-left-radius: 5px;
+}
+
+.user-message {
+    background: linear-gradient(90deg, #4dabf7, #339af0);
+    align-self: flex-end;
+    border-bottom-right-radius: 5px;
+}
+
+.ai-chat-input {
+    display: flex;
+    padding: 15px;
+    border-top: 1px solid rgba(42, 58, 82, 0.8);
+}
+
+.ai-chat-input input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid rgba(42, 58, 82, 0.8);
+    border-radius: 20px;
+    background: rgba(26, 36, 53, 0.8);
+    color: white;
+    outline: none;
+}
+
+.ai-chat-input button {
+    background: #4dabf7;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.close-chat {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+/* 主要模態框樣式 */
+.room-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 14, 23, 0.9);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+}
+
+
+.room-modal-content {
+    background: #1a2435;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 900px;
+    max-height: 85vh;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    animation: slideUp 0.3s ease;
+    border: 1px solid #2a3a52;
+}
+
+/* 模態框頭部 */
+.room-modal-header {
+    background: linear-gradient(135deg, #0f1b33, #1a3658);
+    color: white;
+    padding: 25px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #2a4a7a;
+}
+
+/* 房間選項樣式 */
+.room-option {
+    display: flex;
+    padding: 25px 30px;
+    border-bottom: 1px solid #2a3a52;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    gap: 20px;
+}
+
+.room-option:hover {
+    background-color: #222d41;
+}
+/* 添加這些樣式到您的 CSS 中 */
+.room-modal-body {
+    padding: 0;
+    max-height: calc(85vh - 140px);
+    overflow-y: auto;
+}
+
+.room-image {
+    flex: 0 0 150px;
+    height: 120px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.room-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.room-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.room-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.room-size {
+    background: rgba(77, 171, 247, 0.1);
+    color: #4dabf7;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    border: 1px solid rgba(77, 171, 247, 0.3);
+}
+
+.room-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.feature-tag {
+    background: rgba(255, 255, 255, 0.05);
+    color: #a0aec0;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.room-description {
+    color: #a0aec0;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.room-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.room-price {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.room-price .price {
+    font-size: 24px;
+    color: #4dabf7;
+}
+
+.price-unit {
+    font-size: 14px;
+    color: #a0aec0;
+}
+
+.select-btn {
+    background: linear-gradient(90deg, #4dabf7, #339af0);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.select-btn:hover {
+    background: linear-gradient(90deg, #339af0, #228be6);
+    box-shadow: 0 0 10px rgba(77, 171, 247, 0.5);
+}
+.room-modal-footer {
+    padding: 5px 40px;
+    background: rgba(255, 255, 255, 0.05);
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cancel-btn {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.cancel-btn:hover {
+    background: #5a6268;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.close-btn:hover {
+    color: #4dabf7;
+}
+
+.view-option {
+    color: #4dabf7;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s;
+}
+
+.view-option:hover {
+    color: #339af0;
+}
+
+.cancel-btn {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 25px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.map-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #a0aec0;
+    text-align: center;
+}
+
+.map-loading i {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #4dabf7;
+}
+
+/* Leaflet 地圖自定義樣式 */
+.map-container .leaflet-container {
+    background: #1a2435;
+    border-radius: 10px;
+}
+
+
+.map-container .leaflet-popup-content-wrapper {
+    background: #1a2435;
+    color: #e0e0e0;
+    border-radius: 8px;
+    border: 1px solid #2a3a52;
+}
+
+.map-container .leaflet-popup-tip {
+    background: #1a2435;
+}
+
+.map-container .leaflet-control-zoom a {
+    background: #1a2435;
+    color: #e0e0e0;
+    border: 1px solid #2a3a52;
+}
+
+.map-container .leaflet-control-zoom a:hover {
+    background: #2a3a52;
+}
+/* 地圖容器樣式 */
+.map-container {
+    height: 300px;
+    background: #1a2435;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #a0aec0;
+    border: 1px solid #2a3a52;
+    position: relative;
+    z-index: 1;
+}
+/* 地图控制按钮样式 */
+.map-controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.map-reset-btn {
+    width: 40px;
+    height: 40px;
+    background: white;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: #333;
+    transition: all 0.3s ease;
+    z-index: 1001;
+}
+
+.map-reset-btn:hover {
+    background: #4dabf7;
+    color: white;
+    transform: scale(1.1);
+}
+
+.map-reset-btn:active {
+    transform: scale(0.95);
+}
+
+/* 确保地图容器有相对定位 */
+.map-container {
+    position: relative;
+    height: 300px;
+    background: #1a2435;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #a0aec0;
+    border: 1px solid #2a3a52;
+}
+/* 街景容器樣式 */
+.street-view-container {
+    height: 400px;
+    background: #1a2435;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 20px;
+    display: none;
+    border: 1px solid #2a3a52;
+}
+
+.street-view-container.active {
+    display: block;
+}
+
+.street-view-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #a0aec0;
+    text-align: center;
+    padding: 20px;
+}
+
+.street-view-placeholder i {
+    font-size: 60px;
+    margin-bottom: 20px;
+    color: #4dabf7;
+}
+/* 附近景點樣式 */
+.nearby-attractions {
+    margin: 20px 0;
+}
+
+.attractions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.attraction-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.attraction-card:hover {
+    transform: translateY(-5px);
+    border-color: #4dabf7;
+    box-shadow: 0 8px 25px rgba(77, 171, 247, 0.3);
+}
+
+.attraction-image {
+    height: 160px;
+    overflow: hidden;
+    position: relative;
+}
+
+.attraction-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.attraction-card:hover .attraction-image img {
+    transform: scale(1.1);
+}
+
+.attraction-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(77, 171, 247, 0.9);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 11px;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+}
+
+.attraction-info {
+    padding: 15px;
+}
+
+.attraction-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.attraction-distance {
+    background: rgba(77, 171, 247, 0.1);
+    color: #4dabf7;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.attraction-description {
+    color: #a0aec0;
+    font-size: 13px;
+    line-height: 1.4;
+    margin: 8px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.attraction-features {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.attraction-feature {
+    background: rgba(255, 255, 255, 0.05);
+    color: #a0aec0;
+    padding: 4px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 景點類型顏色 */
+.badge-transport { background: rgba(52, 152, 219, 0.9); }
+.badge-attraction { background: rgba(231, 76, 60, 0.9); }
+.badge-shopping { background: rgba(155, 89, 182, 0.9); }
+.badge-food { background: rgba(230, 126, 34, 0.9); }
+.badge-park { background: rgba(39, 174, 96, 0.9); }
+.badge-culture { background: rgba(241, 196, 15, 0.9); }
+
+/* 全寬內容區塊 */
+.content-item-full {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 20px;
+}
+
+.content-item-full h3 {
+    color: #4dabf7;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+}
+
+.content-item-full h3 i {
+    font-size: 24px;
+}
+
+/* 主要區塊對齊 */
+.location-main-block {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 確保兩個主要區塊對齊 */
+.location-left .content-item,
+.location-right .content-item {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+/* 左側：智能定位區域佈局 */
+.location-left .content-item {
+    gap: 20px;
+}
+
+.attraction-buttons {
+    flex-shrink: 0; /* 按鈕區域不縮小 */
+}
+
+.attraction-detail {
+    flex: 1; /* 景點詳細資訊填滿剩餘空間 */
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 強制圖片尺寸 */
+.detail-image {
+    border-radius: 10px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 768px;
+    height: 576px;
+    margin: 15px auto 0 auto;
+    position: relative;
+}
+
+.detail-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* 響應式調整 */
+@media (max-width: 768px) {
+    .detail-image {
+        height: 400px; /* 在手機上調整高度 */
+    }
+}
+
+@media (max-width: 480px) {
+    .detail-image {
+        height: 300px; /* 在小手機上進一步調整 */
+    }
+}
+
+/* 右側：交通區域佈局 */
+.location-right .content-item {
+    gap: 25px;
+}
+
+.transport-info {
+    flex-shrink: 0; /* 交通資訊不縮小 */
+}
+
+.transport-map-block {
+    flex: 1; /* 交通便利與地圖填滿剩餘空間 */
+    display: flex;
+    flex-direction: column;
+}
+
+.transport-map-block .map-container {
+    flex: 1; /* 地圖填滿區塊 */
+    min-height: 300px;
+}
+/* 讓內容填滿可用空間 */
+.attraction-detail {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-image {
+    flex: 1;
+    margin-top: auto;
+}
+
+/* 交通與地圖區塊填滿剩餘空間 */
+.transport-map-block {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.transport-map-block .map-container {
+    flex: 1;
+    min-height: 300px;
+}
+
+.transport-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.transport-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.transport-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: #4dabf7;
+    transform: translateY(-2px);
+}
+
+.transport-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.transport-details h5 {
+    color: white;
+    margin: 0 0 5px 0;
+    font-size: 16px;
+}
+
+.transport-details p {
+    color: #a0aec0;
+    margin: 0 0 3px 0;
+    font-size: 14px;
+}
+
+.transport-details small {
+    color: #718096;
+    font-size: 12px;
+}
+
+/* 調整景點網格為3列 */
+.attractions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 15px;
+}
+
+/* 位置地點專用樣式 */
+.location-subtitle {
+    color: #4dabf7;
+    margin: 0 0 15px 0;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+}
+
+.location-description {
+    color: #a0aec0;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-size: 15px;
+}
+
+/* 景點按鈕樣式改進 */
+.attraction-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.attraction-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: #a0aec0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+    min-height: 70px;
+    width: 100%;
+}
+
+.attraction-btn:hover {
+    background: rgba(77, 171, 247, 0.1);
+    border-color: #4dabf7;
+    color: #4dabf7;
+    transform: translateY(-2px);
+}
+
+.attraction-btn.active {
+    background: rgba(77, 171, 247, 0.15);
+    border-color: #4dabf7;
+    color: #4dabf7;
+    box-shadow: 0 4px 12px rgba(77, 171, 247, 0.3);
+}
+
+.attraction-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(77, 171, 247, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    flex-shrink: 0;
+    
+    /* 【最終修正】使用 transform 向上微調 1px */
+    transform: translateY(-1px); 
+    /* 您可以嘗試 -1px 或 -2px，視乎哪個在您的瀏覽器看起來最完美 */
+}
+
+.attraction-icon i {
+    font-size: 18px;
+    color: #4dabf7;
+}
+
+/* 步驟 1: 修改 .attraction-text */
+.attraction-text {
+    display: flex;
+    flex-direction: column; /* 確保兩行文字垂直堆疊 */
+    align-items: flex-start;
+    /* 新增：利用 gap 屬性在垂直方向上創造 4px 的間距 */
+    gap: 4px; 
+}
+
+/* 步驟 2: 修改 .attraction-name */
+.attraction-name {
+    font-weight: 600;
+    font-size: 15px;
+    /* 【關鍵修正】刪除或註釋掉原有的 margin-bottom，改用父容器的 gap */
+    /* margin-bottom: 4px; */ 
+    /* 【關鍵修正】設置緊湊的行高，以減少文字上方和下方的隱形空白 */
+    line-height: 1; 
+    color: inherit;
+} 
+
+/* 步驟 3: 修改 .attraction-distance */
+.attraction-distance { 
+    font-size: 12px;
+    opacity: 0.8;
+    /* 【關鍵修正】設置緊湊的行高 */
+    line-height: 1;
+    color: inherit;
+}
+
+/* 景點詳細資訊改進 */
+.attraction-detail {
+    margin-top: 25px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.detail-title {
+    color: #4dabf7;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.distance-badge {
+    background: rgba(77, 171, 247, 0.1);
+    color: #4dabf7;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.detail-description {
+    color: #a0aec0;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.detail-features {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.feature-tag {
+    background: rgba(255, 255, 255, 0.05);
+    color: #a0aec0;
+    padding: 6px 12px;
+    border-radius: 10px;
+    font-size: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+
+/* 交通資訊樣式改進 */
+.transport-title {
+    color: white;
+    margin: 0 0 5px 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.transport-info {
+    color: #a0aec0;
+    margin: 0 0 3px 0;
+    font-size: 14px;
+}
+
+.transport-time {
+    color: #718096;
+    font-size: 12px;
+}
+
+/* 地圖加載狀態 */
+.map-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #a0aec0;
+    text-align: center;
+    padding: 20px;
+}
+
+.map-loading i {
+    font-size: 40px;
+    margin-bottom: 15px;
+    color: #4dabf7;
+}
+
+.map-loading h3 {
+    color: #e0e0e0;
+    margin-bottom: 8px;
+    font-size: 18px;
+}
+
+.map-loading p {
+    color: #a0aec0;
+    font-size: 14px;
+}
+
+/* 響應式設計 */
+@media (max-width: 968px) {
+    .location-layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .attraction-buttons {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .attraction-buttons {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .location-subtitle {
+        font-size: 18px;
+    }
+    
+    .attraction-btn {
+        padding: 12px;
+        min-height: 60px;
+    }
+    
+    .attraction-icon {
+        width: 35px;
+        height: 35px;
+        margin-right: 10px;
+    }
+    
+    .attraction-icon i {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .attraction-buttons {
+        grid-template-columns: 1fr;
+    }
+    
+    .transport-grid {
+        grid-template-columns: 1fr;
+    }
+}
+/* 位置佈局 */
+.location-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items: stretch; /* 強制子元素高度一致 */
+}
+
+.location-left .content-item,
+.location-right .content-item {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 確保兩個主要內容區域高度一致 */
+.attraction-detail,
+.map-container {
+    flex: 1;
+    min-height: 300px;
+}
+
+/* 景點按鈕樣式 */
+.attraction-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.attraction-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: #a0aec0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    min-height: 80px;
+}
+
+.attraction-btn:hover {
+    background: rgba(77, 171, 247, 0.1);
+    border-color: #4dabf7;
+    color: #4dabf7;
+    transform: translateY(-2px);
+}
+
+.attraction-btn.active {
+    background: rgba(77, 171, 247, 0.15);
+    border-color: #4dabf7;
+    color: #4dabf7;
+    box-shadow: 0 4px 12px rgba(77, 171, 247, 0.3);
+}
+
+.attraction-btn i {
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+.attraction-btn span {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.attraction-btn small {
+    font-size: 11px;
+    opacity: 0.8;
+}
+
+/* 景點詳細資訊 */
+.attraction-detail {
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.detail-header h4 {
+    color: #4dabf7;
+    margin: 0;
+    font-size: 18px;
+}
+
+.distance-badge {
+    background: rgba(77, 171, 247, 0.1);
+    color: #4dabf7;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.detail-content p {
+    color: #a0aec0;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+.detail-features {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.feature-tag {
+    background: rgba(255, 255, 255, 0.05);
+    color: #a0aec0;
+    padding: 4px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 交通便利與地圖區塊 */
+.transport-map-block {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 20px;
+}
+
+.transport-map-block h3 {
+    color: #4dabf7;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+}
+
+.transport-map-block p {
+    color: #a0aec0;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.transport-map-block .map-container {
+    margin-top: 15px;
+}
+.content-wrapper {
+display: flex;
+    align-items: flex-start; /* 讓上方對齊 */
+    gap: 20px;               /* 左右間距 */
+    }
+
+    .attraction-detail, .transport-section {
+    flex: 1;
+}
+/* 回到功能区块固定按钮 */
+.back-to-features {
+    position: fixed;
+    bottom: 90px;
+    left: 20px;
+    background: linear-gradient(135deg, #4dabf7, #339af0);
+    color: white;
+    padding: 12px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(77, 171, 247, 0.5);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.back-to-features:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(77, 171, 247, 0.7);
+}
+/* 房型輪播 */
+.room-types-carousel {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.carousel-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+.carousel-slide {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.carousel-slide.active {
+    display: block;
+}
+
+.room-type-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.room-image {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+}
+
+.room-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.room-type-card:hover .room-image img {
+    transform: scale(1.05);
+}
+
+.room-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, transparent 50%, rgba(0,0,0,0.5) 100%);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+.room-badge {
+    background: #4dabf7;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.room-badge.premium {
+    background: linear-gradient(135deg, #ffd700, #ff6b00);
+}
+
+.view-vr-btn {
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.view-vr-btn:hover {
+    background: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+}
+
+.room-info {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.room-info h3 {
+    color: #4dabf7;
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.room-features {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.room-features span {
+    background: rgba(77, 171, 247, 0.1);
+    color: #4dabf7;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.room-info p {
+    color: #a0aec0;
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+/* 輪播導航 */
+.carousel-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.carousel-prev, .carousel-next {
+    background: rgba(77, 171, 247, 0.2);
+    color: #4dabf7;
+    border: 1px solid rgba(77, 171, 247, 0.3);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-prev:hover, .carousel-next:hover {
+    background: rgba(77, 171, 247, 0.3);
+    transform: scale(1.1);
+}
+
+.carousel-dots {
+    display: flex;
+    gap: 10px;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dot.active {
+    background: #4dabf7;
+    transform: scale(1.2);
+}
+
+/* 智能設施網格 */
+.tech-features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.tech-feature-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 30px 25px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.tech-feature-card:hover {
+    transform: translateY(-5px);
+    border-color: #4dabf7;
+    box-shadow: 0 10px 30px rgba(77, 171, 247, 0.2);
+}
+
+.tech-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #4dabf7, #339af0);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 24px;
+}
+
+.tech-feature-card h4 {
+    color: white;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.tech-feature-card p {
+    color: #a0aec0;
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+/* 細節展示 */
+.room-details {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.detail-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+}
+
+.detail-item.reverse {
+    direction: rtl;
+}
+
+.detail-item.reverse > * {
+    direction: ltr;
+}
+
+.detail-image {
+    border-radius: 15px;
+    overflow: hidden;
+    height: 300px;
+}
+
+.detail-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.detail-item:hover .detail-image img {
+    transform: scale(1.05);
+}
+
+.detail-content {
+    padding: 20px;
+}
+
+.detail-content h4 {
+    color: #4dabf7;
+    font-size: 24px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.detail-content p {
+    color: #a0aec0;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.detail-content ul {
+    list-style: none;
+    padding: 0;
+}
+
+.detail-content li {
+    color: #a0aec0;
+    margin-bottom: 8px;
+    padding-left: 25px;
+    position: relative;
+}
+
+.detail-content li:before {
+    content: "✓";
+    color: #4dabf7;
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+}
+.room-image-booking {
+    flex: 0 0 250px;
+    height: 200px;
+    overflow: hidden;
+}
+
+.room-image-booking img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+/* 設施選項卡 */
+.facilities-tabs {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tab-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.tab-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #a0aec0;
+    padding: 20px 15px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+}
+
+.tab-btn:hover {
+    background: rgba(77, 171, 247, 0.1);
+    color: #4dabf7;
+    transform: translateY(-2px);
+}
+
+.tab-btn.active {
+    background: rgba(77, 171, 247, 0.15);
+    border-color: #4dabf7;
+    color: #4dabf7;
+    box-shadow: 0 5px 15px rgba(77, 171, 247, 0.3);
+}
+
+.tab-btn i {
+    font-size: 24px;
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* 設施英雄區塊 */
+.facility-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+    align-items: center;
+}
+
+.facility-info h3 {
+    color: #4dabf7;
+    font-size: 32px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.facility-info p {
+    color: #a0aec0;
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.facility-stats {
+    display: flex;
+    gap: 30px;
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: 32px;
+    font-weight: bold;
+    color: #4dabf7;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: #a0aec0;
+}
+
+.facility-image {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    height: 300px;
+}
+
+.facility-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #ff6b00, #ffd700);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* 設施網格 */
+.facilities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+}
+
+.facility-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.facility-card:hover {
+    transform: translateY(-5px);
+    border-color: #4dabf7;
+    box-shadow: 0 10px 30px rgba(77, 171, 247, 0.2);
+}
+
+.facility-card-image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.facility-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.facility-card:hover .facility-card-image img {
+    transform: scale(1.1);
+}
+
+.facility-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.7) 100%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.facility-card:hover .facility-overlay {
+    opacity: 1;
+}
+
+.facility-view-btn {
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.facility-view-btn:hover {
+    background: white;
+    transform: scale(1.1);
+}
+
+.facility-card-content {
+    padding: 25px;
+}
+
+.facility-card-content h4 {
+    color: white;
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.facility-meta {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.facility-meta span {
+    color: #a0aec0;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.facility-card-content p {
+    color: #a0aec0;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+.facility-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.tag {
+    background: rgba(77, 171, 247, 0.1);
+    color: #4dabf7;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid rgba(77, 171, 247, 0.3);
+}
+
+/* 預約面板 */
+.booking-panel {
+    background: linear-gradient(135deg, rgba(77, 171, 247, 0.1), rgba(51, 154, 240, 0.05));
+    border-radius: 20px;
+    padding: 30px;
+    border: 1px solid rgba(77, 171, 247, 0.2);
+}
+
+.booking-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.booking-header h4 {
+    color: #4dabf7;
+    font-size: 24px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.booking-header p {
+    color: #a0aec0;
+}
+
+.booking-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.booking-option {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.booking-option:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
+}
+
+.booking-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #4dabf7, #339af0);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.booking-info {
+    flex: 1;
+}
+
+.booking-info h5 {
+    color: white;
+    margin-bottom: 5px;
+    font-size: 18px;
+}
+
+.booking-info p {
+    color: #a0aec0;
+    font-size: 14px;
+}
+
+.booking-btn {
+    background: linear-gradient(135deg, #4dabf7, #339af0);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.booking-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(77, 171, 247, 0.4);
+}
+/* 預約面板 */
+.booking-panel {
+    background: linear-gradient(135deg, rgba(77, 171, 247, 0.1), rgba(51, 154, 240, 0.05));
+    border-radius: 20px;
+    padding: 40px;
+    border: 1px solid rgba(77, 171, 247, 0.2);
+    margin-top: 40px;
+}
+
+.booking-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(77, 171, 247, 0.2);
+}
+
+.booking-title h4 {
+    color: #4dabf7;
+    font-size: 28px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.booking-title p {
+    color: #a0aec0;
+    font-size: 16px;
+    margin: 0;
+}
+
+.booking-stats {
+    display: flex;
+    gap: 30px;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: 24px;
+    font-weight: bold;
+    color: #4dabf7;
+    margin-bottom: 4px;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #a0aec0;
+    font-weight: 500;
+}
+
+/* 預約特色 */
+.booking-features {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+    background: rgba(77, 171, 247, 0.1);
+    transform: translateY(-2px);
+}
+
+.feature-item i {
+    color: #4dabf7;
+    font-size: 16px;
+}
+
+.feature-item span {
+    color: #a0aec0;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* 預約卡片網格 */
+.booking-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.booking-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.booking-card:hover {
+    transform: translateY(-5px);
+    border-color: #4dabf7;
+    box-shadow: 0 10px 30px rgba(77, 171, 247, 0.2);
+}
+
+.booking-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #4dabf7, #339af0);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.booking-card:hover::before {
+    opacity: 1;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.card-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #4dabf7, #339af0);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.card-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.card-badge.popular {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    color: white;
+}
+
+.card-badge.featured {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+    color: white;
+}
+
+.card-badge.new {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    color: white;
+}
+
+.card-content h5 {
+    color: white;
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.card-desc {
+    color: #a0aec0;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+.card-features {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.card-features span {
+    color: #a0aec0;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-features i {
+    color: #4dabf7;
+    font-size: 12px;
+    width: 16px;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.availability {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.availability span {
+    color: #a0aec0;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.booking-btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.booking-btn.primary {
+    background: linear-gradient(135deg, #4dabf7, #339af0);
+    color: white;
+}
+
+.booking-btn.primary:hover {
+    background: linear-gradient(135deg, #339af0, #228be6);
+    box-shadow: 0 4px 12px rgba(77, 171, 247, 0.4);
+    transform: translateY(-2px);
+}
+
+.booking-btn.secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: #a0aec0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.booking-btn.secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.booking-btn.outline {
+    background: transparent;
+    color: #4dabf7;
+    border: 1px solid #4dabf7;
+}
+
+.booking-btn.outline:hover {
+    background: rgba(77, 171, 247, 0.1);
+    transform: translateY(-2px);
+}
+
+/* 預約面板底部 */
+.booking-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(77, 171, 247, 0.2);
+}
+
+.footer-note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #a0aec0;
+    font-size: 14px;
+}
+
+.footer-note i {
+    color: #4dabf7;
+}
+
+.view-all-btn {
+    background: transparent;
+    color: #4dabf7;
+    border: 1px solid #4dabf7;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.view-all-btn:hover {
+    background: rgba(77, 171, 247, 0.1);
+    transform: translateY(-2px);
+}
+
+
+/* 響應式設計 */
+@media (max-width: 968px) {
+    .booking-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+    
+    .booking-features {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .booking-options {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .booking-footer {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .booking-panel {
+        padding: 25px;
+    }
+    
+    .booking-features {
+        grid-template-columns: 1fr;
+    }
+    
+    .booking-options {
+        grid-template-columns: 1fr;
+    }
+    
+    .card-footer {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+    
+    .booking-btn {
+        justify-content: center;
+    }
+}
+
+/* 響應式設計 */
+@media (max-width: 968px) {
+    .tab-buttons {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .facility-hero {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .facility-stats {
+        justify-content: space-around;
+    }
+    
+    .facilities-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .tab-buttons {
+        grid-template-columns: 1fr;
+    }
+    
+    .booking-option {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .facility-info h3 {
+        font-size: 24px;
+    }
+    
+    .stat-number {
+        font-size: 24px;
+    }
+}
+/* 響應式設計 */
+@media (max-width: 968px) {
+    .room-type-card {
+        grid-template-columns: 1fr;
+    }
+    
+    .detail-item {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .tech-features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .tech-features-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .room-features {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* 響應式設計 */
+@media (max-width: 968px) {
+    .location-layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .attraction-buttons {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .attraction-buttons {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .attraction-buttons {
+        grid-template-columns: 1fr;
+    }
+    
+    .transport-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+    .content-item-full {
+        padding: 20px;
+    }
+    
+    .attractions-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .transport-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .transport-item {
+        padding: 12px;
+    }
+}
+/* 動畫 */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { 
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}        
+
+@media (max-width: 768px) {
+    .image-gallery {
+        grid-template-columns: 1fr;
+        grid-template-rows: 250px 150px 150px;
+    }
+    
+    .main-image {
+        grid-row: span 1;
+    }
+    
+    .hotel-header {
+        flex-direction: column;
+    }
+    
+    .price-section {
+        text-align: left;
+        margin-top: 15px;
+    }
+    
+    .main-features {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ai-chat-window {
+        width: 90%;
+        right: 5%;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-features {
+        grid-template-columns: 1fr;
+    }
+}
+        .feature-selector-modal {
+    display: none;
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 280px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    z-index: 1002;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+    backdrop-filter: blur(10px);
+    animation: slideUp 0.3s ease;
+}
+
+.feature-selector-header {
+    background: linear-gradient(90deg, #4dabf7, #3092e3);
+    padding: 15px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.feature-selector-body {
+    padding: 15px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.feature-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 8px;
+    border: 1px solid rgba(76, 175, 80, 0.1);
+}
+
+.feature-option:hover {
+    background: rgba(76, 175, 80, 0.1);
+    transform: translateX(5px);
+}
+
+.feature-option i {
+    width: 20px;
+    text-align: center;
+    color: #4dabf7;
+}
+
+.feature-option span {
+    color: #1f6fb0;
+    font-weight: 500;
+}
+
+.close-selector {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+/* 功能按钮样式 */
+.feature-selector-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #4dabf7, #3092e3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.5);
+    z-index: 1000;
+    transition: all 0.3s;
+}
+
+.feature-selector-btn:hover {
+    transform: scale(1.1);
+}
+
+/* 动画效果 */
+@keyframes slideUp {
+    from { 
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* 功能按钮样式 - 放在左下角 */
+.feature-selector-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;  /* 改为左下角 */
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #4dabf7, #3092e3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.5);
+    z-index: 1000;
+    transition: all 0.3s;
+}
+
+.feature-selector-btn:hover {
+    transform: scale(1.1);
+}
+
+/* 弹窗位置也要相应调整 */
+.feature-selector-modal {
+    display: none;
+    position: fixed;
+    bottom: 90px;
+    left: 20px;  /* 跟随按钮位置 */
+    width: 280px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    z-index: 1002;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+    backdrop-filter: blur(10px);
+    animation: slideUp 0.3s ease;
+}
+.feature-option span {
+    text-decoration: none !important;
+}
+/* 预约模态框样式 */
+.booking-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 14, 23, 0.9);
+    z-index: 1003;
+    justify-content: center;
+    align-items: center; /* 确保垂直居中 */
+    animation: fadeIn 0.3s ease;
+    padding: 20px; /* 添加内边距防止在小屏幕上贴边 */
+    box-sizing: border-box;
+}
+
+.booking-modal-content {
+    background: #1a2435;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh; /* 改为90vh，留出更多空间 */
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    animation: slideUp 0.3s ease;
+    border: 1px solid #2a3a52;
+    margin: auto; /* 确保居中 */
+}
+
+/* 添加弹性布局确保内容均匀分布 */
+.booking-modal-body {
+    padding: 30px;
+    max-height: calc(90vh - 140px); /* 调整最大高度 */
+    overflow-y: auto;
+    flex: 1; /* 填充可用空间 */
+}
+
+.booking-modal-header {
+    background: linear-gradient(135deg, #0f1b33, #1a3658);
+    color: white;
+    padding: 25px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #2a4a7a;
+}
+
+.booking-modal-header h3 {
+    margin: 0;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.close-booking-modal {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.close-booking-modal:hover {
+    color: #4dabf7;
+}
+
+.booking-modal-body {
+    padding: 30px;
+    max-height: calc(80vh - 140px);
+    overflow-y: auto;
+}
+
+.booking-modal-footer {
+    padding: 20px 30px;
+    background: rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 预约表单样式 */
+.booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    color: #4dabf7;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #4dabf7;
+    background: rgba(255, 255, 255, 0.08);
+}
+/* 下拉选项的样式 */
+.form-group select option {
+    background: #1a2435 !important; /* 下拉选项背景 */
+    color: white !important; /* 下拉选项文字颜色 */
+    padding: 12px;
+    border: none;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* 时间选择器样式 */
+.time-slots {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.time-slot {
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.time-slot:hover {
+    background: rgba(77, 171, 247, 0.1);
+    border-color: #4dabf7;
+}
+
+.time-slot.selected {
+    background: rgba(77, 171, 247, 0.2);
+    border-color: #4dabf7;
+    color: #4dabf7;
+}
+
+.time-slot.unavailable {
+    background: rgba(231, 76, 60, 0.1);
+    border-color: #e74c3c;
+    color: #e74c3c;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* 课程列表样式 */
+.course-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.course-item {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.course-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
+}
+
+.course-item.selected {
+    background: rgba(77, 171, 247, 0.15);
+    border-color: #4dabf7;
+}
+
+.course-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.course-title {
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.course-badge {
+    background: linear-gradient(135deg, #4dabf7, #339af0);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.course-info {
+    color: #a0aec0;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.course-features {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.course-feature {
+    background: rgba(77, 171, 247, 0.1);
+    color: #4dabf7;
+    padding: 4px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    border: 1px solid rgba(77, 171, 247, 0.3);
+}
+
+/* 档期日历样式 */
+.schedule-calendar {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.calendar-nav {
+    background: rgba(77, 171, 247, 0.1);
+    border: 1px solid rgba(77, 171, 247, 0.3);
+    color: #4dabf7;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.calendar-nav:hover {
+    background: rgba(77, 171, 247, 0.2);
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.calendar-day {
+    text-align: center;
+    padding: 10px 5px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #a0aec0;
+}
+
+.calendar-date {
+    text-align: center;
+    padding: 12px 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 1px solid transparent;
+}
+
+.calendar-date:hover {
+    background: rgba(77, 171, 247, 0.1);
+}
+
+.calendar-date.selected {
+    background: rgba(77, 171, 247, 0.2);
+    border-color: #4dabf7;
+    color: #4dabf7;
+}
+
+.calendar-date.available {
+    color: white;
+}
+
+.calendar-date.unavailable {
+    color: #718096;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .booking-modal {
+        padding: 10px;
+        align-items: flex-start; /* 在移动端从顶部开始 */
+        padding-top: 40px; /* 在移动端留出顶部空间 */
+    }
+    
+    .booking-modal-content {
+        max-height: 85vh;
+        margin-top: 0;
+    }
+    
+    .booking-modal-body {
+        max-height: calc(85vh - 140px);
+    }
+}
+/* 特色服務美化樣式 */
+.service-item {
+    position: relative;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 35px 30px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: all 0.4s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 280px;
+    backdrop-filter: blur(10px);
+}
+
+.service-item:hover {
+    transform: translateY(-8px);
+    border-color: #4dabf7;
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 15px 40px rgba(77, 171, 247, 0.25);
+}
+
+.service-icon {
+    font-size: 48px;
+    color: #4dabf7;
+    margin-bottom: 20px;
+    width: 90px;
+    height: 90px;
+    background: linear-gradient(135deg, rgba(77, 171, 247, 0.15), rgba(51, 154, 240, 0.1));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s ease;
+}
+
+.service-item:hover .service-icon {
+    background: linear-gradient(135deg, #4dabf7, #339af0);
+    color: white;
+    transform: scale(1.1) rotate(5deg);
+}
+
+.service-title {
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: white;
+    font-size: 22px;
+    letter-spacing: 0.5px;
+}
+
+.service-desc {
+    font-size: 15px;
+    color: #cbd5e0;
+    line-height: 1.6;
+    max-width: 280px;
+    text-align: left;
+}
+
+.service-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #4dabf7, #339af0);
+    color: white;
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+    .service-item {
+        padding: 25px 20px;
+        min-height: 240px;
+    }
+    
+    .service-icon {
+        font-size: 40px;
+        width: 80px;
+        height: 80px;
+        margin-bottom: 15px;
+    }
+    
+    .service-title {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+    
+    .service-desc {
+        font-size: 14px;
+    }
+}
