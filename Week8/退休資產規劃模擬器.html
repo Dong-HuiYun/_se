@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>退休資產規劃模擬器</title>
+<style>
+:root{--bg:#f3f6f4;--sf:#fff;--tx:#1b2a26;--mu:#5d6e68;--ln:#d5dfda;--ac:#1f6f5c;--ac2:#c58a1d;--bad:#b3402f;--ok:#1f6f5c;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121a18;--sf:#1a2421;--tx:#e6efeb;--mu:#93a59e;--ln:#2d3b37;--ac:#5fc1a6;--ac2:#e2b04a;--bad:#ef8a78;--ok:#5fc1a6;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121a18;--sf:#1a2421;--tx:#e6efeb;--mu:#93a59e;--ln:#2d3b37;--ac:#5fc1a6;--ac2:#e2b04a;--bad:#ef8a78;--ok:#5fc1a6;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.6}
+main{max-width:980px;margin:0 auto;padding:28px 18px 48px}
+h1{font-size:1.7rem;margin:0 0 4px;letter-spacing:.02em}
+.sub{color:var(--mu);margin:0 0 24px;font-size:.95rem}
+.grid{display:grid;grid-template-columns:300px 1fr;gap:20px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:18px}
+label{display:block;font-size:.88rem;margin-top:14px;color:var(--mu)}
+label:first-child{margin-top:0}
+.row{display:flex;align-items:center;gap:10px}
+input[type=range]{flex:1;accent-color:var(--ac)}
+input[type=number]{width:96px;padding:5px 8px;border:1px solid var(--ln);border-radius:6px;background:var(--bg);color:var(--tx);font:inherit;text-align:right}
+input:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.verdict{font-size:1.25rem;font-weight:700;margin:0 0 4px}
+.verdict.ok{color:var(--ok)}.verdict.bad{color:var(--bad)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:16px 0}
+.stat{border-left:3px solid var(--ac);padding:2px 0 2px 10px}
+.stat b{display:block;font-size:1.2rem}
+.stat span{font-size:.82rem;color:var(--mu)}
+.chart{width:100%;overflow-x:auto}
+svg{width:100%;min-width:520px;height:auto;display:block}
+.note{font-size:.82rem;color:var(--mu);margin-top:12px}
+</style>
+</head>
+<body>
+<main>
+<h1>退休資產規劃模擬器</h1>
+<p class="sub">所有金額以「今天的購買力」計算，已扣除通膨。調整左側條件，立即看到能否安穩退休。</p>
+<div class="grid">
+<section class="panel" id="inputs"></section>
+<section class="panel">
+<p class="verdict" id="verdict"></p>
+<div id="detail" class="sub" style="margin:0"></div>
+<div class="stats" id="stats"></div>
+<div class="chart"><svg id="chart" viewBox="0 0 640 300" role="img" aria-label="資產隨年齡變化圖"></svg></div>
+<p class="note">黃色區帶是 1,000 次隨機市場模擬的 10%～90% 範圍，成功率指資產沒有提前用完的比例；實線為固定報酬率的平均情境。退休後每月提領「生活費 − 年金」。4% 法則指退休資產約為年支出的 25 倍。本工具僅供規劃參考，非投資建議。</p>
+</section>
+</div>
+</main>
+<script>
+const F=[
+["age","目前年齡",30,18,70,1,"歲"],
+["retire","預計退休年齡",60,40,80,1,"歲"],
+["life","預期活到",90,70,110,1,"歲"],
+["asset","目前可投資資產",1000000,0,50000000,100000,"元"],
+["save","每月投入",25000,0,300000,1000,"元"],
+["ret","預期年報酬率",6,0,12,0.5,"%"],
+["inf","預期通膨率",2,0,6,0.5,"%"],
+["spend","退休後每月生活費",50000,10000,300000,1000,"元"],
+["pension","退休後每月年金（勞保＋勞退）",20000,0,150000,1000,"元"],
+["vol","年報酬波動度",12,0,30,1,"%"]
+];
+const S={};const el=document.getElementById("inputs");
+try{Object.assign(S,JSON.parse(localStorage.getItem("ret_v1")||"{}"))}catch(e){}
+F.forEach(([k,n,d,mn,mx,st,u])=>{
+ if(S[k]==null)S[k]=d;
+ el.insertAdjacentHTML("beforeend",`<label for="n_${k}">${n}（${u}）</label><div class="row"><input type="range" id="r_${k}" min="${mn}" max="${mx}" step="${st}" value="${S[k]}" aria-label="${n}"><input type="number" id="n_${k}" min="${mn}" max="${mx}" step="${st}" value="${S[k]}"></div>`);
+});
+F.forEach(([k])=>{
+ const r=document.getElementById("r_"+k),n=document.getElementById("n_"+k);
+ r.oninput=()=>{n.value=r.value;S[k]=+r.value;go()};
+ n.oninput=()=>{r.value=n.value;S[k]=+n.value||0;go()};
+});
+const fmt=v=>Math.round(v).toLocaleString("zh-TW");
+const wan=v=>Math.round(v/10000).toLocaleString("zh-TW")+" 萬";
+function sim(s,save){
+ const rr=(1+s.ret/100)/(1+s.inf/100)-1, m=Math.pow(1+rr,1/12)-1;
+ let b=s.asset;const pts=[[s.age,b]];let atRet=null,dep=null;
+ const total=Math.max(0,s.life-s.age);
+ for(let y=0;y<total;y++){
+  const age=s.age+y;
+  for(let i=0;i<12;i++){
+   b*=1+m;
+   if(age<s.retire)b+=save;else b-=Math.max(0,s.spend-s.pension);
+   if(b<0&&dep==null)dep=age+(i+1)/12;
+   if(b<0)b=0;
+  }
+  if(age+1===s.retire)atRet=b;
+  pts.push([age+1,b]);
+ }
+ if(atRet==null)atRet=s.retire<=s.age?s.asset:b;
+ return{pts,atRet,dep};
+}
+function need(s){
+ let lo=0,hi=5e6;
+ for(let i=0;i<50;i++){const mid=(lo+hi)/2;sim(s,mid).dep==null?hi=mid:lo=mid}
+ return hi;
+}
+function go(){
+ try{localStorage.setItem("ret_v1",JSON.stringify(S))}catch(e){}
+ const s=S,v=document.getElementById("verdict");
+ if(s.retire<=s.age||s.life<=s.retire){v.className="verdict bad";v.textContent="年齡設定不合理";document.getElementById("detail").textContent="請確認：目前年齡 < 退休年齡 < 預期壽命。";return}
+ const r=sim(s,s.save),ok=r.dep==null,mcr=mc(s,s.save),target=Math.max(0,s.spend-s.pension)*300;
+ v.className="verdict "+(ok?"ok":"bad");
+ v.textContent=ok?`可行：資產可撐到 ${s.life} 歲`:`不足：資產約在 ${r.dep.toFixed(0)} 歲用完`;
+ const req=need(s),gap=req-s.save;
+ document.getElementById("detail").textContent=ok?"目前的儲蓄節奏足以支應退休生活。":`要撐到 ${s.life} 歲，每月需投入約 ${fmt(req)} 元，比現在多 ${fmt(Math.max(0,gap))} 元。`;
+ document.getElementById("stats").innerHTML=[
+  ["退休時資產",wan(r.atRet)],["4% 法則目標",wan(target)],
+  ["達成度",Math.min(999,Math.round(r.atRet/target*100))+"%"],["最低每月投入",fmt(req)+" 元"],["市場波動下成功率",mcr.rate+"%"],["悲觀情境退休資產（10%）",wan(mcr.p10Ret)]
+ ].map(([a,b])=>`<div class="stat"><b>${b}</b><span>${a}</span></div>`).join("");
+ draw(r.pts,s,mcr.band);
+}
+function draw(p,s,band){
+ const W=640,H=300,L=52,R=12,T=14,B=30,mx=Math.max(...p.map(x=>x[1]),target(s),...band.map(b=>b[3]))*1.08||1;
+ const x=a=>L+(a-s.age)/(s.life-s.age)*(W-L-R),y=v=>T+(1-v/mx)*(H-T-B);
+ let g="";
+ for(let i=0;i<=4;i++){const v=mx*i/4;g+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--ln)"/><text x="${L-6}" y="${y(v)+4}" text-anchor="end" font-size="11" fill="var(--mu)">${Math.round(v/10000)}萬</text>`}
+ const step=Math.ceil((s.life-s.age)/6/5)*5;
+ for(let a=Math.ceil(s.age/step)*step;a<=s.life;a+=step)g+=`<text x="${x(a)}" y="${H-8}" text-anchor="middle" font-size="11" fill="var(--mu)">${a}歲</text>`;
+ const path=p.map((q,i)=>(i?"L":"M")+x(q[0]).toFixed(1)+","+y(q[1]).toFixed(1)).join("");
+ const rx=x(s.retire);
+ g+=`<line x1="${rx}" x2="${rx}" y1="${T}" y2="${H-B}" stroke="var(--ac2)" stroke-dasharray="4 4"/><text x="${rx+5}" y="${T+10}" font-size="11" fill="var(--ac2)">退休</text>`;
+ g+=`<line x1="${L}" x2="${W-R}" y1="${y(target(s))}" y2="${y(target(s))}" stroke="var(--ac2)" stroke-opacity=".6"/><text x="${W-R}" y="${y(target(s))-4}" text-anchor="end" font-size="11" fill="var(--ac2)">4% 目標</text>`;
+ const bp="M"+band.map(b=>x(b[0])+","+y(b[3])).join("L")+"L"+band.slice().reverse().map(b=>x(b[0])+","+y(b[1])).join("L")+"Z";
+ g+=`<path d="${bp}" fill="var(--ac2)" fill-opacity=".18"/>`;
+ g+=`<path d="${path}L${x(s.life)},${y(0)}L${L},${y(0)}Z" fill="var(--ac)" fill-opacity=".12"/><path d="${path}" fill="none" stroke="var(--ac)" stroke-width="2.5"/>`;
+ document.getElementById("chart").innerHTML=g;
+}
+const target=s=>Math.max(0,s.spend-s.pension)*300;
+function mc(s,save){
+ const N=1000,rr=(1+s.ret/100)/(1+s.inf/100)-1,sg=s.vol/100/Math.sqrt(12),mu=Math.log(1+rr)/12-sg*sg/2;
+ let seed=12345;const rnd=()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+ const nz=()=>Math.sqrt(-2*Math.log(rnd()+1e-12))*Math.cos(2*Math.PI*rnd());
+ const yrs=s.life-s.age,cols=Array.from({length:yrs+1},()=>[]),wd=Math.max(0,s.spend-s.pension);let ok=0;
+ for(let n=0;n<N;n++){let b=s.asset,dead=false;cols[0].push(b);
+  for(let y=0;y<yrs;y++){const age=s.age+y;
+   for(let i=0;i<12;i++){b=b*Math.exp(mu+sg*nz())+(age<s.retire?save:-wd);if(b<0){b=0;dead=true}}
+   cols[y+1].push(b)}
+  if(!dead)ok++}
+ const band=cols.map((c,i)=>{c.sort((a,b)=>a-b);return[s.age+i,c[100],c[500],c[900]]});
+ return{rate:Math.round(ok/N*100),band,p10Ret:band[Math.min(yrs,s.retire-s.age)][1]};
+}
+go();
+</script>
+</body>
+</html>

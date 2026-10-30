@@ -1,7 +1,5 @@
 # 旅館網站：後端 + 三層測試
 
-你的網站原本是**純前端**（沒有伺服器），而作業要求「後端一定要測」，所以我把前端裡本來寫在 JavaScript 的**商業邏輯**抽出來做成一個 Node.js + Express 後端，並用它提供網頁與 Web API。前端檔案放在 `public/`，**內容沒有修改**。
-
 ## 專案結構
 
 ```
@@ -37,6 +35,10 @@ npm run test:e2e          # E2E（會自動啟動伺服器於 3100 埠）
 npm run test:all          # 全部
 npx playwright show-report   # 看 E2E 的 HTML 報告
 ```
+
+`npx playwright show-report` 查看網頁版報告示意圖
+
+![html](test_images/html.png)
 
 ## API 一覽
 
@@ -74,5 +76,5 @@ npx playwright show-report   # 看 E2E 的 HTML 報告
 ## 備註
 
 - E2E 擋掉了外部 CDN（Font Awesome、Leaflet、地圖圖磚），所以不需要網路，也不測地圖。
-- `index.html` 會跳轉到 `hotel_interface.html`，該檔不在目前檔案內，所以 E2E 用 stub 取代；你若有這個檔案，放進 `public/` 後可拿掉 stub。
+
 - 前端目前沒有呼叫後端 API（維持你原本的程式）。若老師要求前端串接，可把 `fetch('/api/...')` 接上對應的函式。
