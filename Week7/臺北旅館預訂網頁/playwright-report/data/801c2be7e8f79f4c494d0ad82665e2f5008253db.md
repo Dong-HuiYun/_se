@@ -1,0 +1,266 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: all-hotels.spec.js >> B2 台北晶華酒店 >> 願望清單：通知文字提到的是自己的旅館名稱
+- Location: tests\e2e\all-hotels.spec.js:81:7
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByText('已將台北晶華酒店加入您的願望清單！')
+Expected: visible
+Timeout: 7000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" getByText('已將台北晶華酒店加入您的願望清單！') with timeout 7000ms
+  - waiting for getByText('已將台北晶華酒店加入您的願望清單！')
+
+```
+
+```yaml
+- text: 台北晶華酒店
+- button "返回"
+- img "台北晶華酒店"
+- text: VR體驗
+- paragraph: 點擊查看360度全景
+- img "酒店早餐"
+- paragraph: 豐盛早餐
+- img "三燔本家"
+- paragraph: 三燔本家
+- img "酒店大堂"
+- paragraph: 豪華大堂
+- img "酒店房间"
+- paragraph: 舒適客房
+- heading "台北晶華酒店" [level=1]
+- paragraph: 台北市信義區松壽路2號 · 距離台北101 0.3公里
+- text: 8.7 很棒 · 1,248 則評價 TWD 7,920 平均每晚價格
+- paragraph: 台北晶華酒店位於台北市中山區中山北路二段39巷3號 ，提供5星級豪華住宿，設有室內溫水游泳池、健身中心和8個餐飲場所。
+- text: 豐盛自助早餐 免費使用設施 迎賓禮品 彈性入住退房 免費接駁服務
+- button "立即預訂"
+- button "已加入願望清單"
+- button "分享"
+- text: 早餐服務 豐盛自助早餐與現煮餐點 設施使用 游泳池、健身中心與桑拿 迎賓服務 迎賓飲品與精緻點心 運營彈性 提前入住與延後退房
+- heading "早餐服務" [level=2]
+- heading "豐盛自助早餐體驗" [level=3]
+- paragraph: 每日早晨，我們為您精心準備超過80種中西式餐點選擇，從新鮮沙拉到現煮麵點，從精緻甜點到健康飲品，為您的一天注入滿滿活力。
+- text: 80+ 餐點選擇 6:30 - 10:00 供應時間 4 主題餐區
+- img "豐盛自助早餐"
+- text: 招牌推薦
+- heading "中式美食" [level=3]
+- paragraph: 提供中式八大菜系，大快朵頤享用現點現作。
+- text: 現煮麵點 新鮮沙拉 精緻甜點
+- heading "美國牛肋眼" [level=3]
+- paragraph: 專業廚師現場製作，還有季節性的特色菜，滿足您的個人口味需求。
+- text: 季節性 松露燉飯 客製化
+- heading "多樣飲品選擇" [level=3]
+- paragraph: 提供新鮮果汁、咖啡、茶和多種健康飲品，為您的一天注入活力。
+- text: 現榨果汁 精品咖啡 養生茶飲
+- heading "彈性用餐時間" [level=3]
+- paragraph: 早餐供應時間為早上6:30至10:00，讓您享受悠閒的早晨時光。
+- text: 無需預約 悠閒時光
+- heading "精選餐點展示" [level=3]
+- img "道地粵式料理與港點"
+- heading "道地粵式料理與港點" [level=4]
+- paragraph: 國際知名設計大師季裕棠以「私人宅第」為概念打造的用餐空間
+- img "彩日本料理"
+- heading "彩日本料理" [level=4]
+- paragraph: 以頂級海鮮美饌和各種清酒，盡顯日本美食的璀璨
+- img "禮品烘焙坊"
+- heading "Baguette 禮品烘焙坊" [level=4]
+- paragraph: 每日新鮮供應各式各樣的現作麵包、精緻蛋糕、三明治、現磨咖啡和飲品
+- heading "早餐預訂資訊" [level=4]
+- paragraph: 入住期間每日均可享用自助早餐，如需客房送餐服務請提前預約
+- text: "供應時間: 6:30 - 10:00 地點: 一樓宴會廳 12歲以下兒童免費"
+- button "預訂客房送餐"
+- heading "設施使用" [level=2]
+- heading "全方位休閒設施體驗" [level=3]
+- paragraph: 我們提供多樣化的休閒設施，從健身中心到溫水游泳池，從桑拿蒸氣室到高速網路，為您的住宿體驗增添更多舒適與便利。
+- text: 24hr 健身中心 28°C 恆溫泳池 100% 區域覆蓋
+- img "酒店設施"
+- text: 全年開放
+- heading "室內溫水游泳池" [level=3]
+- paragraph: 全年開放的室內溫水游泳池，設有按摩噴頭和兒童區，適合全家使用。
+- text: 恆溫28°C 7:00-22:00 按摩噴頭 兒童專區 全年開放
+- heading "24小時健身中心" [level=3]
+- paragraph: 設備齊全的健身中心，提供有氧和重量訓練設備，24小時開放。
+- text: 專業設備 教練指導 有氧訓練 重量訓練 24小時
+- heading "桑拿與蒸氣室" [level=3]
+- paragraph: 專業級桑拿和蒸氣室，幫助您放鬆身心，消除疲勞。
+- text: 專業級 8:00-21:00 桑拿浴 蒸氣室 身心放鬆
+- heading "免費Wi-Fi" [level=3]
+- paragraph: 全酒店覆蓋高速免費Wi-Fi，讓您隨時保持連線。
+- text: 高速網路 全區域 高速上網 無縫連接 免費使用
+- heading "設施環境展示" [level=3]
+- img "室外游泳池"
+- button
+- heading "室外游泳池" [level=4]
+- paragraph: 恆溫28°C，設有按摩噴頭和兒童專區，適合全家享受
+- text: 25公尺 親子友善
+- img "綠洲健身中心"
+- button
+- heading "綠洲健身中心" [level=4]
+- paragraph: 專業健身設備，24小時開放，滿足您的運動需求
+- text: 專業設備 24小時
+- img ">綠洲SPA中心"
+- button
+- heading "綠洲SPA中心" [level=4]
+- paragraph: 專業級設施，幫助您徹底放鬆，恢復活力
+- text: 專業級 身心放鬆
+- heading "設施使用指南" [level=4]
+- paragraph: 為了確保所有賓客都能享受舒適的設施體驗，請遵守以下使用規範
+- strong: 游泳池使用須知
+- text: 請穿著合適泳衣，使用前請先淋浴
+- strong: 健身中心規範
+- text: 使用設備前請諮詢專業教練指導
+- strong: Spa療程
+- text: 提前預訂，並於療程開始前45分鐘抵達
+- heading "設施預訂服務" [level=3]
+- heading "私人教練課程" [level=5]
+- paragraph: 專業健身教練一對一指導
+- button "立即預約"
+- heading "游泳教學" [level=5]
+- paragraph: 專業游泳教練指導課程
+- button "立即預約"
+- heading "SPA療程" [level=5]
+- paragraph: 專業按摩與護理服務
+- button "立即預約"
+- heading "迎賓服務" [level=2]
+- text: 尊榮禮遇
+- heading "尊榮迎賓體驗" [level=3]
+- paragraph: 從您踏入酒店的那一刻起，我們便為您準備了一系列貼心服務，讓您感受賓至如歸的尊榮體驗，開啟美好的住宿時光。
+- text: 24hr 專屬管家服務 100% 免費迎賓禮遇 5★ 卓越服務評級 專屬禮賓 迎賓飲品 貼心服務
+- img "尊榮迎賓體驗"
+- text: 尊榮迎賓禮遇 精選水果 手工點心 迎賓飲品
+- heading "大廳酒吧迎賓飲品" [level=3]
+- paragraph: 入住時可享用大廳酒吧提供的免費迎賓飲品，包括酒精和非酒精選擇。
+- text: 精選飲品 全天供應 迎賓飲料 酒精選擇 無酒精選項
+- heading "客房迎賓水果" [level=3]
+- paragraph: 每間客房均提供精選迎賓水果籃，讓您在抵達時感受貼心款待。
+- text: 新鮮水果 每日補充 時令水果 精緻果籃 免費享用
+- heading "精緻客房點心" [level=3]
+- paragraph: 每日補充的精緻點心與茶包，讓您在房間內也能享受美好時光。
+- text: 精選茶包 手工點心 手工餅乾 精選茶品 每日更新
+- heading "專屬管家服務" [level=3]
+- paragraph: 提供24小時專屬管家服務，隨時滿足您的各種需求。
+- text: 專業管家 24小時 個人管家 全天服務 需求協助
+- heading "迎賓禮遇展示" [level=3]
+- img "迎賓飲品"
+- button
+- heading "迎賓飲品專區" [level=4]
+- paragraph: 精選迎賓飲品，包含酒精與非酒精選擇，為您洗去旅途疲憊
+- text: 多樣選擇 全天供應
+- img "迎賓水果"
+- button
+- heading "精緻迎賓水果" [level=4]
+- paragraph: 嚴選時令新鮮水果，精心擺盤，為您獻上最誠摯的歡迎
+- text: 時令水果 每日更新
+- img "客房點心"
+- button
+- heading "精緻客房點心" [level=4]
+- paragraph: 手工製作點心與精選茶品，讓您在房內享受悠閒時光
+- text: 手工點心 精選茶品
+- heading "迎賓服務說明" [level=4]
+- paragraph: 為了讓您享受最完善的迎賓體驗，請了解以下服務細節與使用方式
+- strong: 迎賓飲品服務
+- text: 辦理入住時即可享用，可選擇酒精或無酒精飲品
+- strong: 迎賓水果說明
+- text: 每間客房均提供，水果種類依季節調整
+- strong: 管家服務範圍
+- text: 24小時專屬服務，協助安排行程、預訂餐廳等
+- button "聯繫管家服務"
+- heading "特殊迎賓需求" [level=3]
+- heading "慶祝驚喜" [level=5]
+- paragraph: 生日、紀念日特別佈置與驚喜
+- button "預訂驚喜"
+- heading "香檳迎賓" [level=5]
+- paragraph: 精選香檳與氣泡酒迎賓服務
+- button "預訂香檳"
+- heading "迎賓SPA" [level=5]
+- paragraph: 抵達後立即享受舒緩SPA療程
+- button "預訂SPA"
+- heading "運營彈性" [level=2]
+- heading "靈活貼心的住宿體驗" [level=3]
+- paragraph: 我們理解旅行計劃可能隨時變化，因此提供全方位的靈活服務選項，讓您的住宿體驗更加輕鬆自在。
+- text: 4hr 提前入住 2hr 延後退房 24hr 免費取消
+- img "靈活住宿體驗"
+- text: 彈性服務
+- heading "提前入住" [level=3]
+- paragraph: 最早可於上午10點辦理入住（視房況而定），讓您輕鬆安排行程。
+- text: 最早10:00 視房況而定 免等待 即時入住 行程便利
+- img "提前入住"
+- heading "延後退房" [level=3]
+- paragraph: 最晚可延至下午2點退房，不加收費用，讓您有更多時間整理行李。
+- text: 最晚14:00 免費延長 免加價 悠閒整理 時間彈性
+- img "延後退房"
+- heading "免費取消" [level=3]
+- paragraph: 入住前24小時可免費取消預訂，提供您最大的預訂彈性。
+- text: 24小時前 全額退款 零風險 全額退費 預訂安心
+- img "免費取消"
+- heading "房型升級" [level=3]
+- paragraph: 視房況提供優惠房型升級服務，讓您享受更舒適的住宿體驗。
+- text: 視房況 優惠升級 驚喜升級 專屬優惠 尊榮體驗
+- img "房型升級"
+- heading "彈性服務說明" [level=4]
+- paragraph: 為了確保您能充分享受我們的彈性服務，請了解以下使用細節
+- strong: 提前入住服務
+- text: 需在前一天確認房況，建議提前預約以確保 availability
+- strong: 延後退房說明
+- text: 延後退房服務需視當日房況而定，建議於退房當天早上確認
+- strong: 取消政策
+- text: 入住前24小時可免費取消，超過期限將收取第一晚房費
+- heading "位置地點" [level=2]
+- heading "酒店位置地圖" [level=3]
+- text: 台北晶華酒店
+- heading "地圖載入中..." [level=3]
+- paragraph: 請稍候，我們正在為您定位飯店位置
+- button "返回原始定位"
+- button "显示/隐藏景点"
+- button "放大"
+- button "缩小"
+- heading "周邊景點" [level=4]
+- strong: 台北101
+- text: 步行約5分鐘
+- strong: 信義商圈
+- text: 步行約3分鐘
+- strong: 捷運市政府站
+- text: 步行約8分鐘
+- strong: 信義威秀影城
+- text: 步行約7分鐘
+- heading "地理位置" [level=3]
+- paragraph: 位於台北信義區中心，步行即可到達台北101、信義商圈等主要景點。
+- text: 台北市信義區松壽路2號 +886-2-2720-1234
+- heading "交通便利" [level=3]
+- paragraph: 鄰近捷運市政府站，提供免費接駁服務，交通十分便利。
+- text: 捷運市政府站 (3號出口) 多路公車可達 免費停車場
+- heading "客房內裝" [level=2]
+- heading "設計風格" [level=3]
+- paragraph: 現代簡約設計，融合東方元素，營造舒適優雅的住宿環境。
+- heading "科技設施" [level=3]
+- paragraph: 配備智能控制系統、高速Wi-Fi和高清電視，提供便捷的住宿體驗。
+- heading "公共空間" [level=2]
+- heading "豪華大堂" [level=3]
+- paragraph: 挑高設計的寬敞大堂，提供舒適的休息區和專業的接待服務。
+- heading "會議設施" [level=3]
+- paragraph: 配備先進設備的多功能會議室，適合各種商務和社交活動。
+- heading "價格折扣" [level=2]
+- text: 熱門優惠
+- heading "提前預訂85折" [level=3]
+- paragraph: 提前30天預訂可享房價85折優惠
+- text: 會員專屬
+- heading "會員點數回饋" [level=3]
+- paragraph: 會員每次住宿可累積點數兌換免費住宿
+- text: 季節特惠
+- heading "連住優惠" [level=3]
+- paragraph: 連續住宿3晚以上享額外折扣
+- text: 限時活動
+- heading "期間優惠" [level=3]
+- paragraph: 特定日期預訂享專屬優惠價格
+```

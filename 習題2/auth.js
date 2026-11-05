@@ -45,6 +45,7 @@ function LoginScreen({ data, onLogin }) {
     setPassword(item.password);
     setError("");
   }
+  
 
   return (
     <div className="min-h-screen bg-stone-100 flex items-center justify-center p-4">
@@ -126,10 +127,7 @@ function LoginScreen({ data, onLogin }) {
               ))}
             </div>
           </div>
-        </div>
-        <p className="text-xs text-stone-400 text-center mt-6">
-          本系統為模擬示範用途，資料儲存於本機瀏覽器（localStorage），可自由測試。
-        </p>
+        </div>       
       </div>
     </div>
   );

@@ -69,6 +69,8 @@ describe('pricing.getRoom', () => {
 describe('pricing.calculateQuote', () => {
   test('豪華雙人房 2 晚：7370 + 369 + 442 = 8181', () => {
     expect(calculateQuote('type1', '2025-03-10', '2025-03-12')).toEqual({
+      hotelId: 'A1',
+      hotelName: '台北凱達大飯店',
       roomType: 'type1',
       roomName: '豪華雙人房',
       nights: 2,

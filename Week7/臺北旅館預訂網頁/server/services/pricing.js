@@ -1,12 +1,9 @@
 'use strict';
 
-// 房型資料（與 A1_room1_page.html 的 roomData 相同）
-const ROOMS = {
-  type1: { id: 'type1', name: '豪華雙人房', basePrice: 3685, features: '30平方米 · 1張單人床 · 免費Wi-Fi' },
-  type2: { id: 'type2', name: '豪華雙床房', basePrice: 3685, features: '30平方米 · 特大雙人床 · 獨立客廳' },
-  type3: { id: 'type3', name: '家庭套房', basePrice: 6057, features: '30平方米 · 1張雙人床 · 免費Wi-Fi' },
-  type4: { id: 'type4', name: '小型套房', basePrice: 3685, features: '30平方米 · 1張單人床 · 免費Wi-Fi' },
-};
+const { ROOMS_BY_CATEGORY, getHotel, getRooms } = require('./hotels');
+
+// 向下相容：ROOMS 仍代表 A 類（A1_room1_page.html）的房型
+const ROOMS = ROOMS_BY_CATEGORY.A;
 
 const SERVICE_FEE_PERCENT = 5; // 服務費 5%
 const TAX_PERCENT = 6;         // 稅 6%
@@ -40,13 +37,17 @@ function nightsBetween(checkin, checkout) {
   return Math.round((b - a) / MS_PER_DAY);
 }
 
-function getRoom(roomType) {
-  return Object.prototype.hasOwnProperty.call(ROOMS, roomType) ? ROOMS[roomType] : null;
+/** 取得某旅館的房型；旅館或房型不存在回傳 null（預設為 A1，與舊版相容） */
+function getRoom(roomType, hotelId = 'A1') {
+  const rooms = getRooms(hotelId);
+  return rooms && Object.prototype.hasOwnProperty.call(rooms, roomType) ? rooms[roomType] : null;
 }
 
 /** 價格試算：房價 + 5% 服務費 + 6% 稅，全部四捨五入為整數 TWD */
-function calculateQuote(roomType, checkin, checkout, roomCount = 1) {
-  const room = getRoom(roomType);
+function calculateQuote(roomType, checkin, checkout, roomCount = 1, hotelId = 'A1') {
+  const hotel = getHotel(hotelId);
+  if (!hotel) throw new Error('未知的旅館');
+  const room = getRoom(roomType, hotelId);
   if (!room) throw new Error('未知的房型');
   if (!Number.isInteger(roomCount) || roomCount < 1) throw new Error('房間數必須是大於等於 1 的整數');
   const nights = nightsBetween(checkin, checkout);
@@ -54,6 +55,8 @@ function calculateQuote(roomType, checkin, checkout, roomCount = 1) {
   const serviceFee = Math.round((roomTotal * SERVICE_FEE_PERCENT) / 100);
   const tax = Math.round((roomTotal * TAX_PERCENT) / 100);
   return {
+    hotelId: hotel.id,
+    hotelName: hotel.name,
     roomType: room.id,
     roomName: room.name,
     nights,

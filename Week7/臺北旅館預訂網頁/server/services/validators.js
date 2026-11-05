@@ -1,6 +1,7 @@
 'use strict';
 
 const { getRoom, parseDate, formatDate, nightsBetween } = require('./pricing');
+const { getHotel } = require('./hotels');
 
 const PAYMENT_METHODS = ['credit', 'paypal', 'applepay', 'googlepay'];
 // 與 A1_detail.html 的 bookingData.pool 相同
@@ -36,8 +37,11 @@ function validateBooking(payload, now = new Date()) {
   const errors = [];
   if (!isObject(payload)) return { errors: ['請求內容必須是 JSON 物件'], value: null };
 
-  const room = getRoom(payload.roomType);
-  if (!room) errors.push('roomType: 未知的房型');
+  const hotelId = payload.hotelId === undefined ? 'A1' : payload.hotelId;
+  const hotel = getHotel(hotelId);
+  if (!hotel) errors.push('hotelId: 未知的旅館');
+  const room = hotel ? getRoom(payload.roomType, hotelId) : null;
+  if (hotel && !room) errors.push('roomType: 該旅館沒有這個房型');
 
   let nights = null;
   try {
@@ -75,6 +79,8 @@ function validateBooking(payload, now = new Date()) {
   return {
     errors,
     value: {
+      hotelId: hotel.id,
+      hotelName: hotel.name,
       roomType: room.id,
       checkin: payload.checkin,
       checkout: payload.checkout,

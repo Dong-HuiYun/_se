@@ -1,7 +1,8 @@
 'use strict';
 
 const POOL_SLOT_CAPACITY = 20; // 每個時段最多容納人數
-const HOTEL_IDS = ['A1'];
+const { HOTEL_LIST } = require('./services/hotels');
+const HOTEL_IDS = HOTEL_LIST.map((h) => h.id);
 
 /** 記憶體資料庫。每次 createStore() 都是獨立的，方便測試隔離。 */
 function createStore() {

@@ -1,0 +1,239 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: all-hotels.spec.js >> C2 台北喜來登大飯店 >> 願望清單：通知文字提到的是自己的旅館名稱
+- Location: tests\e2e\all-hotels.spec.js:81:7
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByText('已將台北喜來登大飯店加入您的願望清單！')
+Expected: visible
+Timeout: 7000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" getByText('已將台北喜來登大飯店加入您的願望清單！') with timeout 7000ms
+  - waiting for getByText('已將台北喜來登大飯店加入您的願望清單！')
+
+```
+
+```yaml
+- text: 台北喜來登大飯店
+- button "返回"
+- text: 限時優惠
+- heading "台北喜來登大飯店" [level=1]
+- paragraph: 臺北市中正區忠孝東路一段12號
+- text: "8.6 很棒 · 1，056 則評價 TWD 5,253 TWD 1,647 -68.65% 平均每晚價格 優惠倒數: 23:59:38 剩餘房數: 僅剩3間 限時折扣68.65% 點數回饋5% 價格保證：買貴退2倍差價 免費取消 · 免費早餐"
+- heading "最低價格保證" [level=3]
+- paragraph: 如果您在別處找到相同日期相同房型的更低價格，我們將退還2倍差價！
+- heading "點數回饋計畫" [level=3]
+- paragraph: 本次住宿可獲得290點，可用於下次住宿折抵現金！
+- button "立即搶訂"
+- button "已加入願望清單"
+- text: 價格折扣 限時優惠最高68.65%折扣 點數回饋 消費回饋5%點數下次折抵 價格保證 買貴退2倍差價保證 期間優惠 限時專屬優惠價格
+- heading "價格折扣" [level=2]
+- text: 限時優惠 -68.65%
+- heading "年度最大優惠來襲" [level=3]
+- paragraph: 立即預訂享最高68.65%折扣，再加贈5%點數回饋
+- text: 68.65% 最高折扣 5% 點數回饋 24hr 免費取消
+- heading "精選折扣房型" [level=3]
+- img "輕奢背包客"
+- text: 限時優惠
+- heading "輕奢背包客" [level=3]
+- text: "-46%"
+- paragraph: "面積: 20平方米 · 市景 · 單人床"
+- text: 免費Wi-Fi 空調 迷你吧 保險箱
+- paragraph: 提供舒適的住宿環境，配有現代化設施，適合商務或休閒旅客。
+- text: TWD 1,080 節省 TWD 500 TWD 580 含稅費 · 含早餐
+- button "立即搶訂"
+- img "雅緻大床房"
+- text: 熱門選擇
+- heading "雅緻大床房" [level=3]
+- text: "-48%"
+- paragraph: "面積: 14平方米 · 市景 · 1張雙人床"
+- text: 免費Wi-Fi 空調 迷你吧 保險箱
+- paragraph: 寬敞的套房，設有獨立起居區，提供豪華住宿體驗。
+- text: TWD 3,080 節省 TWD 1,000 TWD 2,080 含稅費 · 含早餐
+- button "立即搶訂"
+- img "豪華大床房"
+- text: 情侶首選
+- heading "豪華大床房" [level=3]
+- text: "-44%"
+- paragraph: "面積: 20平方米 · 市景 · 1張雙人床"
+- text: 免費Wi-Fi 空調 迷你吧 保險箱 浴缸 兒童遊戲區
+- paragraph: 靠窗浴缸，看見窗外的美好景色。
+- text: TWD 3,280 節省 TWD 1,000 TWD 2,280 含稅費 · 含早餐
+- button "立即搶訂"
+- heading "點數回饋" [level=2]
+- text: 5% 回饋率
+- heading "每消費TWD 100" [level=4]
+- paragraph: 可獲得5點回饋
+- heading "100點 = TWD 100" [level=4]
+- paragraph: 點數可直接折抵現金
+- heading "有效期1年" [level=4]
+- paragraph: 點數自獲得日起一年有效
+- heading "消費越多，回饋越多" [level=3]
+- paragraph: 加入我們的點數回饋計畫，每次住宿都能累積點數，下次預訂時可直接折抵現金，讓您的每次旅行都更划算！
+- heading "本次住宿範例：" [level=4]
+- text: "住宿費用: TWD 1,080 × 5% = 54點"
+- paragraph: 可於下次住宿折抵 TWD 54
+- heading "點數使用方式" [level=3]
+- text: "1"
+- heading "累積點數" [level=4]
+- paragraph: 每次住宿自動累積點數，無需額外申請
+- text: "2"
+- heading "查看點數" [level=4]
+- paragraph: 登入會員帳號即可查看點數餘額
+- text: "3"
+- heading "折抵消費" [level=4]
+- paragraph: 預訂時選擇使用點數折抵房費
+- heading "價格保證" [level=2]
+- text: 最低價格保證
+- heading "買貴退2倍差價" [level=3]
+- paragraph: 我們承諾提供最優惠價格，如果您找到更低的價格，我們將退還2倍差價！
+- text: 其他平台價格 TWD 5,253 我們的價格 TWD 1,647 節省 TWD 3,606 退還 TWD 3,294 2倍差價保證
+- heading "保證條款" [level=3]
+- heading "24小時內申請" [level=4]
+- paragraph: 需在預訂後24小時內提供證明
+- heading "相同條件" [level=4]
+- paragraph: 房型、日期、取消政策必須相同
+- heading "即時處理" [level=4]
+- paragraph: 確認後24小時內完成退款
+- heading "全球適用" [level=4]
+- paragraph: 適用於所有預訂管道
+- heading "申請流程" [level=3]
+- text: "1"
+- heading "發現更低價格" [level=4]
+- paragraph: 在其他預訂平台找到相同條件的更低價格
+- text: "2"
+- heading "提供證明" [level=4]
+- paragraph: 截圖或連結證明較低價格的存在
+- text: "3"
+- heading "提交申請" [level=4]
+- paragraph: 透過客服或線上表單提交價格保證申請
+- text: "4"
+- heading "獲得退款" [level=4]
+- paragraph: 確認後獲得2倍差價退款
+- heading "成功案例" [level=3]
+- strong: 張先生
+- text: 2024年3月15日 差價 TWD 800 退款 TWD 1,600
+- paragraph: "\"申請流程很簡單，3天內就收到退款，服務很棒！\""
+- strong: 林小姐
+- text: 2024年2月28日 差價 TWD 1,200 退款 TWD 2,400
+- paragraph: "\"沒想到真的退2倍差價，以後訂房首選這裡！\""
+- heading "安心預訂，價格最優" [level=3]
+- paragraph: 現在就預訂，享受最優惠價格與雙倍差價保證
+- button "立即預訂享保證"
+- text: 100% 保證
+- heading "期間優惠" [level=2]
+- text: 限時優惠
+- heading "季節限定特惠" [level=3]
+- paragraph: 精選季節性優惠，把握最佳預訂時機！
+- text: "優惠倒數 23 小時 : 59 分鐘 : 38 秒"
+- heading "精選優惠活動" [level=3]
+- text: 熱門
+- heading "早鳥優惠" [level=4]
+- text: "-20%"
+- paragraph: 提前30天預訂，享房價8折優惠
+- list:
+  - listitem: 適用所有房型
+  - listitem: 免費取消服務
+  - listitem: 加贈迎賓飲品
+- text: 有效期至：2024年12月31日
+- button "立即預訂"
+- heading "連住優惠" [level=4]
+- text: "-15%"
+- paragraph: 連續住宿3晚以上，享額外折扣
+- list:
+  - listitem: 連住3晚85折
+  - listitem: 連住5晚8折
+  - listitem: 免費延遲退房
+- text: 全年適用
+- button "立即預訂"
+- heading "會員專屬" [level=4]
+- text: "-10%"
+- paragraph: 會員獨享優惠，再加贈雙倍點數
+- list:
+  - listitem: 會員專屬房價
+  - listitem: 雙倍點數回饋
+  - listitem: 優先入住服務
+- text: 永久有效
+- button "立即預訂"
+- heading "季節限定優惠" [level=3]
+- heading "春季賞花專案" [level=4]
+- paragraph: 3-5月限定，享住宿優惠與賞花導覽
+- text: "-15%"
+- heading "夏日親子專案" [level=4]
+- paragraph: 6-8月限定，家庭住宿最佳選擇
+- text: "-20%"
+- heading "秋季美食專案" [level=4]
+- paragraph: 9-11月限定，品嚐季節限定料理
+- text: "-12%"
+- heading "冬季溫泉專案" [level=4]
+- paragraph: 12-2月限定，享受暖心溫泉體驗
+- text: "-18%"
+- heading "優惠條款說明" [level=3]
+- heading "預訂條件" [level=4]
+- paragraph: 所有優惠需透過官方管道預訂，不得與其他優惠合併使用。
+- heading "取消政策" [level=4]
+- paragraph: 預訂後24小時內可免費取消，超過時限將收取第一晚房費。
+- heading "注意事項" [level=4]
+- paragraph: 部分優惠可能有特定日期限制，請在預訂前確認適用日期。
+- heading "優惠方案比較" [level=3]
+- text: 早鳥優惠 連住優惠 會員專屬 折扣幅度 -20% -15% -10% 適用條件 提前30天 連住3晚 會員身份 點數回饋 雙倍 免費取消
+- heading "位置周邊" [level=2]
+- heading "周邊景點" [level=3]
+- heading "西門町商圈" [level=4]
+- paragraph: "距離: 步行2分鐘"
+- paragraph: 台北最著名的購物與娛樂區
+- heading "紅樓劇場" [level=4]
+- paragraph: "距離: 步行5分鐘"
+- paragraph: 歷史建築，現為文化創意空間
+- heading "總統府" [level=4]
+- paragraph: "距離: 步行15分鐘"
+- paragraph: 台灣政治中心，歷史建築
+- heading "早餐服務" [level=2]
+- img "豐盛自助早餐"
+- text: 精選食材
+- heading "特別節日菜單" [level=3]
+- paragraph: 季節性食物，因應要求特別提供。
+- text: 06:30 - 10:00 4大主題餐區 兒童免費
+- heading "設施使用" [level=2]
+- heading "全方位休閒設施" [level=3]
+- paragraph: 提供洗衣機、無障礙設施、沏茶/咖啡設備、臨時藝術展，讓您在旅途中也能保持健康與放鬆。
+- strong: 洗衣機
+- text: 全年開放
+- strong: 沏茶/咖啡設備
+- text: 24小時專業設備
+- img "酒店設施"
+- text: 專業設備
+- heading "迎賓服務" [level=2]
+- img "迎賓服務"
+- text: 尊榮禮遇
+- heading "貼心迎賓體驗" [level=3]
+- paragraph: 從您踏入酒店的那一刻起，我們便為您準備了迎賓飲品、精緻水果與專屬管家服務，讓您感受賓至如歸的尊榮體驗。
+- text: 迎賓飲品 精緻果籃 專屬管家
+- heading "運營彈性" [level=2]
+- heading "靈活住宿安排" [level=3]
+- paragraph: 我們理解旅行計劃可能隨時變化，因此提供提前入住、延後退房、免費取消等全方位靈活服務，讓您的住宿體驗更加輕鬆自在。
+- strong: 提前入住
+- text: 最早10:00
+- strong: 延後退房
+- text: 最晚14:00
+- img "靈活住宿"
+- text: 彈性服務
+- heading "公共空間" [level=2]
+- img "酒店公共空間"
+- text: 奢華體驗
+- heading "精緻公共區域" [level=3]
+- paragraph: 挑高設計的豪華大堂、舒適的休息區、多功能會議室與商務中心，為您提供完美的社交與工作空間。
+- text: 豪華大堂 會議設施 商務中心
+```

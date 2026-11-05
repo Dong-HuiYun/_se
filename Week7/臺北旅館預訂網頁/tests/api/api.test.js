@@ -293,6 +293,7 @@ describe('靜態網頁', () => {
   test.each([
     ['/', 'AI語音分類推薦系統'],
     ['/index.html', 'AI語音分類推薦系統'],
+    ['/hotel_interface.html', '旅遊推薦平台'],
     ['/A1_detail.html', '台北凱達大飯店'],
     ['/A1_room1_page.html', '預訂房間'],
   ])('GET %s 回傳 HTML', async (url, text) => {
@@ -310,5 +311,144 @@ describe('靜態網頁', () => {
 
   test('不存在的頁面 → 404', async () => {
     expect((await request(app).get('/nope.html')).status).toBe(404);
+  });
+});
+
+// ───────────────────────── 多旅館（A1~C3） ─────────────────────────
+const ALL_HOTELS = ['A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3'];
+
+describe('GET /api/hotels', () => {
+  test('列出 9 間；可依類別篩選', async () => {
+    const all = await request(app).get('/api/hotels');
+    expect(all.status).toBe(200);
+    expect(all.body.hotels.map((h) => h.id)).toEqual(ALL_HOTELS);
+
+    const b = await request(app).get('/api/hotels?category=B');
+    expect(b.body.hotels.map((h) => h.id)).toEqual(['B1', 'B2', 'B3']);
+  });
+
+  test('無效類別 → 400', async () => {
+    expect((await request(app).get('/api/hotels?category=Z')).status).toBe(400);
+  });
+
+  test('單一旅館與其房型', async () => {
+    const h = await request(app).get('/api/hotels/B2');
+    expect(h.body).toMatchObject({ id: 'B2', name: '台北晶華酒店', detailPage: 'B2_detail.html', bookingPage: 'B1_room1_page.html' });
+    const rooms = await request(app).get('/api/hotels/C1/rooms');
+    expect(rooms.body.rooms.map((r) => r.basePrice)).toEqual([580, 2080, 2280]);
+  });
+
+  test('不存在的旅館 → 404', async () => {
+    expect((await request(app).get('/api/hotels/Z9')).status).toBe(404);
+    expect((await request(app).get('/api/hotels/Z9/rooms')).status).toBe(404);
+    expect((await request(app).get('/api/hotels/__proto__')).status).toBe(404);
+  });
+});
+
+describe('GET /api/recommendations（對應 hotel_interface.html?type=X）', () => {
+  test.each([
+    ['A', '科技愛好者', ['A1', 'A2', 'A3']],
+    ['B', '高CP值追求者', ['B1', 'B2', 'B3']],
+    ['C', '價格敏感者', ['C1', 'C2', 'C3']],
+  ])('type=%s', async (type, label, ids) => {
+    const res = await request(app).get(`/api/recommendations?type=${type}`);
+    expect(res.status).toBe(200);
+    expect(res.body.label).toBe(label);
+    expect(res.body.hotels.map((h) => h.id)).toEqual(ids);
+  });
+
+  test.each([[''], ['?type=X'], ['?type='], ['?type=a']])('無效參數 %p → 400', async (q) => {
+    expect((await request(app).get(`/api/recommendations${q}`)).status).toBe(400);
+  });
+
+  test('語音文字 → 分類 → 推薦：端到端的後端流程', async () => {
+    const cls = await request(app).post('/api/classify').send({ text: '價格要便宜，最好有折扣' });
+    const rec = await request(app).get(`/api/recommendations?type=${cls.body.type}`);
+    expect(rec.body.hotels.map((h) => h.name)).toContain('台北德立莊酒店');
+  });
+});
+
+describe('多旅館報價與訂房', () => {
+  test('B1 報價', async () => {
+    const res = await request(app).post('/api/quote').send({ hotelId: 'B1', roomType: 'type3', checkin: '2025-06-15', checkout: '2025-06-16' });
+    expect(res.body).toMatchObject({ hotelId: 'B1', roomName: '外交官套房', total: 20000 + 1000 + 1200 });
+  });
+
+  test.each([
+    [{ hotelId: 'Z9', roomType: 'type1' }],
+    [{ hotelId: 'C1', roomType: 'type4' }],
+  ])('報價錯誤 %j → 400', async (over) => {
+    const res = await request(app).post('/api/quote').send({ checkin: '2025-06-15', checkout: '2025-06-16', ...over });
+    expect(res.status).toBe(400);
+  });
+
+  test.each(ALL_HOTELS)('%s 可以訂房，單據含旅館名稱與正確價格', async (hotelId) => {
+    const res = await request(app).post('/api/bookings').send(bookingBody({ hotelId }));
+    expect(res.status).toBe(201);
+    expect(res.body.hotelId).toBe(hotelId);
+    expect(res.body.hotelName).toBeTruthy();
+    expect(res.body.quote.hotelId).toBe(hotelId);
+    const roomPrice = { A: 3685, B: 18000, C: 580 }[hotelId[0]];
+    expect(res.body.quote.roomTotal).toBe(roomPrice * 2);
+  });
+
+  test('C 類沒有 type4 → 400，且帶有錯誤欄位', async () => {
+    const res = await request(app).post('/api/bookings').send(bookingBody({ hotelId: 'C2', roomType: 'type4' }));
+    expect(res.status).toBe(400);
+    expect(res.body.details.join()).toContain('roomType');
+  });
+
+  test('未知旅館 → 400', async () => {
+    expect((await request(app).post('/api/bookings').send(bookingBody({ hotelId: 'Z9' }))).status).toBe(400);
+  });
+});
+
+describe('多旅館願望清單與聊天', () => {
+  test('9 間都能加入；各自獨立；可分別移除', async () => {
+    for (const id of ALL_HOTELS) expect((await request(app).put(`/api/wishlist/${id}`)).status).toBe(200);
+    expect((await request(app).get('/api/wishlist')).body.items).toEqual(ALL_HOTELS);
+    await request(app).delete('/api/wishlist/B2');
+    expect((await request(app).get('/api/wishlist')).body.items).not.toContain('B2');
+    expect((await request(app).get('/api/wishlist')).body.items).toHaveLength(8);
+  });
+
+  test('聊天依旅館回覆', async () => {
+    const a2 = await request(app).post('/api/chat').send({ message: '你好', hotelId: 'A2' });
+    expect(a2.body).toEqual({ reply: '您好！很高興為您服務，有什麼關於台北W飯店的問題嗎？', hotelId: 'A2' });
+    const b1 = await request(app).post('/api/chat').send({ message: '早餐', hotelId: 'B1' });
+    expect(b1.body.reply).toContain('10:30');
+    const c1 = await request(app).post('/api/chat').send({ message: '優惠', hotelId: 'C1' });
+    expect(c1.body.reply).toContain('68.65%');
+  });
+
+  test('聊天未指定旅館預設 A1；未知旅館 → 404', async () => {
+    expect((await request(app).post('/api/chat').send({ message: '你好' })).body.hotelId).toBe('A1');
+    expect((await request(app).post('/api/chat').send({ message: '你好', hotelId: 'Z9' })).status).toBe(404);
+  });
+});
+
+describe('所有頁面都由伺服器提供', () => {
+  const pages = [
+    ...ALL_HOTELS.map((id) => `/${id}_detail.html`),
+    '/B1_room1_page.html', '/C1_room1_page.html',
+  ];
+  test.each(pages)('GET %s → 200 HTML', async (url) => {
+    const res = await request(app).get(url);
+    expect(res.status).toBe(200);
+    expect(res.headers['content-type']).toMatch(/html/);
+  });
+
+  test.each(['/A1_detail.css', '/B1_detail.css', '/C1_detail.css'])('GET %s → css', async (url) => {
+    const res = await request(app).get(url);
+    expect(res.status).toBe(200);
+    expect(res.headers['content-type']).toMatch(/css/);
+  });
+
+  test('目錄中每間旅館的 detailPage / bookingPage 都真的存在（不會 404）', async () => {
+    const { hotels } = (await request(app).get('/api/hotels')).body;
+    for (const h of hotels) {
+      expect([h.detailPage, (await request(app).get(`/${h.detailPage}`)).status]).toEqual([h.detailPage, 200]);
+      expect([h.bookingPage, (await request(app).get(`/${h.bookingPage}`)).status]).toEqual([h.bookingPage, 200]);
+    }
   });
 });

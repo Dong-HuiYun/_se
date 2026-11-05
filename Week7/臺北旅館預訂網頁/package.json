@@ -9,7 +9,8 @@
     "test:api": "jest tests/api",
     "test:e2e": "playwright test",
     "test": "jest --coverage",
-    "test:all": "jest --coverage && playwright test"
+    "test:all": "jest --coverage && playwright test",
+    "test:contract": "jest tests/contract"
   },
   "jest": {
     "testEnvironment": "node",
