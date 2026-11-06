@@ -12,26 +12,16 @@
 
 ### 每週檢驗表格
 
-第幾週 |  習題內容 | 有上課且準時繳交 |  補交且附上請假證明 | 作業連結
--------|----------|--------------------|---------------------|-------------
-1          |    |   是 |   | [01](https://github.com/ccc115a/_co/tree/main/01)
-2          |    |   是 |   | [01](https://github.com/ccc115a/_co/tree/main/01)
-3          |    |   是 |   | [01](https://github.com/ccc115a/_co/tree/main/01)
-4          |  | 是 |    是  |  [03](https://github.com/ccc115a/_co/tree/main/03) | 
-5          |  | 是 |  |  [04](https://github.com/ccc115a/_co/tree/main/04) | 
-6          |  | 是 |  | | 
-7          |  | 是 |  |  [05](https://github.com/ccc115a/_co/tree/main/05) | 
-8          |  | 是 |   | | 
-
-| Github 對應標題名稱 |習題內容 | 有上課且準時繳交 | 檔案 / 連結 | 是否使用 AI 與連結
-|------|----------|----------|--------------|--------------|
-| 習題1  |crul| 是 |https://github.com/Dong-HuiYun/_se/tree/main/%E7%BF%92%E9%A1%8C1              |[使用 Claude](https://claude.ai/share/2ab99421-da4a-4f1b-b946-40a2a2e1bf19)|
-| 習題2  |校務系統| 是 |https://github.com/Dong-HuiYun/_se/tree/main/%E7%BF%92%E9%A1%8C2              |[使用 Claude](https://claude.ai/share/1e92bb33-1b99-4636-adad-7b94d04dd09d)|
-| 習題3  |PDF 工具| 是 |https://github.com/Dong-HuiYun/_se/tree/main/%E7%BF%92%E9%A1%8C3              |[使用 Claude](https://claude.ai/share/85f93029-7eab-45f3-b609-85326b24ffa4)|
-| 第四週  |認識 Git|  是          |https://github.com/Dong-HuiYun/_se/tree/main/%E7%BF%92%E9%A1%8C4              |否|
-| 第六週  |Docker|  是          |https://github.com/Dong-HuiYun/_se/tree/main/Week6              |Docker 的使用是自己寫的，程式碼 [使用 Claude](https://claude.ai/share/b1ac6e10-e84d-4611-b9d8-d54244716ad5)|
-| 第七週  |測試網站|  是          |https://github.com/Dong-HuiYun/_se/tree/main/Week6              |[使用 Claude](https://claude.ai/share/d44d4889-6dd4-4d74-b9b1-803e9bf1e9f7)測試習題2的校務系統，並[使用 Claude](https://claude.ai/share/9d7076fa-04ea-4035-9d4e-6a4bcdb59fcb)測試以前寫的旅游網頁|
-| 第八週  |talk-to-db|  請假但有準時繳交（下圖是請假證明）          |https://github.com/Dong-HuiYun/_se/tree/main/Week8              |[使用 Google AI Studio](https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221ix9DZleeecdbmqaORPVQxw27tx3J9KEA%22%5D,%22action%22:%22open%22,%22userId%22:%22104108532823114063447%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing)|
+第幾週| Github 對應標題名稱 |習題內容 | 有上課且準時繳交 | 檔案 / 連結 | 是否使用 AI 與連結
+|------|------|----------|----------|--------------|--------------|
+|1| 習題1  |crul| 是 |https://github.com/Dong-HuiYun/_se/tree/main/%E7%BF%92%E9%A1%8C1              |[使用 Claude](https://claude.ai/share/2ab99421-da4a-4f1b-b946-40a2a2e1bf19)|
+|2| 習題2  |校務系統| 是 |https://github.com/Dong-HuiYun/_se/tree/main/%E7%BF%92%E9%A1%8C2              |[使用 Claude](https://claude.ai/share/1e92bb33-1b99-4636-adad-7b94d04dd09d)|
+|3| 習題3  |PDF 工具| 是 |https://github.com/Dong-HuiYun/_se/tree/main/%E7%BF%92%E9%A1%8C3              |[使用 Claude](https://claude.ai/share/85f93029-7eab-45f3-b609-85326b24ffa4)|
+|4| 習題4  |認識 Git|  是          |https://github.com/Dong-HuiYun/_se/tree/main/%E7%BF%92%E9%A1%8C4              |否|
+|6| Week6  |Docker|  是          |https://github.com/Dong-HuiYun/_se/tree/main/Week6              |Docker 的使用是自己寫的，程式碼 [使用 Claude](https://claude.ai/share/b1ac6e10-e84d-4611-b9d8-d54244716ad5)|
+|7| Week7  |測試網站|  是          |https://github.com/Dong-HuiYun/_se/tree/main/Week6              |[使用 Claude](https://claude.ai/share/d44d4889-6dd4-4d74-b9b1-803e9bf1e9f7)測試習題2的校務系統，並[使用 Claude](https://claude.ai/share/9d7076fa-04ea-4035-9d4e-6a4bcdb59fcb)測試以前寫的旅游網頁|
+|8| Week8  |talk-to-db|  請假但有準時繳交（下圖是請假證明）          |https://github.com/Dong-HuiYun/_se/tree/main/Week8              |[使用 Google AI Studio](https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221ix9DZleeecdbmqaORPVQxw27tx3J9KEA%22%5D,%22action%22:%22open%22,%22userId%22:%22104108532823114063447%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing)|
+|9|Week9|Cloudflare|是|https://github.com/Dong-HuiYun/_se/tree/main/Week9|[使用 Claude](https://claude.ai/share/787dc2a7-188f-4496-9b20-54aed3a5341e)
 
 ### 請假證明
 
