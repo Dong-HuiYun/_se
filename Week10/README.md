@@ -73,9 +73,12 @@ npm view @npm帳號/hotel-utils
 
 ```
 
-在
+在 npm 界面 中，右鍵右上角的頭像，點選 Packages，即可看到新增的套件
 
 ![npm](images/test-npm.png)
+
+
+[npm 套件網址](https://www.npmjs.com/package/@donghuiyun/hotel-utils/v/1.0.0)
 
 ### 7. 在其他資料夾進行測試
 
@@ -221,7 +224,14 @@ python -m twine upload dist/*
 
 ### 6. 驗證
 
-發佈後可至 `https://pypi.org/project/donghuiyun-hotel-utils/` 確認網頁顯示，並切換到其他資料夾測試安裝與執行：
+發佈後，在 phpi 界面 中，右鍵右上角的帳號名稱，選擇 **Your projects** 即可查看新建的套件
+
+![pypi](images/test-pypi.png)
+
+
+[pypi 套件網址](https://pypi.org/project/donghuiyun-hotel-utils/)
+
+切換到其他資料夾測試安裝與執行：
 
 ```bash
 
