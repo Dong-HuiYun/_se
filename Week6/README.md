@@ -124,10 +124,22 @@ Python ──(啟動時 HTTP 呼叫)──► Node API
 └── rust-service/
 ```
 
+使用前需先打開 Docker Desktop
+
 ### 啟動
 
 ```bash
+
 docker compose up -d --build
+
+```
+
+第一次啟動過後，後續只需使用
+
+```bash
+
+docker compose up
+
 ```
 
 - 網頁：<http://localhost:8081>（埠號可在 `docker-compose.yml` 修改）

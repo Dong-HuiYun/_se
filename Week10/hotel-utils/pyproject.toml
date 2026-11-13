@@ -1,0 +1,19 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "donghuiyun-hotel-utils"
+version = "1.0.2"
+description = "旅館訂房日期與價格計算工具"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+authors = [
+  { name = "donghuiyun" }
+]
+keywords = ["hotel", "booking", "date", "utils"]
+dependencies = []
+
+[tool.hatch.build.targets.wheel]
+packages = ["donghuiyun_hotel_utils"]

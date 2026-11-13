@@ -1,0 +1,11 @@
+{
+  "name": "@donghuiyun/hotel-utils",
+  "version": "1.0.1",
+  "description": "旅館訂房日期與價格計算工具",
+  "main": "index.js",
+  "license": "MIT",
+  "files": [
+    "index.js",
+    "README.md"
+  ]
+}
