@@ -35,11 +35,12 @@ pre{margin:12px 0 0;padding:10px;background:var(--bg);border-radius:4px;overflow
 <body>
 <main>
 <h1>Docker 微服務展示</h1>
-<p class="lead">五個容器各司其職，所有請求都從 Nginx 進來。</p>
+<p class="lead">七個容器各司其職：每個服務擁有自己的資料庫，服務之間用 API 與 RabbitMQ 溝通。</p>
 
 <section>
   <h2>請求路徑</h2>
-  <div class="flow"><b>瀏覽器</b>→<b>Nginx :80</b>→<b>Node / Python / Rust</b>→<b>PostgreSQL</b></div>
+  <div class="flow"><b>瀏覽器</b>→<b>Nginx</b>→<b>Node / Python / Rust</b></div>
+  <div class="flow" style="margin-top:8px"><b>Node</b>→<b>DB（Node）</b>　<b>Node</b>→事件→<b>RabbitMQ</b>→事件→<b>Python</b>→<b>DB（Python）</b></div>
 </section>
 
 <section>
@@ -49,16 +50,15 @@ pre{margin:12px 0 0;padding:10px;background:var(--bg);border-radius:4px;overflow
 
 <div class="two">
   <section>
-    <h2>留言板（Node.js + PostgreSQL）</h2>
-    <p class="mute">Node.js 把留言寫入資料庫。重啟容器後資料仍在，因為存在 volume。</p>
+    <h2>留言板（Node.js）</h2>
+    <p class="mute">Node.js 把留言寫入自己的資料庫，並發出 note.created 事件後立刻回應。</p>
     <form id="noteForm"><input id="noteText" placeholder="輸入留言" maxlength="200" required><button>新增留言</button></form>
     <ul id="notes"></ul>
   </section>
 
   <section>
-    <h2>留言統計（Python）</h2>
-    <p class="mute">Python 從同一個資料庫讀取資料並分析。</p>
-    <button id="statsBtn">重新統計</button>
+    <h2>留言統計（Python + RabbitMQ）</h2>
+    <p class="mute">Python 收到事件後才更新自己的資料庫，所以新增留言後數字會稍晚（約 1.5 秒）才變化。from_api 是啟動時呼叫 Node API 補齊的，from_events 是 RabbitMQ 送來的。</p>
     <pre id="stats">尚未載入</pre>
   </section>
 </div>
@@ -76,20 +76,23 @@ const $ = id => document.getElementById(id);
 const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
 async function status() {
+  const ok = (cond, yes, no) => [cond, cond ? yes : no];
   const items = [
-    ['Nginx', '/api/node/health', '反向代理 / Web Server', () => 'ok'],
-    ['Node.js', '/api/node/health', null, d => d.runtime],
-    ['Python', '/api/python/health', null, d => 'Python ' + d.runtime],
-    ['Rust', '/api/rust/health', null, d => d.runtime],
-    ['PostgreSQL', '/api/node/health', '資料庫', d => d.db === 'ok' ? '連線正常' : '連線失敗'],
+    ['Nginx', '/api/node/health', () => [true, '正常轉發']],
+    ['Node.js', '/api/node/health', d => [true, d.runtime]],
+    ['Python', '/api/python/health', d => [true, 'Python ' + d.runtime]],
+    ['Rust', '/api/rust/health', d => [true, d.runtime]],
+    ['DB（Node 專用）', '/api/node/health', d => ok(d.db === 'ok', '連線正常', '連線失敗')],
+    ['DB（Python 專用）', '/api/python/health', d => ok(d.db === 'ok', '連線正常', '連線失敗')],
+    ['RabbitMQ', '/api/node/health', d => ok(d.mq === 'ok', 'Node 已連線', '未連線')],
   ];
-  $('status').innerHTML = '';
-  for (const [name, url, desc, fmt] of items) {
+  const cards = [];
+  for (const [name, url, fmt] of items) {
     let up = false, text = '無法連線';
-    try { const r = await fetch(url); const d = await r.json(); up = r.ok; text = up ? (name === 'Nginx' ? '正常轉發' : fmt(d)) : '錯誤'; } catch {}
-    $('status').insertAdjacentHTML('beforeend',
-      `<div class="svc ${up ? 'up' : 'down'}"><strong><span class="dot"></span>${name}</strong><small>${esc(text)}</small></div>`);
+    try { const r = await fetch(url); const d = await r.json(); [up, text] = r.ok ? fmt(d) : [false, '錯誤']; } catch {}
+    cards.push(`<div class="svc ${up ? 'up' : 'down'}"><strong><span class="dot"></span>${name}</strong><small>${esc(text)}</small></div>`);
   }
+  $('status').innerHTML = cards.join('');
 }
 
 async function loadNotes() {
@@ -99,17 +102,18 @@ async function loadNotes() {
 }
 
 async function loadStats() {
-  const d = await (await fetch('/api/python/stats')).json();
-  $('stats').textContent = JSON.stringify(d, null, 2);
+  try {
+    const d = await (await fetch('/api/python/stats')).json();
+    $('stats').textContent = JSON.stringify(d, null, 2);
+  } catch { $('stats').textContent = 'Python 服務離線'; }
 }
 
 $('noteForm').onsubmit = async e => {
   e.preventDefault();
   await fetch('/api/node/notes', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({text: $('noteText').value})});
   $('noteText').value = '';
-  loadNotes(); loadStats();
+  loadNotes();
 };
-$('statsBtn').onclick = loadStats;
 $('primeForm').onsubmit = async e => {
   e.preventDefault();
   $('primeOut').textContent = '計算中…';
@@ -118,6 +122,8 @@ $('primeForm').onsubmit = async e => {
 };
 
 status(); loadNotes(); loadStats();
+setInterval(loadStats, 2000);
+setInterval(status, 10000);
 </script>
 </body>
 </html>
