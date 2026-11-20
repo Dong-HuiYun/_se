@@ -1,0 +1,16 @@
+name = "kinmen-birds-api"
+main = "src/index.ts"
+compatibility_date = "2025-06-01"
+
+[vars]
+ALLOWED_ORIGIN = "https://kinmen-birds.pages.dev"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "kinmen-birds"
+database_id = "REPLACE_WITH_REAL_ID"   # 本機開發可先不管，部署前用 wrangler d1 create 取得
+migrations_dir = "migrations"
+
+# 第二階段再加：
+# [[r2_buckets]]  binding = "BUCKET"
+# [ai]            binding = "AI"
